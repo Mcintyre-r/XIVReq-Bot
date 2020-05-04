@@ -1,7 +1,7 @@
 const {Client, MessageAttachment} = require('discord.js')
 const axios = require('axios')
 const bot  = new Client();
-const token = 'Njk3NDQ4NDAzODg1MzU5MTc0.Xo3eJg.Qh4B_0Tw8zxG7Rf9mVlj_gd9H_M';
+const token = process.env.token;
 
 
 
