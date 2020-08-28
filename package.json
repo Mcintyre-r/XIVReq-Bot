@@ -10,8 +10,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "ascii-table": "0.0.9",
     "axios": "^0.19.2",
     "discord.js": "^12.1.1",
-    "nodemon": "^2.0.2"
+    "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.2.6",
+    "nodemon": "^2.0.2",
+    "request-rate-limiter": "^2.0.3",
+    "smart-request-balancer": "^2.1.1",
+    "xivapi-js": "^0.3.0"
   }
 }
