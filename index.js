@@ -1,4 +1,4 @@
-const {Client, MessageAttachment, MessageEmbed} = require('discord.js')
+const {Client, MessageAttachment, MessageEmbed, DiscordAPIError} = require('discord.js')
 const axios = require('axios')
 const bot  = new Client();
 const token = 'NzM4MjU0NTY5MjM4MTY3NjQz.XyJPJQ.nC77-OTA1RMvdAXnYs7pfQnCxg0';
@@ -481,6 +481,23 @@ bot.on( 'message' , async message => {
         case 'check':
                 message.delete({timeout: 1000 * 20})
                 message.reply(`<:lfg:748934511244345385> ${event['title']}`).then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+            break;
+
+
+        case 'minecraft':
+            const mineEmbed = new DiscordAPIError.MessageEmbed()
+                .setColor('#FFA500')
+                .setAuthor('Minecraft Server Info')
+                .setTitle('Info to setup:')
+                .setURL('51.161.84.225:25589')
+                .setDescription('The following info is everything needed to join the server.')
+                .addFields(
+                    {name: 'Twitch App', value:'https://www.twitch.tv/downloads/', inline: true},
+                    {name: 'Mod Pack', value: 'https://www.curseforge.com/minecraft/modpacks/valhelsia-3', inline: true},
+                    {name: 'Server IP', value: '51.161.84.225:25589', inline: true},
+                    {name: 'Set Memory to atleast 4gb', value: 'https://puu.sh/GmPYE/a1780d409e.png'}
+                )
+                
             break;
 
 // tank :Tank~1:748933412093689889
