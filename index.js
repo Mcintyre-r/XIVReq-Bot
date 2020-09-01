@@ -1,7 +1,8 @@
 const {Client, MessageAttachment, MessageEmbed, DiscordAPIError} = require('discord.js')
 const axios = require('axios')
 const bot  = new Client();
-const token = 'NzM4MjU0NTY5MjM4MTY3NjQz.XyJPJQ.nC77-OTA1RMvdAXnYs7pfQnCxg0';
+require('dotenv').config()
+// const token = discordAPI;
 const Queue = require('smart-request-balancer');
 require('ffmpeg')
 require('ffmpeg-static')
@@ -485,19 +486,20 @@ bot.on( 'message' , async message => {
 
 
         case 'minecraft':
-            const mineEmbed = new DiscordAPIError.MessageEmbed()
+            const mineEmbed = new MessageEmbed()
                 .setColor('#FFA500')
                 .setAuthor('Minecraft Server Info')
                 .setTitle('Info to setup:')
-                .setURL('51.161.84.225:25589')
+                .setURL('https://www.curseforge.com/minecraft/modpacks/valhelsia-3')
                 .setDescription('The following info is everything needed to join the server.')
                 .addFields(
                     {name: 'Twitch App', value:'https://www.twitch.tv/downloads/', inline: true},
-                    {name: 'Mod Pack', value: 'https://www.curseforge.com/minecraft/modpacks/valhelsia-3', inline: true},
-                    {name: 'Server IP', value: '51.161.84.225:25589', inline: true},
-                    {name: 'Set Memory to atleast 4gb', value: 'https://puu.sh/GmPYE/a1780d409e.png'}
+                    {name: 'Mod Pack', value: 'Valhelsia 3', inline: true},
+                    {name: 'Server IP', value: '51.161.84.225:25589'},
+                    {name: 'Set Memory to atleast 4gb', value: 'https://puu.sh/GmPYE/a1780d409e.png'},
+                    {name: 'Addition Mods', value: ['https://www.curseforge.com/minecraft/mc-mods/morevanillalib/files/3003835','https://www.curseforge.com/minecraft/mc-mods/vanilla-hammers-forge/files/2991221']}
                 )
-                
+            message.reply(mineEmbed)
             break;
 
 // tank :Tank~1:748933412093689889
@@ -506,4 +508,4 @@ bot.on( 'message' , async message => {
     }
 })
 
-bot.login(token)
+bot.login(process.env.discordAPI)
