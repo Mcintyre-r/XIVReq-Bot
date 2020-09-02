@@ -405,9 +405,25 @@ bot.on( 'message' , async message => {
 
         case 'help' :
             message.delete({timeout: 1000 * 20})
-            message.reply("---These the commands---").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-            message.channel.send("> ?Minion <-Minion Name->").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-            message.channel.send("> ?Mount <-Mount Name->").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
+            const helpEmbed = new MessageEmbed()
+            .setColor('#FFA500')
+            .setAuthor('Bot Commands')
+            .setTitle('Enter any of the following commands:')
+            .setDescription('The prefix for all commands is ? followed by the command (I.E. ?help) Then any parameters required.')
+            .addFields(
+                {name: '?help', value:['- Returns this reply showing all possible commands','\n']},
+                {name: '?minion <argument>', value:['- Returns a list of all members in the ward FC that either do or don\'t have the specified minion','- Takes one argument that is a minion name', '- Example: ?minion Goobbue Sproutling','\n']},
+                {name: '?mount <argument>', value:['- Returns a list of all members in the ward FC that either do or don\'t have the specified mount','- Takes one argument that is a mount name', '- Example: ?mount Flying Chair','\n']},
+                {name: '?Mincraft', value:['- Return a short embed containing all info regarding Exa\'s Minecraft Server','\n']},
+                {name: '?setevent <argument>', value:['- Creates a FFXIV party event, cannot be used if one is currently pending', '- Takes a single arguement that is the name of the event.', '- Example: ?setevent Shiva Unreal','\n']},
+                {name: '?signup <arguement>', value:['- Registers you for FFXIV part if one is currently pending, cannot use if no party is pending, or already signed up','- Takes a single arguement or the role you would like to sign up as', '- Example: ?signup Tank','\n']},
+                {name: '?resolve', value: ['- Ends the current pending event, and resets back to before it was made','\n']},
+                {name: '?check', value: ['- Returns the current event if one is pending','\n']},
+                {name: '?clear', value: ['- Clears the channel of messages, Can only be used by Exa.','\n']},
+                {name: '?request <arguement>', value: ['- Currently being worked on.','\n']}
+
+            )
+            message.reply(helpEmbed)
             break;
         
         case 'setevent':
@@ -497,7 +513,8 @@ bot.on( 'message' , async message => {
                     {name: 'Mod Pack', value: 'Valhelsia 3', inline: true},
                     {name: 'Server IP', value: '51.161.84.225:25589'},
                     {name: 'Set Memory to atleast 4gb', value: 'https://puu.sh/GmPYE/a1780d409e.png'},
-                    {name: 'Addition Mods', value: ['https://www.curseforge.com/minecraft/mc-mods/morevanillalib/files/3003835','https://www.curseforge.com/minecraft/mc-mods/vanilla-hammers-forge/files/2991221']}
+                    {name: 'Addition Mods', value: ['https://www.curseforge.com/minecraft/mc-mods/morevanillalib/files/3003835','https://www.curseforge.com/minecraft/mc-mods/vanilla-hammers-forge/files/2991221']},
+                    {name: 'If you need help ping:', value: '@Exa'}
                 )
             message.reply(mineEmbed)
             break;
