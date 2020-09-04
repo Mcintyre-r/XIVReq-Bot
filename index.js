@@ -89,7 +89,7 @@ bot.on('message', req => {
 
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('722372816619569263');
-    const choices = ['./deja.mp3','./burn.mp3','./kill.mp3','./rem.mp3','./gas.mp3','./night.mp3','./run.mp3']
+    const choices = ['./assets/deja.mp3','./assets/burn.mp3','./assets/kill.mp3','./assets/rem.mp3','./assets/gas.mp3','./assets/night.mp3','./assets/run.mp3']
     const index = Math.floor(Math.random() * choices.length)
     let newUserChannel = newMember.channel
     if(newUserChannel.name === 'Initial D-tention'){
