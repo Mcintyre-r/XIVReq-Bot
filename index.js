@@ -1,22 +1,22 @@
-const {Client, MessageAttachment, MessageEmbed, DiscordAPIError} = require('discord.js')
+const {Client, MessageAttachment, MessageEmbed} = require('discord.js')
 const axios = require('axios')
 const bot  = new Client();
-require('dotenv').config()
-// const token = discordAPI;
 const Queue = require('smart-request-balancer');
 require('ffmpeg')
 require('ffmpeg-static')
+require('dotenv').config()
 
+// Queue for handling api requests
 const queue = new Queue({
     rules: {                     // Describing our rules by rule name
       common: {                  // Common rule. Will be used if you won't provide rule argument
-        rate: 10,                // Allow to send 30 messages
+        rate: 10,                // Allow to send 10 messages
         limit: 1,                // per 1 second
         priority: 1,             // Rule priority. The lower priority is, the higher chance that
                                  // this rule will execute faster 
       }
     },
-    default: {                   // Default rules (if provided rule name is not found
+    default: {                   // Default rules (if provided rule name is not found)
       rate: 10,
       limit: 1
     },
@@ -24,9 +24,11 @@ const queue = new Queue({
       rate: 10,
       limit: 1
     },
-    retryTime: 10,              // Default retry time. Can be configured in retry fn
+    retryTime: 10,              // Default retry time, in seconds. Can be configured in retry fn
     ignoreOverallOverheat: true  // Should we ignore overheat of queue itself
   })
+
+  // Compare function to sort
   function compare(a, b) {
     var nameA = a.name.toUpperCase(); // ignore upper and lowercase
     var nameB = b.name.toUpperCase(); // ignore upper and lowercase
@@ -40,6 +42,8 @@ const queue = new Queue({
     // names must be equal
     return 0
 }
+
+// state for event
 let event = {
     'title': '',
     'tank': [],
@@ -47,6 +51,7 @@ let event = {
     'dps': [],
     'signedup': []
 }
+// template to reset event
 const template = {
     'title': '',
     'tank': [],
@@ -125,10 +130,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 const PREFIX = '?'
 
 bot.on( 'message' , async message => {
-
     const item = message.content.toLowerCase()
-    // message.delete({timeout: 1000 * 10})
-
     let post = {
         item: '',
         quantity: 0,
@@ -510,9 +512,9 @@ bot.on( 'message' , async message => {
                 .setDescription('The following info is everything needed to join the server.')
                 .addFields(
                     {name: 'Twitch App', value:'https://www.twitch.tv/downloads/', inline: true},
-                    {name: 'Mod Pack', value: 'Valhelsia 3', inline: true},
-                    {name: 'Server IP', value: '51.161.84.225:25589'},
-                    {name: 'Set Memory to atleast 4gb', value: 'https://puu.sh/GmPYE/a1780d409e.png'},
+                    {name: 'Mod Pack', value: ['Valhelsia 3', 'Choose version 3.0.14'], inline: true},
+                    {name: 'Server Address', value: 'exa-li.com'},
+                    {name: 'Set Memory to atleast 7gb', value: 'https://puu.sh/GmPYE/a1780d409e.png'},
                     {name: 'Addition Mods', value: ['https://www.curseforge.com/minecraft/mc-mods/morevanillalib/files/3003835','https://www.curseforge.com/minecraft/mc-mods/vanilla-hammers-forge/files/2991221']},
                     {name: 'If you need help ping:', value: '@Exa'}
                 )
