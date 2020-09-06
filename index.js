@@ -89,6 +89,9 @@ bot.on('message', req => {
             
         }
     })
+    if(message.includes('eekum bokum') && req.author.id != 738254569238167643){
+        req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
+    }
     
 })
 
