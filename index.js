@@ -76,7 +76,7 @@ bot.on('message', req => {
     }
 })
 
-bot.on('message', req => {
+bot.on('message',async req => {
     message = req.content.toLowerCase()
     words = ["mean","bully" , "rude" , "bulli"]
     words.forEach( e => {
@@ -91,6 +91,22 @@ bot.on('message', req => {
     })
     if(message.includes('eekum bokum') && req.author.id != 738254569238167643){
         req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
+
+        const channel = await bot.channels.fetch('716015727630483580');
+            const conn = await channel.join();
+            let users = Array.from(channel.members.keys());
+            if(users.length > 1){
+                const dispatcher = conn.play('./assets/EekumBokum.mp3');
+    
+                dispatcher.on('start', () => {
+                    console.log('Eekum Bokum');
+                });
+    
+                dispatcher.on('finish', () => {
+                    channel.leave()
+                });
+                dispatcher.on('error', console.error);
+            }  
     }
     
 })
@@ -100,32 +116,36 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const choices = ['./assets/deja.mp3','./assets/burn.mp3','./assets/kill.mp3','./assets/rem.mp3','./assets/gas.mp3','./assets/night.mp3','./assets/run.mp3']
     const index = Math.floor(Math.random() * choices.length)
     let newUserChannel = newMember.channel
-    if(newUserChannel.name === 'Initial D-tention'){
-        const connection = await channel.join();
-        let users = Array.from(channel.members.keys());
-        console.log(users.length)
-    if(users.length > 1){
-        const dispatcher = connection.play(choices[index]);
-
-        dispatcher.on('start', () => {
-            console.log('audio.mp3 is now playing!');
-        });
-
-        dispatcher.on('finish', () => {
-            console.log('audio.mp3 has finished playing!');
+    if(newMember.channel != null){
+        if(newUserChannel.name === 'Initial D-tention'){
+            const connection = await channel.join();
+            let users = Array.from(channel.members.keys());
+            if(users.length > 1){
+                const dispatcher = connection.play(choices[index]);
+    
+                dispatcher.on('start', () => {
+                    console.log('audio.mp3 is now playing!');
+                });
+    
+                dispatcher.on('finish', () => {
+                    console.log('audio.mp3 has finished playing!');
+                    channel.leave()
+                    let users2 = Array.from(channel.members.keys());
+                    users2.forEach(async (e) => {
+                        let current = await bot.user.fetch(e)
+                        newMember.guild.member(current.id).voice.setChannel(716015727630483580)
+                    })
+                });
+                dispatcher.on('error', console.error);
+            }  
+        }
+    }
+    if(oldMember.channel != null){
+        if(oldMember.channel.name === 'Initial D-tention'){
             channel.leave()
-            let users2 = Array.from(channel.members.keys());
-            users2.forEach(async (e) => {
-                let current = await bot.user.fetch(e)
-                newMember.guild.member(current.id).voice.setChannel(716015727630483580)
-            })
-        });
-        dispatcher.on('error', console.error);
-    }  
+        }
     }
-    if(oldMember.channel.name === 'Initial D-tention'){
-        channel.leave()
-    }
+
 })
 
 
