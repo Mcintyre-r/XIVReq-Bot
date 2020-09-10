@@ -93,20 +93,20 @@ bot.on('message',async req => {
         req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
 
         const channel = await bot.channels.fetch('716015727630483580');
+        let users = Array.from(channel.members.keys());
+        if(users.length >= 1){
             const conn = await channel.join();
-            let users = Array.from(channel.members.keys());
-            if(users.length > 1){
-                const dispatcher = conn.play('./assets/EekumBokum.mp3');
-    
-                dispatcher.on('start', () => {
-                    console.log('Eekum Bokum');
-                });
-    
-                dispatcher.on('finish', () => {
-                    channel.leave()
-                });
-                dispatcher.on('error', console.error);
-            }  
+            const dispatcher = conn.play('./assets/EekumBokum.mp3');
+
+            dispatcher.on('start', () => {
+                console.log('Eekum Bokum');
+            });
+
+            dispatcher.on('finish', () => {
+                channel.leave()
+            });
+            dispatcher.on('error', console.error);
+        }  
     }
     
 })
