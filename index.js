@@ -1,4 +1,4 @@
-const {Client, MessageAttachment, MessageEmbed} = require('discord.js')
+const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
 const axios = require('axios')
 const bot  = new Client();
 const Queue = require('smart-request-balancer');
@@ -65,7 +65,7 @@ const template = {
 
 
 bot.on('ready', () =>{
-    console.log('This bot is online!')
+    console.log('Exa-Bot Online')
 })
 
  // Returns message with angry bear gif if user mentions their uptime 
@@ -111,6 +111,28 @@ bot.on('message',async req => {
     
 })
 
+bot.on('voiceStateUpdate', async (oldMember, newMember) => {
+    const channel = await bot.channels.fetch('716015727630483580');
+    const role = channel.guild.roles.cache.find(role => role.name === 'Voice');
+    const serverMembers = []
+    const channelMembers = []
+    for(let e of channel.guild.members.cache.keys()){
+        serverMembers.push(e)
+    }
+    for(let i of channel.members.keys()){
+        channelMembers.push(i)
+    }
+    for(let i of serverMembers){
+        if(i){
+            let member = channel.guild.members.cache.get(i)
+            if(channelMembers.includes(i)){
+                member.roles.add(role)
+            } else {
+                member.roles.remove(role)
+            }
+        }
+    }
+})
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('722372816619569263');
     const choices = ['./assets/deja.mp3','./assets/burn.mp3','./assets/kill.mp3','./assets/rem.mp3','./assets/gas.mp3','./assets/night.mp3','./assets/run.mp3']
