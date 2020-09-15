@@ -72,6 +72,7 @@ bot.on('ready', () =>{
 bot.on('message', req => {
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
     if(req.content.includes("uptime")){
+        console.log('Uptime')
         req.channel.send(attachment)
     }
 })
@@ -82,6 +83,7 @@ bot.on('message',async req => {
     words.forEach( e => {
         if(message.includes(e) && req.author.id == 211556765492314112){
             i=0
+            console.log('Bullying Sophia')
             while(i<10){
                 req.channel.send("<:peepo:738255120554262575>".repeat(10))
                 i++
@@ -146,7 +148,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
                 const dispatcher = connection.play(choices[index]);
     
                 dispatcher.on('start', () => {
-                    console.log('audio.mp3 is now playing!');
+                    console.log('audio.mp3 is now playing!', choices[index]);
                 });
     
                 dispatcher.on('finish', () => {
@@ -433,6 +435,7 @@ bot.on( 'message' , async message => {
 
         case 'clear' :
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
+                console.log('clearing messages')
                 message.channel.bulkDelete(100, true)
                    .then(res => {message.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
                     .catch(err => {
@@ -451,6 +454,7 @@ bot.on( 'message' , async message => {
 
 
         case 'help' :
+            console.log('helping')
             message.delete({timeout: 1000 * 20})
             const helpEmbed = new MessageEmbed()
             .setColor('#FFA500')
@@ -549,6 +553,7 @@ bot.on( 'message' , async message => {
 
 
         case 'minecraft':
+            console.log('minecraft')
             const mineEmbed = new MessageEmbed()
                 .setColor('#FFA500')
                 .setAuthor('Minecraft Server Info')
