@@ -60,7 +60,7 @@ const template = {
     'signedup': []
 }
 
-
+const PREFIX = '?'
 
 
 
@@ -69,17 +69,16 @@ bot.on('ready', () =>{
 })
 
  // Returns message with angry bear gif if user mentions their uptime 
-bot.on('message', req => {
-    const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
-    if(req.content.includes("uptime")){
-        console.log('Uptime')
-        req.channel.send(attachment)
-    }
-})
+
 
 bot.on('message',async req => {
+    const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
+    const channel = await bot.channels.fetch('716015727630483580');
+    let users = Array.from(channel.members.keys());
+
     message = req.content.toLowerCase()
     words = ["mean","bully" , "rude" , "bulli"]
+
     words.forEach( e => {
         if(message.includes(e) && req.author.id == 211556765492314112){
             i=0
@@ -91,11 +90,9 @@ bot.on('message',async req => {
             
         }
     })
+
     if(message.includes('eekum bokum') && req.author.id != 738254569238167643){
         req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
-
-        const channel = await bot.channels.fetch('716015727630483580');
-        let users = Array.from(channel.members.keys());
         if(users.length >= 1){
             const conn = await channel.join();
             const dispatcher = conn.play('./assets/EekumBokum.mp3');
@@ -109,6 +106,70 @@ bot.on('message',async req => {
             });
             dispatcher.on('error', console.error);
         }  
+    }
+    else if(message.includes('women') && req.author.id != 738254569238167643){
+        if(users.length >= 1){
+            const conn = await channel.join();
+            const dispatcher = conn.play('./assets/hippity.mp3');
+
+            dispatcher.on('start', () => {
+                console.log('women');
+            });
+
+            dispatcher.on('finish', () => {
+                channel.leave()
+            });
+            dispatcher.on('error', console.error);
+        }  
+    }
+    else if(message.includes('law') && req.author.id != 738254569238167643){
+        if(users.length >= 1){
+            const conn = await channel.join();
+            const dispatcher = conn.play('./assets/stop.mp3');
+
+            dispatcher.on('start', () => {
+                console.log('oblivion');
+            });
+
+            dispatcher.on('finish', () => {
+                channel.leave()
+            });
+            dispatcher.on('error', console.error);
+        }  
+    }
+    else if(message.includes('gay') && req.author.id != 738254569238167643){
+        if(users.length >= 1){
+            const conn = await channel.join();
+            const dispatcher = conn.play('./assets/gay.mp3');
+
+            dispatcher.on('start', () => {
+                console.log('gae');
+            });
+
+            dispatcher.on('finish', () => {
+                channel.leave()
+            });
+            dispatcher.on('error', console.error);
+        }  
+    }
+    else if(message.includes('news') && req.author.id != 738254569238167643){
+        if(users.length >= 1){
+            const conn = await channel.join();
+            const dispatcher = conn.play('./assets/notgay.mp3');
+
+            dispatcher.on('start', () => {
+                console.log('not gae');
+            });
+
+            dispatcher.on('finish', () => {
+                channel.leave()
+            });
+            dispatcher.on('error', console.error);
+        }  
+    }
+    else if(req.content.includes("uptime")){
+        console.log('Uptime')
+        req.channel.send(attachment)
     }
     
 })
@@ -135,6 +196,8 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
         }
     }
 })
+
+
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('722372816619569263');
     const choices = ['./assets/deja.mp3','./assets/burn.mp3','./assets/kill.mp3','./assets/rem.mp3','./assets/gas.mp3','./assets/night.mp3','./assets/run.mp3']
@@ -173,8 +236,8 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 })
 
 
-// Request function for XIV Bot
-const PREFIX = '?'
+
+
 
 bot.on( 'message' , async message => {
     const item = message.content.toLowerCase()
