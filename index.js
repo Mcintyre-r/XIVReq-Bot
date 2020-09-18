@@ -167,6 +167,21 @@ bot.on('message',async req => {
             dispatcher.on('error', console.error);
         }  
     }
+    else if(message.includes('center') && req.author.id != 738254569238167643){
+        if(users.length >= 1){
+            const conn = await channel.join();
+            const dispatcher = conn.play('./assets/curb.mp3');
+
+            dispatcher.on('start', () => {
+                console.log('move the boss center');
+            });
+
+            dispatcher.on('finish', () => {
+                channel.leave()
+            });
+            dispatcher.on('error', console.error);
+        }  
+    }
     else if(req.content.includes("uptime")){
         console.log('Uptime')
         req.channel.send(attachment)
