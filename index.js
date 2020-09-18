@@ -68,7 +68,7 @@ bot.on('ready', () =>{
     console.log('Exa-Bot Online')
 })
 
- // Returns message with angry bear gif if user mentions their uptime 
+
 
 
 bot.on('message',async req => {
@@ -77,8 +77,8 @@ bot.on('message',async req => {
     let users = Array.from(channel.members.keys());
 
     message = req.content.toLowerCase()
-    words = ["mean","bully" , "rude" , "bulli"]
 
+    words = ["mean","bully" , "rude" , "bulli", "rood", 'm e a n']
     words.forEach( e => {
         if(message.includes(e) && req.author.id == 211556765492314112){
             i=0
@@ -91,98 +91,29 @@ bot.on('message',async req => {
         }
     })
 
-    if(message.includes('eekum bokum') && req.author.id != 738254569238167643){
-        req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
-        if(users.length >= 1){
-            const conn = await channel.join();
-            const dispatcher = conn.play('./assets/EekumBokum.mp3');
+    const clips = ['women', 'eekum bokum','law','gay','center', 'news']
+    clips.forEach( async e =>{
+        if(message.includes(e) && req.author.id != 738254569238167643){
+            if(e === 'eekum bokum'){
+                req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
+            }
+            if(users.length >= 1){
+                const conn = await channel.join();
+                const dispatcher = conn.play(`./assets/${e}.mp3`);
+    
+                dispatcher.on('start', () => {
+                    console.log('Clip:', e);
+                });
+    
+                dispatcher.on('finish', () => {
+                    channel.leave()
+                });
+                dispatcher.on('error', console.error);
+            }  
+        }
+    })
 
-            dispatcher.on('start', () => {
-                console.log('Eekum Bokum');
-            });
-
-            dispatcher.on('finish', () => {
-                channel.leave()
-            });
-            dispatcher.on('error', console.error);
-        }  
-    }
-    else if(message.includes('women') && req.author.id != 738254569238167643){
-        if(users.length >= 1){
-            const conn = await channel.join();
-            const dispatcher = conn.play('./assets/hippity.mp3');
-
-            dispatcher.on('start', () => {
-                console.log('women');
-            });
-
-            dispatcher.on('finish', () => {
-                channel.leave()
-            });
-            dispatcher.on('error', console.error);
-        }  
-    }
-    else if(message.includes('law') && req.author.id != 738254569238167643){
-        if(users.length >= 1){
-            const conn = await channel.join();
-            const dispatcher = conn.play('./assets/stop.mp3');
-
-            dispatcher.on('start', () => {
-                console.log('oblivion');
-            });
-
-            dispatcher.on('finish', () => {
-                channel.leave()
-            });
-            dispatcher.on('error', console.error);
-        }  
-    }
-    else if(message.includes('gay') && req.author.id != 738254569238167643){
-        if(users.length >= 1){
-            const conn = await channel.join();
-            const dispatcher = conn.play('./assets/gay.mp3');
-
-            dispatcher.on('start', () => {
-                console.log('gae');
-            });
-
-            dispatcher.on('finish', () => {
-                channel.leave()
-            });
-            dispatcher.on('error', console.error);
-        }  
-    }
-    else if(message.includes('news') && req.author.id != 738254569238167643){
-        if(users.length >= 1){
-            const conn = await channel.join();
-            const dispatcher = conn.play('./assets/notgay.mp3');
-
-            dispatcher.on('start', () => {
-                console.log('not gae');
-            });
-
-            dispatcher.on('finish', () => {
-                channel.leave()
-            });
-            dispatcher.on('error', console.error);
-        }  
-    }
-    else if(message.includes('center') && req.author.id != 738254569238167643){
-        if(users.length >= 1){
-            const conn = await channel.join();
-            const dispatcher = conn.play('./assets/curb.mp3');
-
-            dispatcher.on('start', () => {
-                console.log('move the boss center');
-            });
-
-            dispatcher.on('finish', () => {
-                channel.leave()
-            });
-            dispatcher.on('error', console.error);
-        }  
-    }
-    else if(req.content.includes("uptime")){
+    if(req.content.includes("uptime")){
         console.log('Uptime')
         req.channel.send(attachment)
     }
