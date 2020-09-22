@@ -91,7 +91,7 @@ bot.on('message',async req => {
         }
     })
 
-    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid']
+    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'off']
     clips.forEach( async e =>{
         if(message.includes(e) && req.author.id != 738254569238167643){
             if(e === 'eekum bokum'){
