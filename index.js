@@ -91,7 +91,7 @@ bot.on('message',async req => {
         }
     })
 
-    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'off']
+    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker']
     clips.forEach( async e =>{
         if(message.includes(e) && req.author.id != 738254569238167643){
             if(e === 'eekum bokum'){
@@ -122,6 +122,7 @@ bot.on('message',async req => {
 
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('716015727630483580');
+    const textChannel = await bot.channels.fetch('753831898559545384');
     const role = channel.guild.roles.cache.find(role => role.name === 'Voice');
     const serverMembers = []
     const channelMembers = []
@@ -131,6 +132,9 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     for(let i of channel.members.keys()){
         channelMembers.push(i)
     }
+    if(channelMembers.length === 0){
+        textChannel.bulkDelete(100, true)                      
+            }
     for(let i of serverMembers){
         if(i){
             let member = channel.guild.members.cache.get(i)
