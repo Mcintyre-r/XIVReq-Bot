@@ -91,7 +91,7 @@ bot.on('message',async req => {
         }
     })
 
-    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker']
+    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce',]
     clips.forEach( async e =>{
         if(message.includes(e) && req.author.id != 738254569238167643){
             if(e === 'eekum bokum'){
@@ -126,6 +126,8 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const role = channel.guild.roles.cache.find(role => role.name === 'Voice');
     const serverMembers = []
     const channelMembers = []
+    console.log('Action: Adding and Removing Roles')
+
     for(let e of channel.guild.members.cache.keys()){
         serverMembers.push(e)
     }
@@ -133,6 +135,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
         channelMembers.push(i)
     }
     if(channelMembers.length === 0){
+        console.log('Action: Channel empty clearing Voice Chatter.')
         textChannel.bulkDelete(100, true)                      
             }
     for(let i of serverMembers){
@@ -313,7 +316,7 @@ bot.on( 'message' , async message => {
             if(item !== '?minion') {
                 const MinSubmit = item.replace("?minion ", "")
                 message.channel.send('Please Wait I\'m doing my best...').then( r => r.delete ({timeout: 40000})).catch(err => console.log(err))
-                console.log(MinSubmit)
+                console.log('Action: Searching for', MinSubmit)
                 let expectedIDs = [];
                 await axios.get('https://xivapi.com/freecompany/9232519973597979666?data=FCM&private_key=73bc4666b8044a95acbe3b469b59c0079beaf9666d164a35a68846fbd4f99f2f')
                 .then(members => {
@@ -448,7 +451,7 @@ bot.on( 'message' , async message => {
 
         case 'clear' :
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
-                console.log('clearing messages')
+                console.log('Action: Clearing Messages')
                 message.channel.bulkDelete(100, true)
                    .then(res => {message.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
                     .catch(err => {
@@ -467,7 +470,7 @@ bot.on( 'message' , async message => {
 
 
         case 'help' :
-            console.log('helping')
+            console.log('Action: Offering help')
             message.delete({timeout: 1000 * 20})
             const helpEmbed = new MessageEmbed()
             .setColor('#FFA500')
@@ -513,10 +516,10 @@ bot.on( 'message' , async message => {
 
 
         case 'signup':
-            console.log(event)
+            // console.log(event)
             let signedup = false
             for(let id of event['signedup']){
-                console.log(id, message.author.id)
+                // console.log(id, message.author.id)
                 if(message.author.id == id){ 
                     signedup = true
                 }
@@ -533,7 +536,7 @@ bot.on( 'message' , async message => {
 
                 if(role == 'tank' || role == 'healer' || role == 'dps'){
                    slots = role == 'dps' ? 4 : 2
-                   console.log(slots)
+                //    console.log(slots)
                    if(event[role].length >= slots){
                         message.reply("This role is currently filled").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
                    } else {
@@ -566,7 +569,7 @@ bot.on( 'message' , async message => {
 
 
         case 'minecraft':
-            console.log('minecraft')
+            console.log('Action: Showing Minecraft info')
             const mineEmbed = new MessageEmbed()
                 .setColor('#FFA500')
                 .setAuthor('Minecraft Server Info')
