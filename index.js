@@ -75,6 +75,7 @@ var job = new CronJob('0 0 0 * * 1', async function(){
     const textChat = await bot.channels.fetch('716015727630483579')
     const monadoVid = new MessageAttachment('https://cdn.discordapp.com/attachments/407627504598253580/760254205868113940/monado.mp4')
     textChat.send(monadoVid)
+    console.log('Job: MONADO MONDAYYYY')
 })
 
 job.start()
