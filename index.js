@@ -2,6 +2,8 @@ const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
 const axios = require('axios')
 const bot  = new Client();
 const Queue = require('smart-request-balancer');
+const CronJob = require('cron').CronJob
+// const monado = require('./assets/monado.mp4')
 require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config()
@@ -69,7 +71,13 @@ bot.on('ready', () =>{
 })
 
 
+var job = new CronJob('0 0 0 * * 1', async function(){
+    const textChat = await bot.channels.fetch('716015727630483579')
+    const monadoVid = new MessageAttachment('https://cdn.discordapp.com/attachments/407627504598253580/760254205868113940/monado.mp4')
+    textChat.send(monadoVid)
+})
 
+job.start()
 
 bot.on('message',async req => {
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
