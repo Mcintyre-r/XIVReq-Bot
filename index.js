@@ -129,8 +129,40 @@ bot.on('message',async req => {
     
 })
 
+
+
+bot.on('message',async req => {
+    const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
+    const channel = await bot.channels.fetch('747097374312103977');
+    let users = Array.from(channel.members.keys());
+
+    message = req.content.toLowerCase()
+
+
+    // list of clip names
+    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario']
+    clips.forEach( async e =>{
+        if(message.includes(e) && req.author.id === '59423394055069696' ){
+            if(users.length >= 1){
+                const conn = await channel.join();
+                const dispatcher = conn.play(`./assets/${e}.mp3`);
+    
+                dispatcher.on('start', () => {
+                    console.log('Clip:', e);
+                });
+    
+                dispatcher.on('finish', () => {
+                    channel.leave()
+                });
+                dispatcher.on('error', console.error);
+            }  
+        }
+    })    
+})
+
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('716015727630483580');
+    const raidChannel = await bot.channels.fetch('747097374312103977')
     const textChannel = await bot.channels.fetch('753831898559545384');
     const role = channel.guild.roles.cache.find(role => role.name === 'Voice');
     const serverMembers = []
@@ -140,13 +172,16 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     for(let e of channel.guild.members.cache.keys()){
         serverMembers.push(e)
     }
+    for(let e of raidChannel.members.keys()){
+        channelMembers.push(e)
+    }
     for(let i of channel.members.keys()){
         channelMembers.push(i)
     }
     if(channelMembers.length === 0){
         console.log('Action: Channel empty clearing Voice Chatter.')
         textChannel.bulkDelete(100, true)                      
-            }
+        }
     for(let i of serverMembers){
         if(i){
             let member = channel.guild.members.cache.get(i)
