@@ -71,19 +71,37 @@ bot.on('ready', () =>{
 })
 
 
-var job = new CronJob('0 0 0 * * 1', async function(){
+const job = new CronJob('0 0 0 * * 1', async function(){
     const textChat = await bot.channels.fetch('716015727630483579')
     const monadoVid = new MessageAttachment('https://cdn.discordapp.com/attachments/407627504598253580/760254205868113940/monado.mp4')
     textChat.send(monadoVid)
     console.log('Job: MONADO MONDAYYYY')
 })
 
+const TusdayJob = new CronJob('0 30 19 * * 2', async function(){
+    const raidChat = await bot.channels.fetch('755361261679804496')
+    raidChat.send('<@&755361410074017843> Raid in 10')
+})
+const MondayJob = new CronJob('0 30 20 * * 1', async function(){
+    const raidChat = await bot.channels.fetch('755361261679804496')
+    raidChat.send('<@&755361410074017843> Raid in 15')
+})
+const ThursdayJob = new CronJob('0 30 20 * * 4', async function(){
+    const raidChat = await bot.channels.fetch('755361261679804496')
+    raidChat.send('<@&755361410074017843> Raid in 15')
+})
+
 job.start()
+TusdayJob.start()
+MondayJob.start()
+ThursdayJob.start()
 
 bot.on('message',async req => {
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
     const channel = await bot.channels.fetch('716015727630483580');
+    const raidChannel = await bot.channels.fetch('747097374312103977')
     let users = Array.from(channel.members.keys());
+    let raidUsers = Array.from(raidChannel.members.keys());
 
     message = req.content.toLowerCase()
 
@@ -106,7 +124,20 @@ bot.on('message',async req => {
             if(e === 'eekum bokum'){
                 req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
             }
-            if(users.length >= 1){
+            if(raidUsers.length >= 1 && req.author.id === '59423394055069696'){
+                const conn = await raidChannel.join();
+                const dispatcher = conn.play(`./assets/${e}.mp3`);
+    
+                dispatcher.on('start', () => {
+                    console.log('Clip:', e);
+                });
+    
+                dispatcher.on('finish', () => {
+                    raidChannel.leave()
+                });
+                dispatcher.on('error', console.error);
+            }  
+            else if(users.length >= 1){
                 const conn = await channel.join();
                 const dispatcher = conn.play(`./assets/${e}.mp3`);
     
@@ -129,36 +160,6 @@ bot.on('message',async req => {
     
 })
 
-
-
-bot.on('message',async req => {
-    const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
-    const channel = await bot.channels.fetch('747097374312103977');
-    let users = Array.from(channel.members.keys());
-
-    message = req.content.toLowerCase()
-
-
-    // list of clip names
-    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario']
-    clips.forEach( async e =>{
-        if(message.includes(e) && req.author.id === '59423394055069696' ){
-            if(users.length >= 1){
-                const conn = await channel.join();
-                const dispatcher = conn.play(`./assets/${e}.mp3`);
-    
-                dispatcher.on('start', () => {
-                    console.log('Clip:', e);
-                });
-    
-                dispatcher.on('finish', () => {
-                    channel.leave()
-                });
-                dispatcher.on('error', console.error);
-            }  
-        }
-    })    
-})
 
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('716015727630483580');
