@@ -80,15 +80,15 @@ const job = new CronJob('0 0 0 * * 1', async function(){
 
 const TusdayJob = new CronJob('0 30 19 * * 2', async function(){
     const raidChat = await bot.channels.fetch('755361261679804496')
-    raidChat.send('<@&755361410074017843> Raid in 10')
+    raidChat.send('<@&755361410074017843> Raid in 30')
 })
 const MondayJob = new CronJob('0 30 20 * * 1', async function(){
     const raidChat = await bot.channels.fetch('755361261679804496')
-    raidChat.send('<@&755361410074017843> Raid in 15')
+    raidChat.send('<@&755361410074017843> Raid in 30')
 })
 const ThursdayJob = new CronJob('0 30 20 * * 4', async function(){
     const raidChat = await bot.channels.fetch('755361261679804496')
-    raidChat.send('<@&755361410074017843> Raid in 15')
+    raidChat.send('<@&755361410074017843> Raid in 30')
 })
 
 job.start()
