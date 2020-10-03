@@ -48,19 +48,16 @@ const queue = new Queue({
 // state for event
 let event = {
     'title': '',
-    'tank': [],
-    'healer': [],
-    'dps': [],
-    'signedup': []
+    'time': '',
+    'viewer': []
 }
 // template to reset event
 const template = {
     'title': '',
-    'tank': [],
-    'healer': [],
-    'dps': [],
-    'signedup': []
+    'time': '',
+    'viewer': []
 }
+
 
 const PREFIX = '?'
 
@@ -76,6 +73,11 @@ const job = new CronJob('0 0 0 * * 1', async function(){
     const monadoVid = new MessageAttachment('https://cdn.discordapp.com/attachments/407627504598253580/760254205868113940/monado.mp4')
     textChat.send(monadoVid)
     console.log('Job: MONADO MONDAYYYY')
+})
+
+const movieJob = new CronJob('0 0 20 * * 5', async function(){
+    const movieChat = await bot.channels.fetch('761671840845791242')
+    movieChat.send('<@&761665699407200286> Movie starting in one hour!')
 })
 
 const TusdayJob = new CronJob('0 30 19 * * 2', async function(){
@@ -95,6 +97,7 @@ job.start()
 TusdayJob.start()
 MondayJob.start()
 ThursdayJob.start()
+movieJob.start()
 
 bot.on('message',async req => {
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
@@ -352,7 +355,6 @@ bot.on( 'message' , async message => {
             })
             break;
 
-
         case 'minion' :
             message.reply("Specify True or False... Expires in 10s...").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             collected = await message.channel.awaitMessages(filter, { max: 1, time: 10000})
@@ -424,8 +426,6 @@ bot.on( 'message' , async message => {
 
             break;
         
-
-
         case 'mount' :
             message.reply("Specify True or False... Expires in 10s...").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             collected = await message.channel.awaitMessages(filter, { max: 1, time: 10000})
@@ -492,8 +492,6 @@ bot.on( 'message' , async message => {
             }
             break;
 
-
-
         case 'clear' :
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 console.log('Action: Clearing Messages')
@@ -511,8 +509,6 @@ bot.on( 'message' , async message => {
                 }
             }
             break;
-
-
 
         case 'help' :
             console.log('Action: Offering help')
@@ -539,11 +535,17 @@ bot.on( 'message' , async message => {
             break;
         
         case 'setevent':
+
+            message.reply("Please submit a time... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+            message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
+                const time = collected.first().content
+                collected.first().delete({timeout: 1000 * 10})
             if(event['title'] == ''){
                 if(item !== '?setevent') {
                     message.delete({timeout: 1000 * 20})
-                    const rec = message.content.replace("?SetEvent ", "")
+                    const rec = message.content.replace("?setevent ", "")
                     event['title'] = rec
+                    event['time'] = time
                     message.reply("Record has been updated").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
                 }
                 else{
@@ -552,18 +554,13 @@ bot.on( 'message' , async message => {
             } else {
                 message.reply("There is already a pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
             }
-            
+            })
             break;
-
-
-
-
-
 
         case 'signup':
             // console.log(event)
             let signedup = false
-            for(let id of event['signedup']){
+            for(let id of event['viewer']){
                 // console.log(id, message.author.id)
                 if(message.author.id == id){ 
                     signedup = true
@@ -576,40 +573,41 @@ bot.on( 'message' , async message => {
             else if(signedup == true){
                 message.reply('You are already signed up for this event.').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
             }
-            else if(item !== '?signup') {
-                const role = item.replace("?signup ", "")
+            else {
+                       event['viewer'].push(message.author.id)
+                       console.log(event['viewer'])
+                       const user = message.guild.members.cache.get(message.author.id)
+                       const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
+                       user.roles.add(role)
+                       message.reply("You are registered for the movie").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
 
-                if(role == 'tank' || role == 'healer' || role == 'dps'){
-                   slots = role == 'dps' ? 4 : 2
-                //    console.log(slots)
-                   if(event[role].length >= slots){
-                        message.reply("This role is currently filled").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-                   } else {
-                       event[role].push(message.author.id)
-                       event['signedup'].push(message.author.id)
-                   }
-                } else {
-                    message.reply("Invalid role!").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-                    message.channel.send("Valid roles include:").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-                    message.channel.send("Tank, Healer, and DPS").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-                }
-            } else {
-                message.reply("Please include a role to Sign Up for the event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
             }
             break;
 
-
         case 'resolve':
+            message.delete({timeout: 1000 * 20})
             if(event['title'] != ''){
+                console.log(message.guild.members.cache.keys())
+                for(let i of message.guild.members.cache.keys()){
+                    // console.log(i)
+                    const user = message.guild.members.cache.get(i)
+                    const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
+                    user.roles.remove(role)
+                }
+                
                 event = template
                 message.reply("Event has been cleared").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
             } else {
                 message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
             }
             break;
-        case 'check':
+        case 'movie':
                 message.delete({timeout: 1000 * 20})
-                message.reply(`<:lfg:748934511244345385> ${event['title']}`).then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+                if(event['title'] != ''){
+                message.reply(`Upcoming Movie is ${event['title']}, at ${event['time']}`).then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+                } else {
+                    message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+                }
             break;
 
 
