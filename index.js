@@ -307,7 +307,7 @@ bot.on( 'message' , async message => {
     
     switch(args[0].toLowerCase()){
 
-
+        // submits item request for request project
         case 'request' :
 
             message.reply("Please submit a quantity... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
@@ -354,7 +354,8 @@ bot.on( 'message' , async message => {
             }
             })
             break;
-
+        
+        // returns a list of members in ward fc that either do or dont have the queried minion
         case 'minion' :
             message.reply("Specify True or False... Expires in 10s...").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             collected = await message.channel.awaitMessages(filter, { max: 1, time: 10000})
@@ -426,6 +427,7 @@ bot.on( 'message' , async message => {
 
             break;
         
+        // returns a list of members in ward fc that either do or dont have the queried mount
         case 'mount' :
             message.reply("Specify True or False... Expires in 10s...").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             collected = await message.channel.awaitMessages(filter, { max: 1, time: 10000})
@@ -491,7 +493,8 @@ bot.on( 'message' , async message => {
                 message.channel.send('Include a Mount to search for').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
             }
             break;
-
+        
+        // clears last 100 messages in channel called
         case 'clear' :
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 console.log('Action: Clearing Messages')
@@ -509,7 +512,8 @@ bot.on( 'message' , async message => {
                 }
             }
             break;
-
+        
+        // list of commands
         case 'help' :
             console.log('Action: Offering help')
             message.delete({timeout: 1000 * 20})
@@ -534,6 +538,7 @@ bot.on( 'message' , async message => {
             message.reply(helpEmbed)
             break;
         
+        // creates a movie event 
         case 'setevent':
 
             message.reply("Please submit a time... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
@@ -556,7 +561,8 @@ bot.on( 'message' , async message => {
             }
             })
             break;
-
+        
+        // registers user for movie event, and gives them the appropriate role
         case 'signup':
             // console.log(event)
             let signedup = false
@@ -583,7 +589,8 @@ bot.on( 'message' , async message => {
 
             }
             break;
-
+        
+        // clears any pending event and resets roles
         case 'resolve':
             message.delete({timeout: 1000 * 20})
             if(event['title'] != ''){
@@ -601,6 +608,8 @@ bot.on( 'message' , async message => {
                 message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
             }
             break;
+
+        // info about currently pending movie event
         case 'movie':
                 message.delete({timeout: 1000 * 20})
                 if(event['title'] != ''){
@@ -610,7 +619,7 @@ bot.on( 'message' , async message => {
                 }
             break;
 
-
+        // info for minecraft server
         case 'minecraft':
             console.log('Action: Showing Minecraft info')
             const mineEmbed = new MessageEmbed()
