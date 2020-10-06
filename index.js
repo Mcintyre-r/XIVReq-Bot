@@ -3,7 +3,7 @@ const axios = require('axios')
 const bot  = new Client();
 const Queue = require('smart-request-balancer');
 const CronJob = require('cron').CronJob
-const Keyv = require('keyv')
+
 // const monado = require('./assets/monado.mp4')
 require('ffmpeg')
 require('ffmpeg-static')
@@ -45,12 +45,6 @@ const queue = new Queue({
     // names must be equal
     return 0
 }
-
-
-const keyv = new Keyv(process.env.postgresURL)
-keyv.on('error', err => console.error('Keyv connection error:', err));
-
-
 
 
 

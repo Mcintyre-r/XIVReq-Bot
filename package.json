@@ -21,6 +21,7 @@
     "ffmpeg-static": "^4.2.6",
     "keyv": "^4.0.3",
     "nodemon": "^2.0.2",
+    "redis": "^3.0.2",
     "request-rate-limiter": "^2.0.3",
     "smart-request-balancer": "^2.1.1",
     "xivapi-js": "^0.3.0"
