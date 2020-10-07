@@ -3,7 +3,8 @@ const axios = require('axios')
 const bot  = new Client();
 const Queue = require('smart-request-balancer');
 const CronJob = require('cron').CronJob
-
+const movieDB = require("./models/movie-model.js");
+const viewerDB = require("./models/viewer-model.js")
 // const monado = require('./assets/monado.mp4')
 require('ffmpeg')
 require('ffmpeg-static')
@@ -46,26 +47,12 @@ const queue = new Queue({
     return 0
 }
 
-
-
-
-// state for event
-let event = {
-    'title': '',
-    'time': '',
-    'viewer': []
-}
-// template to reset event
-const template = {
-    'title': '',
-    'time': '',
-    'viewer': []
-}
+// movieDB.createEvent({'Title': "test", "Time":"10pm est"}).then(res => console.log(res)).catch(err => console.log(err))
+movieDB.checkEvent().then(res => console.log('check',res[0].Title)).catch(err => console.log(err))
+movieDB.resolveEvent().then(res => console.log(res)).catch(err => console.log(res))
 
 
 const PREFIX = '?'
-
-
 
 bot.on('ready', () =>{
     console.log('Exa-Bot Online')
@@ -84,10 +71,10 @@ const job = new CronJob('0 0 0 * * 1', async function(){
 //     movieChat.send('<@&761665699407200286> Movie starting in one hour!')
 // })
 
-// const TuesdayJob = new CronJob('0 30 19 * * 2', async function(){
-//     const raidChat = await bot.channels.fetch('755361261679804496')
-//     raidChat.send('<@&755361410074017843> Raid in 30')
-// })
+const TuesdayJob = new CronJob('0 30 19 * * 2', async function(){
+    const raidChat = await bot.channels.fetch('755361261679804496')
+    raidChat.send('<@&755361410074017843> Raid in 30')
+})
 const MondayJob = new CronJob('0 30 20 * * 1', async function(){
     const raidChat = await bot.channels.fetch('755361261679804496')
     raidChat.send('<@&755361410074017843> Raid in 30')
@@ -98,7 +85,7 @@ const ThursdayJob = new CronJob('0 30 20 * * 4', async function(){
 })
 
 job.start()
-// TuesdayJob.start()
+TuesdayJob.start()
 MondayJob.start()
 ThursdayJob.start()
 // movieJob.start()
@@ -541,86 +528,89 @@ bot.on( 'message' , async message => {
             message.reply(helpEmbed)
             break;
         
-        // creates a movie event 
-        case 'setevent':
+        // // creates a movie event 
+        // case 'setevent':
 
-            message.reply("Please submit a time... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-            message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
-                const time = collected.first().content
-                collected.first().delete({timeout: 1000 * 10})
-            if(event['title'] == ''){
-                if(item !== '?setevent') {
-                    message.delete({timeout: 1000 * 20})
-                    const rec = message.content.replace("?setevent ", "")
-                    event['title'] = rec
-                    event['time'] = time
-                    message.reply("Record has been updated").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-                }
-                else{
-                    message.reply("Please include a title for the event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-                } 
-            } else {
-                message.reply("There is already a pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
-            }
-            })
-            break;
+        //     message.reply("Please submit a time... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+        //     message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
+        //         const time = collected.first().content
+        //         collected.first().delete({timeout: 1000 * 10})
+        //     if(event['title'] == ''){
+        //         if(item !== '?setevent') {
+        //             message.delete({timeout: 1000 * 20})
+        //             const rec = message.content.replace("?setevent ", "")
+        //             event['title'] = rec
+        //             event['time'] = time
+        //             message.reply("Record has been updated").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
+        //         }
+        //         else{
+        //             message.reply("Please include a title for the event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
+        //         } 
+        //     } else {
+        //         message.reply("There is already a pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+        //     }
+        //     })
+        //     break;
         
-        // registers user for movie event, and gives them the appropriate role
-        case 'signup':
-            // console.log(event)
-            let signedup = false
-            for(let id of event['viewer']){
-                // console.log(id, message.author.id)
-                if(message.author.id == id){ 
-                    signedup = true
-                }
-            }
+        // // registers user for movie event, and gives them the appropriate role
+        // case 'signup':
+        //     // console.log(event)
+        //     let signedup = false
+        //     for(let id of event['viewer']){
+        //         // console.log(id, message.author.id)
+        //         if(message.author.id == id){ 
+        //             signedup = true
+        //         }
+        //     }
 
-            if(event['title'] == ''){
-                message.reply('There is no event pending atm').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-            }
-            else if(signedup == true){
-                message.reply('You are already signed up for this event.').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
-            }
-            else {
-                       event['viewer'].push(message.author.id)
-                       console.log(event['viewer'])
-                       const user = message.guild.members.cache.get(message.author.id)
-                       const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
-                       user.roles.add(role)
-                       message.reply("You are registered for the movie").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
+        //     if(event['title'] == ''){
+        //         message.reply('There is no event pending atm').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
+        //     }
+        //     else if(signedup == true){
+        //         message.reply('You are already signed up for this event.').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+        //     }
+        //     else {
+        //                event['viewer'].push(message.author.id)
+        //                console.log(event['viewer'])
+        //                const user = message.guild.members.cache.get(message.author.id)
+        //                const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
+        //                user.roles.add(role)
+        //                message.reply("You are registered for the movie").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
 
-            }
-            break;
+        //     }
+        //     break;
         
-        // clears any pending event and resets roles
-        case 'resolve':
-            message.delete({timeout: 1000 * 20})
-            if(event['title'] != ''){
-                console.log(message.guild.members.cache.keys())
-                for(let i of message.guild.members.cache.keys()){
-                    // console.log(i)
-                    const user = message.guild.members.cache.get(i)
-                    const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
-                    user.roles.remove(role)
-                }
+        // // clears any pending event and resets roles
+        // case 'resolve':
+        //     message.delete({timeout: 1000 * 20})
+        //     if(event['title'] != ''){
+        //         console.log(message.guild.members.cache.keys())
+        //         for(let i of message.guild.members.cache.keys()){
+        //             // console.log(i)
+        //             const user = message.guild.members.cache.get(i)
+        //             const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
+        //             user.roles.remove(role)
+        //         }
                 
-                event = template
-                message.reply("Event has been cleared").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
-            } else {
-                message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
-            }
-            break;
+        //         event = template
+        //         message.reply("Event has been cleared").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+        //     } else {
+        //         message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+        //     }
+        //     break;
 
-        // info about currently pending movie event
-        case 'movie':
-                message.delete({timeout: 1000 * 20})
-                if(event['title'] != ''){
-                message.reply(`Upcoming Movie is ${event['title']}, at ${event['time']}`).then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
-                } else {
-                    message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
-                }
-            break;
+        // // info about currently pending movie event
+        // case 'movie':
+        //         message.delete({timeout: 1000 * 20})
+        //         movieDB.checkEvent()
+        //             .then(res => {
+        //                 if(event['title'] != ''){
+        //                     message.reply(`Upcoming Movie is ${event['title']}, at ${event['time']}`).then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+        //                     } else {
+        //                         message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+        //                     }
+        //             })  
+        //     break;
 
         // info for minecraft server
         case 'minecraft':
