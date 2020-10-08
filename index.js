@@ -47,10 +47,6 @@ const queue = new Queue({
     return 0
 }
 
-// movieDB.createEvent({'Title': "test", "Time":"10pm est"}).then(res => console.log(res)).catch(err => console.log(err))
-movieDB.checkEvent().then(res => console.log('check',res[0].Title)).catch(err => console.log(err))
-movieDB.resolveEvent().then(res => console.log(res)).catch(err => console.log(res))
-
 
 const PREFIX = '?'
 
