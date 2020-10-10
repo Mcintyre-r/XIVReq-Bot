@@ -9,10 +9,7 @@ const viewerDB = require("./models/viewer-model.js")
 require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config()
-async () => {
-    const check = await movieDB.checkEvent()
-    console.log(check)
-}
+
 
 
 
@@ -560,29 +557,31 @@ bot.on( 'message' , async message => {
         // registers user for movie event, and gives them the appropriate role
         case 'signup':
             // console.log(event)
-            let signedup = false
-            for(let id of event['viewer']){
-                // console.log(id, message.author.id)
-                if(message.author.id == id){ 
-                    signedup = true
-                }
-            }
+            movieDB.checkEvent().then(event => {
+                let signedup = false
+                viewerDB.getViewers().then(res => {
+                    for(let viewer of res){
+                    if(message.author.id == viewer["UID"]){ 
+                        signedup = true
+                    }}
+                    
+                    if(event[0]['Title'] == 'None'){
+                        message.reply('There is no event pending atm').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
+                    }
+                    else if(signedup == true){
+                        message.reply('You are already signed up for this event.').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
+                    }
+                    else {
+                            // event['viewer'].push(message.author.id)
+                            viewerDB.addViewer(message.author.id).then(res => console.log(res)).catch(err => console.log(err))
+                            const user = message.guild.members.cache.get(message.author.id)
+                            const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
+                            user.roles.add(role)
+                            message.reply("You are registered for the movie").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
 
-            if(event['title'] == ''){
-                message.reply('There is no event pending atm').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-            }
-            else if(signedup == true){
-                message.reply('You are already signed up for this event.').then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
-            }
-            else {
-                       event['viewer'].push(message.author.id)
-                       console.log(event['viewer'])
-                       const user = message.guild.members.cache.get(message.author.id)
-                       const role = message.guild.roles.cache.find(role => role.name === 'Signed up for Movie');
-                       user.roles.add(role)
-                       message.reply("You are registered for the movie").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err)) 
-
-            }
+                    }
+                }).catch(err => console.log(err))
+            }).catch(err => console.log(err))
             break;
         
         // clears any pending event and resets roles
@@ -598,6 +597,8 @@ bot.on( 'message' , async message => {
                     }
                     
                     movieDB.updateEvent({"Title":"None","Time":"None"}).then(res => console.log(res)).catch(err => console.log(err))
+                    viewerDB.clearViewers().then(res => console.log(res)).catch(err => console.log(err))
+                    viewerDB.addViewer("59423394055069696").then(res => console.log(res)).catch(err => console.log(err))
                     message.reply("Event has been cleared").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))
                 } else {
                     message.reply("There is no pending event").then( r => r.delete ({timeout: 20000})).catch(err => console.log(err))

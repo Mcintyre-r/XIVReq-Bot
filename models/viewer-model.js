@@ -7,7 +7,7 @@ module.exports = {
 }
 
 function addViewer(UID){
-    return db("Viewers").insert(UID, "UID")
+    return db("Viewers").insert({"UID": UID}, "UID")
 }
 
 function clearViewers(){
