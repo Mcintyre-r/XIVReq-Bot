@@ -3,7 +3,8 @@ const db = require("../dbConfig.js")
 module.exports = {
     createEvent,
     resolveEvent,
-    checkEvent
+    checkEvent,
+    updateEvent
 }
 
 function createEvent(event){
@@ -16,4 +17,8 @@ function resolveEvent(){
 
 function checkEvent(){
     return db("Movies")
+}
+
+function updateEvent(event){
+    return db("Movies").update(event, "Title")
 }
