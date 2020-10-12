@@ -1,10 +1,10 @@
 const db = require("../dbConfig.js")
 
 module.exports = {
-    createEvent,
-    resolveEvent,
-    checkEvent,
-    updateEvent
+    createPower,
+    emptyPower,
+    checkPower,
+    updatePower
 }
 
 function createPower(truth){
