@@ -5,10 +5,12 @@ const Queue = require('smart-request-balancer');
 const CronJob = require('cron').CronJob
 const movieDB = require("./models/movie-model.js");
 const viewerDB = require("./models/viewer-model.js")
+const powerDB = require("./models/power-model.js")
 // const monado = require('./assets/monado.mp4')
 require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config()
+
 
 
 
@@ -111,41 +113,45 @@ bot.on('message',async req => {
         }
     })
     // list of clip names
-    const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario']
-    clips.forEach( async e =>{
-        if(message.includes(e) && req.author.id != 738254569238167643){
-            if(e === 'eekum bokum'){
-                req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
-            }
-            if(raidUsers.length >= 1 && req.author.id === '59423394055069696'){
-                const conn = await raidChannel.join();
-                const dispatcher = conn.play(`./assets/${e}.mp3`);
-    
-                dispatcher.on('start', () => {
-                    console.log('Clip:', e);
-                });
-    
-                dispatcher.on('finish', () => {
-                    raidChannel.leave()
-                });
-                dispatcher.on('error', console.error);
-            }  
-            else if(users.length >= 1){
-                const conn = await channel.join();
-                const dispatcher = conn.play(`./assets/${e}.mp3`);
-    
-                dispatcher.on('start', () => {
-                    console.log('Clip:', e);
-                });
-    
-                dispatcher.on('finish', () => {
-                    channel.leave()
-                });
-                dispatcher.on('error', console.error);
-            }  
-        }
-    })
-
+    powerDB.checkPower().then(res => {
+        if(res["Power"] === true){
+            const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario']
+            clips.forEach( async e =>{
+                if(message.includes(e) && req.author.id != 738254569238167643){
+                    if(e === 'eekum bokum'){
+                        req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
+                    }
+                    if(raidUsers.length >= 1 && req.author.id === '59423394055069696'){
+                        const conn = await raidChannel.join();
+                        const dispatcher = conn.play(`./assets/${e}.mp3`);
+            
+                        dispatcher.on('start', () => {
+                            console.log('Clip:', e);
+                        });
+            
+                        dispatcher.on('finish', () => {
+                            raidChannel.leave()
+                        });
+                        dispatcher.on('error', console.error);
+                    }  
+                    else if(users.length >= 1){
+                        const conn = await channel.join();
+                        const dispatcher = conn.play(`./assets/${e}.mp3`);
+            
+                        dispatcher.on('start', () => {
+                            console.log('Clip:', e);
+                        });
+            
+                        dispatcher.on('finish', () => {
+                            channel.leave()
+                        });
+                        dispatcher.on('error', console.error);
+                    }  
+                }
+            })
+        }   
+    }).catch(err => console.log(err))
+ 
     if(req.content.includes("uptime")){
         console.log('Uptime')
         req.channel.send(attachment)
