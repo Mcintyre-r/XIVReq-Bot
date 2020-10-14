@@ -236,7 +236,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 
 
 bot.on( 'message' , async message => {
-    const item = message.content.toLowerCase()
+    let item = message.content.toLowerCase()
     let post = {
         item: '',
         quantity: 0,
@@ -533,6 +533,18 @@ bot.on( 'message' , async message => {
             message.reply(helpEmbed)
             break;
         
+        case 'annoy':  
+            if(item !== '?annoy') {   
+                item = item.replace("?annoy ", "")
+
+                powerDB.updatePower({"Power": item=="on" ? true : false})
+                    .then(res => { message.channel.send(`Voice annoyance is now ${item}`)})
+                    .catch(err => console.log(err))
+            } else {
+                message.channel.send('Please Specify a setting').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+            }
+            break;         
+
         // creates a movie event 
         case 'setevent':
             movieDB.checkEvent().then(currentEvent => {
