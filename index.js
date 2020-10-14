@@ -519,15 +519,15 @@ bot.on( 'message' , async message => {
             .setDescription('The prefix for all commands is ? followed by the command (I.E. ?help) Then any parameters required.')
             .addFields(
                 {name: '?help', value:['- Returns this reply showing all possible commands','\n']},
-                {name: '?minion <argument>', value:['- Returns a list of all members in the ward FC that either do or don\'t have the specified minion','- Takes one argument that is a minion name', '- Example: ?minion Goobbue Sproutling','\n']},
-                {name: '?mount <argument>', value:['- Returns a list of all members in the ward FC that either do or don\'t have the specified mount','- Takes one argument that is a mount name', '- Example: ?mount Flying Chair','\n']},
+                {name: '?minion <arg>', value:['- Returns a list of all members in the ward FC that either do or don\'t have the specified minion','- Takes one argument that is a minion name', '- Example: ?minion Goobbue Sproutling','\n']},
+                {name: '?mount <arg>', value:['- Returns a list of all members in the ward FC that either do or don\'t have the specified mount','- Takes one argument that is a mount name', '- Example: ?mount Flying Chair','\n']},
                 {name: '?Mincraft', value:['- Return a short embed containing all info regarding Exa\'s Minecraft Server','\n']},
-                {name: '?setevent <argument>', value:['- Creates a FFXIV party event, cannot be used if one is currently pending', '- Takes a single arguement that is the name of the event.', '- Example: ?setevent Shiva Unreal','\n']},
-                {name: '?signup <arguement>', value:['- Registers you for FFXIV part if one is currently pending, cannot use if no party is pending, or already signed up','- Takes a single arguement or the role you would like to sign up as', '- Example: ?signup Tank','\n']},
-                {name: '?resolve', value: ['- Ends the current pending event, and resets back to before it was made','\n']},
-                {name: '?check', value: ['- Returns the current event if one is pending','\n']},
+                {name: '?setevent <arg>', value:['- Creates a movie event, cannot be used if one is currently pending', '- Takes a single arguement that is the name of the event.', '- Example: ?setevent The Terminator','\n']},
+                {name: '?signup', value:['- Registers you for the current movie if one is pending, cannot use if no movie is pending, or already signed up', '- Will also give you the role required to enter the movie chat channel, and be reminded an hour prior.','\n']},
+                {name: '?resolve', value: ['- Ends the current pending movie, and resets back to before it was made','- also removes signed up role from any members with it.', '\n']},
+                {name: '?movie', value: ['- Returns the current movie if one is pending','\n']},
                 {name: '?clear', value: ['- Clears the channel of messages, Can only be used by Exa.','\n']},
-                {name: '?request <arguement>', value: ['- Currently being worked on.','\n']}
+                {name: '?request <arg>', value: ['- Currently being worked on.','\n']}
 
             )
             message.reply(helpEmbed)
@@ -543,7 +543,7 @@ bot.on( 'message' , async message => {
             } else {
                 message.channel.send('Please Specify a setting').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
             }
-            break;         
+            break; 
 
         // creates a movie event 
         case 'setevent':
