@@ -528,7 +528,6 @@ bot.on( 'message' , async message => {
                 {name: '?movie', value: ['- Returns the current movie if one is pending','\n']},
                 {name: '?clear', value: ['- Clears the channel of messages, Can only be used by Exa.','\n']},
                 {name: '?request <arg>', value: ['- Currently being worked on.','\n']}
-
             )
             message.reply(helpEmbed)
             break;
