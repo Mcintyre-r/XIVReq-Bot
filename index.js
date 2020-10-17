@@ -67,29 +67,14 @@ const job = new CronJob('0 0 0 * * 1', async function(){
     console.log('Job: MONADO MONDAYYYY')
 })
 
-const movieJob = new CronJob('0 0 19 * * 3', async function(){
-    const movieChat = await bot.channels.fetch('761671840845791242')
-    movieChat.send('<@&761665699407200286> Movie starting in one hour!')
-})
+// const movieJob = new CronJob('0 0 19 * * 3', async function(){
+//     const movieChat = await bot.channels.fetch('761671840845791242')
+//     movieChat.send('<@&761665699407200286> Movie starting in one hour!')
+// })
 
-const TuesdayJob = new CronJob('0 30 19 * * 2', async function(){
-    const raidChat = await bot.channels.fetch('755361261679804496')
-    raidChat.send('<@&755361410074017843> Raid in 30')
-})
-const MondayJob = new CronJob('0 30 20 * * 1', async function(){
-    const raidChat = await bot.channels.fetch('755361261679804496')
-    raidChat.send('<@&755361410074017843> Raid in 30')
-})
-const ThursdayJob = new CronJob('0 30 20 * * 4', async function(){
-    const raidChat = await bot.channels.fetch('755361261679804496')
-    raidChat.send('<@&755361410074017843> Raid in 30')
-})
 
 job.start()
-TuesdayJob.start()
-MondayJob.start()
-ThursdayJob.start()
-movieJob.start()
+// movieJob.start()
 
 bot.on('message',async req => {
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
