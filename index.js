@@ -146,7 +146,8 @@ bot.on('message',async req => {
 
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('716015727630483580');
-    const raidChannel = await bot.channels.fetch('747097374312103977')
+    const raidChannel = await bot.channels.fetch('747097374312103977');
+    const privateChannel = await bot.channels.fetch('766209336615370782');
     const textChannel = await bot.channels.fetch('753831898559545384');
     const role = channel.guild.roles.cache.find(role => role.name === 'Voice');
     const serverMembers = []
@@ -157,6 +158,9 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
         serverMembers.push(e)
     }
     for(let e of raidChannel.members.keys()){
+        channelMembers.push(e)
+    }
+    for(let e of privateChannel.members.keys()){
         channelMembers.push(e)
     }
     for(let i of channel.members.keys()){
