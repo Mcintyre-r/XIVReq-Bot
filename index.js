@@ -101,7 +101,7 @@ bot.on('message',async req => {
     // list of clip names
     powerDB.checkPower().then(res => {
         if(res["Power"] === true){
-            const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario']
+            const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario','hungry', 'ride wife']
             clips.forEach( async e =>{
                 if(message.includes(e) && req.author.id != 738254569238167643){
                     if(e === 'eekum bokum'){
@@ -150,6 +150,15 @@ bot.on('message',async req => {
             })
         }   
     }).catch(err => console.log(err))
+
+    if(req.content.includes("NO MORE GAMES") && req.author.id === '59423394055069696'){
+        req.guild.me.setNickname('Byakko')
+        bot.user.setAvatar ('https://static.wikia.nocookie.net/finalfantasy/images/0/0a/FFXIV_Byakko.png/revision/latest/scale-to-width-down/960?cb=20171221100458')
+        setTimeout(()=>{
+            req.guild.me.setNickname("Reyn")
+            bot.user.setAvatar ('https://static.wikia.nocookie.net/xenoblade/images/c/cd/Reyn_pic.png/revision/latest?cb=20170712150058')
+        }, 600000)
+    }
  
     if(req.content.includes("uptime")){
         console.log('Uptime')
