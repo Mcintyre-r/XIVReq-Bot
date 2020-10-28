@@ -160,7 +160,6 @@ bot.on('message',async req => {
         dispatcher.on('start', () => {
             console.log('Clip: NO MORE GAMES');
         });
-    
         dispatcher.on('finish', () => {
             channel.leave()
         })
