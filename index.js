@@ -80,9 +80,10 @@ bot.on('message',async req => {
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
     const channel = await bot.channels.fetch('716015727630483580');
     const raidChannel = await bot.channels.fetch('747097374312103977')
+    const privateChannel = await bot.channels.fetch('766209336615370782')
     let users = Array.from(channel.members.keys());
     let raidUsers = Array.from(raidChannel.members.keys());
-
+    let privateUsers = Array.from(privateChannel.members.keys())
     message = req.content.toLowerCase()
 
     words = ["mean","bully" , "rude" , "bulli", "rood", 'm e a n']
@@ -106,7 +107,20 @@ bot.on('message',async req => {
                     if(e === 'eekum bokum'){
                         req.channel.send("<a:mumbo:751666416335192114> *eekum bokum* <a:mumbo:751666416335192114>".repeat(3))
                     }
-                    if(raidUsers.length >= 1 && req.author.id === '59423394055069696'){
+                    if(privateUsers.length >= 1 && req.author.id === '59423394055069696'){
+                        const conn = await privateChannel.join();
+                        const dispatcher = conn.play(`./assets/${e}.mp3`);
+            
+                        dispatcher.on('start', () => {
+                            console.log('Clip:', e);
+                        });
+            
+                        dispatcher.on('finish', () => {
+                            privateChannel.leave()
+                        });
+                        dispatcher.on('error', console.error);
+                    }  
+                    else if(raidUsers.length >= 1 && req.author.id === '59423394055069696'){
                         const conn = await raidChannel.join();
                         const dispatcher = conn.play(`./assets/${e}.mp3`);
             
