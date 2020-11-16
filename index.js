@@ -151,9 +151,21 @@ bot.on('message',async req => {
         }   
     }).catch(err => console.log(err))
 
-    if(req.content.includes("NO MORE GAMES") && req.author.id === '59423394055069696'){
+    if(req.content.includes("NO MORE GAMES") && req.author.id === '59423394055069696' && users.length >= 1){
         req.guild.me.setNickname('Byakko')
         bot.user.setAvatar ('https://static.wikia.nocookie.net/finalfantasy/images/0/0a/FFXIV_Byakko.png/revision/latest/scale-to-width-down/960?cb=20171221100458')
+        const conn = await channel.join();
+        const dispatcher = conn.play(`./assets/NO MORE GAMES.mp3`);
+            
+        dispatcher.on('start', () => {
+            console.log('Clip: NO MORE GAMES');
+        });
+
+        dispatcher.on('finish', () => {
+            channel.leave()
+        });
+        dispatcher.on('error', console.error);
+        
         setTimeout(()=>{
             req.guild.me.setNickname("Reyn")
             bot.user.setAvatar ('https://static.wikia.nocookie.net/xenoblade/images/c/cd/Reyn_pic.png/revision/latest?cb=20170712150058')
