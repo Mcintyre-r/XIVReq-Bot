@@ -76,6 +76,11 @@ const job = new CronJob('0 0 0 * * 1', async function(){
 job.start()
 // movieJob.start()
 
+
+
+
+
+
 bot.on('message',async req => {
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
     const channel = await bot.channels.fetch('716015727630483580');
@@ -101,7 +106,7 @@ bot.on('message',async req => {
     // list of clip names
     powerDB.checkPower().then(res => {
         if(res["Power"] === true || req.author.id === '59423394055069696'){
-            const clips = ['women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario','hungry', 'ride wife', 'king','love']
+            const clips = ['death','butter','frog','women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario','hungry', 'ride wife', 'king','love']
             clips.forEach( async e =>{
                 if(message.includes(e) && req.author.id != 738254569238167643){
                     if(e === 'eekum bokum'){
