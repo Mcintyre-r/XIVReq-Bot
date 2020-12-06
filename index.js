@@ -2,7 +2,7 @@ const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
 const bot  = new Client();
 const axios = require('axios')
 require('dotenv').config({path:'./.env'})
-console.log(process.env.discordAPI)
+
 const PREFIX = '?'
 
 bot.on('ready', () =>{
