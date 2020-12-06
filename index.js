@@ -1,8 +1,8 @@
 const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
 const bot  = new Client();
 const axios = require('axios')
-require('dotenv').config()
-
+require('dotenv').config({path:'./.env'})
+console.log(process.env.discordAPI)
 const PREFIX = '?'
 
 bot.on('ready', () =>{
@@ -74,4 +74,4 @@ bot.on( 'message' , async message => {
     }
 })
  
-bot.login('NzA2NjY5MTM1OTE1OTA5MTQw.Xq9m6w.cP4gDDcwXBdBNoG6UQfogKDNP4w')
+bot.login(process.env.discordAPI)
