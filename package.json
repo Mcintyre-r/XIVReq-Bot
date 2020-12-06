@@ -1,0 +1,28 @@
+{
+  "name": "xivreq-bot",
+  "version": "1.0.0",
+  "description": "Bot for xivreq site",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "on": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/McIntyre-R/XIVReq-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/McIntyre-R/XIVReq-Bot/issues"
+  },
+  "homepage": "https://github.com/McIntyre-R/XIVReq-Bot#readme"
+}
