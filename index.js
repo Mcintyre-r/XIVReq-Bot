@@ -80,6 +80,7 @@ bot.on( 'message' , async message => {
             }
             axios.get('https://xivreq.herokuapp.com/api/user/', { params: {'uuid': user.uuid}})
                 .then( retUser => {
+                    console.log(retUser)
                     if(retUser){
                         if(retUser.crafter){
                             message.reply('You are already registered as a crafter :)').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
