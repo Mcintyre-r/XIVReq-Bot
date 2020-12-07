@@ -31,10 +31,10 @@ bot.on( 'message' , async message => {
         // submits item request for request project
         case 'request' :
             message.delete({ timeout: 20000 })
-            message.reply("Please submit a quantity... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-            message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
+            message.reply("Please submit a quantity... Answer must be an integer... Will expire in 15 seconds..").then(r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+            message.channel.awaitMessages(filter, { max: 1, time: 15000}).then(collected => {
                 const quantity = collected.first().content
-                collected.first().delete({timeout: 1000 * 10})
+                collected.first().delete({timeout: 1000 * 15})
 
             // User Checks if submitted request exists and then formats request for submission.     
             if(item !== '?request') {
@@ -82,12 +82,23 @@ bot.on( 'message' , async message => {
                 .then( retUser => {
                     if(retUser){
                         if(retUser.crafter){
-                            message.channel.reply('You are already registered as a crafter :)')
+                            message.channel.reply('You are already registered as a crafter :)').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
                         } else {
-                            axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
-                            .then( added => message.channel.reply('You are now registered as a crafter!\nYou can claim requests to compelte at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
-                            .catch( err => message.channel.reply('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
-                        }
+                            message.reply("Are you sure you want to become a crafter? (response valid for 10 seconds)").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+                                message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
+                                    let answer = collected.first().content
+                                    collected.first().delete({timeout: 1000 * 10})
+                                    answer = answer.toLowerCase()
+                                    if(answer.includes('yes')){
+                                        axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
+                                            .then( added => message.channel.reply('You are now registered as a crafter!\nYou can claim requests to compelte at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+                                            .catch( err => message.channel.reply('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
+                                    } else{
+                                        message.channel.reply('Request Voided...').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+                                    }
+
+                            
+                        })}
                     } else {
                         user.crafter = true
                         axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
