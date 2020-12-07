@@ -10,8 +10,11 @@ bot.on('ready', () =>{
 })
  
 bot.on( 'message' , async message => {
-    
-   
+    console.log(message.channel.id)
+    if(message.channel.id !== 785363660305596416){
+    } else {
+
+
 
     let item = message.content.toLowerCase()
     let post = {
@@ -85,9 +88,11 @@ bot.on( 'message' , async message => {
                     message.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
                     console.log(err)})                        
             }
+
             break;
         
     }
+}
 })   
  
 bot.login(process.env.discordAPI)
