@@ -71,6 +71,7 @@ bot.on( 'message' , async message => {
             })
             break;
         case 'crafter' :
+            message.delete({ timeout: 20000 })
             const user = {
                 uuid: message.author.id,
                 username: message.author.username,
