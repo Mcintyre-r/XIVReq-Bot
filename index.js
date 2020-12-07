@@ -10,7 +10,6 @@ bot.on('ready', () =>{
 })
  
 bot.on( 'message' , async message => {
-    console.log(message.channel.id)
     if(message.channel.id !== '785363660305596416' && message.author.id !== '706669135915909140'){
     } else {
 
@@ -43,7 +42,7 @@ bot.on( 'message' , async message => {
                 const trueQuan = parseInt(quantity)      
                 const itemSubmit = item.replace("?request", "")
                 post.quantity = trueQuan;
-                post.requestedBy = message.author.username;
+                post.requestedBy = message.author.username+'#'+message.author.discriminator;
                 post.requesterId = message.author.id;
                 post.requesterPicture = message.author.avatar;
                 post.item = itemSubmit.trimStart()
