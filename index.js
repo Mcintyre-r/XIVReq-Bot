@@ -31,9 +31,7 @@ bot.on( 'message' , async message => {
 
         // submits item request for request project
         case 'request' :
-
-
-            message.delete({ timeout: 50000 })
+            message.delete({ timeout: 20000 })
             message.reply("Please submit a quantity... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
                 const quantity = collected.first().content
@@ -50,17 +48,14 @@ bot.on( 'message' , async message => {
                 post.requesterPicture = message.author.avatar;
                 post.item = itemSubmit.trimStart()
                 const user = message.author
-                console.log(post)
+    
                 axios.get(`https://xivapi.com/search?string=${post.item}&private_key=73bc4666b8044a95acbe3b469b59c0079beaf9666d164a35a68846fbd4f99f2f`)
                 .then(response => {
                     const apiItem = response.data.Results
                     if(apiItem[0]){
-                        console.log(apiItem[0])
                     post.item = apiItem[0].Name
                     post.itemIcon = `https://xivapi.com${apiItem[0].Icon}`
                     post.itemID = apiItem[0].ID
-
-                        console.log(post)
                     axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
                     .then(res => message.channel.send('Request submitted: \n Check status at http://xivreq.com').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
                     .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
@@ -71,8 +66,6 @@ bot.on( 'message' , async message => {
                 .catch(err => {
                     message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
                 })
-
-               
             } else {
                 message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
             }
@@ -88,7 +81,6 @@ bot.on( 'message' , async message => {
                     message.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
                     console.log(err)})                        
             }
-
             break;
         
     }
