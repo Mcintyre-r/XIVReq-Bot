@@ -56,7 +56,7 @@ bot.on( 'message' , async message => {
                     post.itemIcon = `https://xivapi.com${apiItem[0].Icon}`
                     post.itemID = apiItem[0].ID
                     axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
-                    .then(res => message.channel.send('Request submitted, check status at http://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+                    .then(res => message.channel.send('Request submitted, check status at https://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
                     .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
                     } else {
                         message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
@@ -70,7 +70,32 @@ bot.on( 'message' , async message => {
             }
             })
             break;
-
+        case 'crafter' :
+            const user = {
+                uuid: message.author.id,
+                username: message.author.username,
+                avatar: message.author.avatar,
+                discriminator: message.author.discriminator,
+                crafter: true
+            }
+            axios.get('https://xivreq.herokuapp.com/api/user/', { params: {'uuid': user.uuid}})
+                .then( retUser => {
+                    if(retUser){
+                        if(retUser.crafter){
+                            message.channel.reply('You are already registered as a crafter :)')
+                        } else {
+                            axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
+                            .then( added => message.channel.reply('You are now registered as a crafter!\nYou can claim requests to compelte at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+                            .catch( err => message.channel.reply('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
+                        }
+                    } else {
+                        user.crafter = true
+                        axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
+                            .then( added => message.channel.reply('You are now registered as a crafter!\nYou can claim requests to compelte at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+                            .catch( err => message.channel.reply('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
+                    }
+                })
+            break;
         case 'clear' :
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 console.log('Action: Clearing Messages')
