@@ -10,6 +10,15 @@ bot.on('ready', () =>{
 })
  
 bot.on( 'message' , async message => {
+    
+    if(message.channel.id !== 785363660305596416){
+        const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
+        message.channel.send(attachment).then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+        
+    } else {
+
+
+
     let item = message.content.toLowerCase()
     let post = {
         item: '',
@@ -26,6 +35,8 @@ bot.on( 'message' , async message => {
         // submits item request for request project
         case 'request' :
 
+
+            message.delete({ timeout: 50000 })
             message.reply("Please submit a quantity... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
                 const quantity = collected.first().content
@@ -70,8 +81,20 @@ bot.on( 'message' , async message => {
             }
             })
             break;
+
+        case 'clear' :
+            if (message.member.hasPermission("MANAGE_MESSAGES")) {
+                console.log('Action: Clearing Messages')
+                message.channel.bulkDelete(100, true)
+                   .then(res => {message.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
+                    .catch(err => {
+                    message.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
+                    console.log(err)})                        
+            }
+            break;
         
     }
+}
 })   
  
 bot.login(process.env.discordAPI)
