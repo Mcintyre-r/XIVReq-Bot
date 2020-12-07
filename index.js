@@ -11,7 +11,7 @@ bot.on('ready', () =>{
  
 bot.on( 'message' , async message => {
     console.log(message.channel.id)
-    if(message.channel.id !== '785363660305596416'){
+    if(message.channel.id !== '785363660305596416' && message.author.id !== '706669135915909140'){
     } else {
 
 
