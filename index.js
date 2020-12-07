@@ -92,7 +92,7 @@ bot.on( 'message' , async message => {
                                     answer = answer.toLowerCase()
                                     if(answer.includes('yes')){
                                         axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
-                                            .then( added => message.channel.send('You are now registered as a crafter!\nYou can claim requests to compelte at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+                                            .then( added => message.channel.send('You are now registered as a crafter!\nYou can claim requests to complete at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
                                             .catch( err => {
                                                 console.log(err)
                                                 message.channel.send('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
@@ -111,7 +111,7 @@ bot.on( 'message' , async message => {
                                     answer = answer.toLowerCase()
                                     if(answer.includes('yes')){
                                         axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
-                                            .then( added => message.channel.send('You are now registered as a crafter!\nYou can claim requests to compelte at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+                                            .then( added => message.channel.send('You are now registered as a crafter!\nYou can claim requests to complete at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
                                             .catch( err => message.channel.send('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
                                         } else{
                                             message.channel.send('Request Voided...').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
