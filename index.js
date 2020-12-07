@@ -56,7 +56,7 @@ bot.on( 'message' , async message => {
                     post.itemIcon = `https://xivapi.com${apiItem[0].Icon}`
                     post.itemID = apiItem[0].ID
                     axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
-                    .then(res => message.channel.send('Request submitted: \n Check status at http://xivreq.com').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
+                    .then(res => message.channel.send('Request submitted, check status at http://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
                     .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
                     } else {
                         message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
