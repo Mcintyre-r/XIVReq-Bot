@@ -11,13 +11,7 @@ bot.on('ready', () =>{
  
 bot.on( 'message' , async message => {
     
-    if(message.channel.id !== 785363660305596416){
-        const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
-        message.channel.send(attachment).then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-        
-    } else {
-
-
+   
 
     let item = message.content.toLowerCase()
     let post = {
@@ -94,7 +88,6 @@ bot.on( 'message' , async message => {
             break;
         
     }
-}
 })   
  
 bot.login(process.env.discordAPI)
