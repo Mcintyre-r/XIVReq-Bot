@@ -141,6 +141,7 @@ bot.on( 'message' , async message => {
                 axios.get('https://xivreq.herokuapp.com/api/requests')
                     .then( requests => {
                         let unclaimed = 0
+                        console.log(requests)
                         for(const request of requests){
                             if(!request.claimed){
                                 unclaimed++
