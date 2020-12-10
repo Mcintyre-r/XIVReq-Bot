@@ -142,7 +142,7 @@ bot.on( 'message' , async message => {
                     .then( requests => {
                         let unclaimed = 0
                         console.log(requests)
-                        for(const request of requests){
+                        for(const request of requests.data.requests){
                             if(!request.claimed){
                                 unclaimed++
                             }
