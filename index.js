@@ -141,14 +141,16 @@ bot.on( 'message' , async message => {
                 axios.get('https://xivreq.herokuapp.com/api/requests')
                     .then( requests => {
                         let unclaimed = 0
-                        console.log(requests.data.Requests)
                         for(const request of requests.data.Requests){
                             if(!request.claimed){
                                 unclaimed++
                             }
                         }
+                        console.log(unclaimed,  'unclaimed')
+                        
                         const status = message.channel.messages.fetch("788828444288614413")
-                        status.edit(`There are Currently **${unclaimed}** requests`)
+                        console.log(status)
+                        // status.edit(`There are Currently **${unclaimed}** requests`)
                     })
                     .catch( err => {
                         console.log(err)
