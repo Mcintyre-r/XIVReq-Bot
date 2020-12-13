@@ -148,9 +148,13 @@ bot.on( 'message' , async message => {
                         }
                         console.log(unclaimed,  'unclaimed')
                         
-                        const status = message.channel.messages.fetch("788828444288614413")
-                        console.log(status)
-                        // status.edit(`There are Currently **${unclaimed}** requests`)
+                        message.channel.messages.fetch("788828444288614413")
+                        .then(status => {
+                            console.log(status)
+                            status.edit(`There are Currently **${unclaimed}** requests`)
+                        })
+                        
+                        // 
                     })
                     .catch( err => {
                         console.log(err)
