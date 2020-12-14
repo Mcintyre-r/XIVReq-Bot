@@ -1,6 +1,7 @@
 const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
 const bot  = new Client();
-const axios = require('axios')
+const axios = require('axios');
+const { CronJob } = require('cron');
 require('dotenv').config({path:'./.env'})
 
 const PREFIX = '?'
@@ -8,7 +9,30 @@ const PREFIX = '?'
 bot.on('ready', () =>{
     console.log('Req-Bot Online')
 })
- 
+const statusUpdate = async () => {
+    const botChannel = await bot.channels.fetch("785363660305596416")
+    const status = await botChannel.messages.fetch("788828444288614413")
+    axios.get('https://xivreq.herokuapp.com/api/requests')
+                    .then( requests => {
+                        let unclaimed = 0
+                        for(const request of requests.data.Requests){
+                            if(!request.claimed){
+                                unclaimed++
+                            }
+                        }     
+                        status.edit(`There are Currently **${unclaimed}** requests`)
+                    })
+                    .catch( err => {
+                        console.log(err)
+                        message.reply('Something went wrong please try again later.')
+                    })
+}
+const onHour = new CronJob('0 0 * * * *',  statusUpdate())
+const halfHour = new CronJob('0 30 * * * *', statusUpdate())
+onHour.start()
+halfHour.start()
+
+
 bot.on( 'message' , async message => {
     if(message.channel.id !== '785363660305596416' && message.author.id !== '706669135915909140'){
     } else {
@@ -137,6 +161,7 @@ bot.on( 'message' , async message => {
             }
             break;
         case 'update' :
+            message.delete({ timeout: 20000 })
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 axios.get('https://xivreq.herokuapp.com/api/requests')
                     .then( requests => {
@@ -146,15 +171,10 @@ bot.on( 'message' , async message => {
                                 unclaimed++
                             }
                         }
-                        console.log(unclaimed,  'unclaimed')
-                        
                         message.channel.messages.fetch("788828444288614413")
                         .then(status => {
-                            console.log(status)
                             status.edit(`There are Currently **${unclaimed}** requests`)
                         })
-                        
-                        // 
                     })
                     .catch( err => {
                         console.log(err)
