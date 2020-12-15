@@ -11,7 +11,9 @@ bot.on('ready', () =>{
 })
 const statusUpdate = async () => {
     const botChannel = await bot.channels.fetch("785363660305596416")
+    console.log(botChannel)
     const status = await botChannel.messages.fetch("788828444288614413")
+    console.log(status)
     axios.get('https://xivreq.herokuapp.com/api/requests')
                     .then( requests => {
                         let unclaimed = 0
