@@ -33,7 +33,23 @@ bot.on("debug", console.log)
 // }
 const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("785363660305596416")
-    console.log(botChannel, 'botchannel hopefully')})
+    const status = await botChannel.messages.fetch("788828444288614413")
+    console.log(status)
+    axios.get('https://xivreq.herokuapp.com/api/requests')
+                    .then( requests => {
+                        let unclaimed = 0
+                        for(const request of requests.data.Requests){
+                            if(!request.claimed){
+                                unclaimed++
+                            }
+                        }     
+                        status.edit(`There are Currently **${unclaimed}** requests`)
+                    })
+                    .catch( err => {
+                        console.log(err)
+                        message.reply('Something went wrong please try again later.')
+                    })
+})
 // const halfHour = new CronJob('0 30 * * * *', statusUpdate())
 onHour.start()
 // halfHour.start()
