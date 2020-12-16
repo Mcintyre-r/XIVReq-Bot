@@ -22,7 +22,7 @@ const onHour = new CronJob('0 0 * * * *',  async function statusUpdate() {
                                 unclaimed++
                             }
                         }     
-                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}`)
+                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com`)
                     })
                     .catch( err => {
                         console.log(err)
@@ -39,7 +39,7 @@ const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
                                 unclaimed++
                             }
                         }     
-                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}`)
+                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com`)
                     })
                     .catch( err => {
                         console.log(err)
@@ -166,11 +166,16 @@ bot.on( 'message' , async message => {
         case 'clear' :
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 console.log('Action: Clearing Messages')
-                message.channel.bulkDelete(100, true)
+                message.channel.messages.fetch({limit:100})
+                .then(fetched => {
+                    const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned)
+                    message.channel.bulkDelete(notPinned, true)
                    .then(res => {message.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
                     .catch(err => {
                     message.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
-                    console.log(err)})                        
+                    console.log(err)})     
+                })
+                                   
             }
             break;
         case 'status' :
@@ -190,7 +195,7 @@ bot.on( 'message' , async message => {
                                             unclaimed++
                                         }
                                     }     
-                                    status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}`)
+                                    status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com`)
                                 })
                                 .catch( err => {
                                     console.log(err)
