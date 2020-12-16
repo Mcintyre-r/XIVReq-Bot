@@ -22,7 +22,7 @@ const onHour = new CronJob('0 0 * * * *',  async function statusUpdate() {
                                 unclaimed++
                             }
                         }     
-                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** ${unclaimed===1? 'request':'requests'}`)
+                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}`)
                     })
                     .catch( err => {
                         console.log(err)
@@ -39,7 +39,7 @@ const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
                                 unclaimed++
                             }
                         }     
-                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** ${unclaimed===1? 'request':'requests'}`)
+                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}`)
                     })
                     .catch( err => {
                         console.log(err)
@@ -190,7 +190,7 @@ bot.on( 'message' , async message => {
                                             unclaimed++
                                         }
                                     }     
-                                    status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** ${unclaimed===1? 'request':'requests'}`)
+                                    status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}`)
                                 })
                                 .catch( err => {
                                     console.log(err)
