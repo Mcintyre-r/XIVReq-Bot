@@ -92,7 +92,7 @@ bot.on( 'message' , async message => {
                 post.item = itemSubmit.trimStart()
                 const user = message.author
     
-                axios.get(`https://xivapi.com/search?string=${post.item}&private_key=73bc4666b8044a95acbe3b469b59c0079beaf9666d164a35a68846fbd4f99f2f`)
+                axios.get(`https://xivapi.com/search?string=${post.item}&private_key=${process.env.XIVAPI}`)
                 .then(response => {
                     const apiItem = response.data.Results
                     if(apiItem[0]){
