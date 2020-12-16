@@ -34,7 +34,6 @@ bot.on("debug", console.log)
 const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("785363660305596416")
     const status = await botChannel.messages.fetch("788828444288614413")
-    console.log(status)
     axios.get('https://xivreq.herokuapp.com/api/requests')
                     .then( requests => {
                         let unclaimed = 0
@@ -47,7 +46,6 @@ const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
                     })
                     .catch( err => {
                         console.log(err)
-                        message.reply('Something went wrong please try again later.')
                     })
 })
 // const halfHour = new CronJob('0 30 * * * *', statusUpdate())
@@ -109,6 +107,7 @@ bot.on( 'message' , async message => {
                     }
                 })
                 .catch(err => {
+                    console.log(err)
                     message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
                 })
             } else {
