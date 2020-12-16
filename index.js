@@ -9,7 +9,7 @@ const PREFIX = '?'
 bot.on('ready', () =>{
     console.log('Req-Bot Online')
 })
-const statusUpdate = async () => {
+async function statusUpdate() {
     const botChannel = await bot.channels.fetch("785363660305596416")
     console.log(botChannel, 'botchannel hopefully')
     // const status = await botChannel.messages.fetch("788828444288614413")
