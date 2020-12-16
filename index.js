@@ -131,7 +131,11 @@ bot.on( 'message' , async message => {
                     console.log(err)})                        
             }
             break;
-        
+        case 'status' :
+            if (message.member.hasPermission("MANAGE_MESSAGES")) {
+            message.channel.send('There are Currently **0** unclaimed requests.')
+            }
+            break;
     }
 }
 })   
