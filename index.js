@@ -11,26 +11,6 @@ bot.on('ready', () =>{
 })
 bot.on("debug", console.log)
 
-// async function statusUpdate() {
-//     const botChannel = await bot.channels.fetch("785363660305596416")
-//     console.log(botChannel, 'botchannel hopefully')
-    // const status = await botChannel.messages.fetch("788828444288614413")
-    // console.log(status)
-    // axios.get('https://xivreq.herokuapp.com/api/requests')
-    //                 .then( requests => {
-    //                     let unclaimed = 0
-    //                     for(const request of requests.data.Requests){
-    //                         if(!request.claimed){
-    //                             unclaimed++
-    //                         }
-    //                     }     
-    //                     status.edit(`There are Currently **${unclaimed}** requests`)
-    //                 })
-    //                 .catch( err => {
-    //                     console.log(err)
-    //                     message.reply('Something went wrong please try again later.')
-    //                 })
-// }
 const onHour = new CronJob('0 0 * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("785363660305596416")
     const status = await botChannel.messages.fetch("788828444288614413")
@@ -65,7 +45,7 @@ const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
                         console.log(err)
                     })
 })
-// const halfHour = new CronJob('0 30 * * * *', statusUpdate())
+
 onHour.start()
 halfHour.start()
 
@@ -201,23 +181,21 @@ bot.on( 'message' , async message => {
         case 'update' :
             message.delete({ timeout: 20000 })
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
+                const botChannel = await bot.channels.fetch("785363660305596416")
+                const status = await botChannel.messages.fetch("788828444288614413")
                 axios.get('https://xivreq.herokuapp.com/api/requests')
-                    .then( requests => {
-                        let unclaimed = 0
-                        for(const request of requests.data.Requests){
-                            if(!request.claimed){
-                                unclaimed++
-                            }
-                        }
-                        message.channel.messages.fetch("788828444288614413")
-                        .then(status => {
-                            status.edit(`There are Currently **${unclaimed}** requests`)
-                        })
-                    })
-                    .catch( err => {
-                        console.log(err)
-                        message.reply('Something went wrong please try again later.')
-                    })
+                                .then( requests => {
+                                    let unclaimed = 0
+                                    for(const request of requests.data.Requests){
+                                        if(!request.claimed){
+                                            unclaimed++
+                                        }
+                                    }     
+                                    status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** ${unclaimed===1? 'request':'requests'}`)
+                                })
+                                .catch( err => {
+                                    console.log(err)
+                                })
             }
             break;
 
