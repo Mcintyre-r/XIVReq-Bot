@@ -9,11 +9,11 @@ const PREFIX = '?'
 bot.on('ready', () =>{
     console.log('Req-Bot Online')
 })
+bot.on("debug", console.log)
+
 async function statusUpdate() {
-    bot.channels.fetch("785363660305596416").then(
-        botChannel => console.log(botChannel, 'botchannel hopefully')
-    )
-    
+    const botChannel = await bot.channels.fetch("785363660305596416")
+    console.log(botChannel, 'botchannel hopefully')
     // const status = await botChannel.messages.fetch("788828444288614413")
     // console.log(status)
     // axios.get('https://xivreq.herokuapp.com/api/requests')
