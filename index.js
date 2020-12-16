@@ -31,7 +31,7 @@ async function statusUpdate() {
     //                     message.reply('Something went wrong please try again later.')
     //                 })
 }
-const onHour = new CronJob('0 0 * * * *',  statusUpdate())
+const onHour = new CronJob('0 * * * * *',  statusUpdate())
 const halfHour = new CronJob('0 30 * * * *', statusUpdate())
 onHour.start()
 halfHour.start()
