@@ -202,6 +202,21 @@ bot.on( 'message' , async message => {
                                 })
             break;
 
+            case 'help' :
+                console.log('Action: Offering help')
+                message.delete({timeout: 1000 * 20})
+                const helpEmbed = new MessageEmbed()
+                .setColor('#FFA500')
+                .setAuthor('Bot Commands')
+                .setTitle('Enter any of the following commands:')
+                .setDescription('The prefix for all commands is ? followed by the command (I.E. ?help) Then any parameters required.')
+                .addFields(
+                    {name: '?help', value:['- Returns this reply showing all possible commands','\n']},
+                    {name: '?request <arg>', value: ['- Currently being worked on.','\n']}
+                )
+                message.reply(helpEmbed)
+                break;
+
     }
 }
 })   
