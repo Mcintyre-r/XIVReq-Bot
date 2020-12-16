@@ -11,9 +11,9 @@ bot.on('ready', () =>{
 })
 bot.on("debug", console.log)
 
-async function statusUpdate() {
-    const botChannel = await bot.channels.fetch("785363660305596416")
-    console.log(botChannel, 'botchannel hopefully')
+// async function statusUpdate() {
+//     const botChannel = await bot.channels.fetch("785363660305596416")
+//     console.log(botChannel, 'botchannel hopefully')
     // const status = await botChannel.messages.fetch("788828444288614413")
     // console.log(status)
     // axios.get('https://xivreq.herokuapp.com/api/requests')
@@ -30,9 +30,11 @@ async function statusUpdate() {
     //                     console.log(err)
     //                     message.reply('Something went wrong please try again later.')
     //                 })
-}
-const onHour = new CronJob('0 * * * * *',  statusUpdate())
-const halfHour = new CronJob('0 30 * * * *', statusUpdate())
+// }
+const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
+    const botChannel = await bot.channels.fetch("785363660305596416")
+    console.log(botChannel, 'botchannel hopefully')})
+// const halfHour = new CronJob('0 30 * * * *', statusUpdate())
 onHour.start()
 halfHour.start()
 
