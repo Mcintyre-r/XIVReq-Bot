@@ -36,7 +36,7 @@ const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
     console.log(botChannel, 'botchannel hopefully')})
 // const halfHour = new CronJob('0 30 * * * *', statusUpdate())
 onHour.start()
-halfHour.start()
+// halfHour.start()
 
 
 bot.on( 'message' , async message => {
