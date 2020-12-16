@@ -31,7 +31,7 @@ bot.on("debug", console.log)
     //                     message.reply('Something went wrong please try again later.')
     //                 })
 // }
-const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
+const onHour = new CronJob('0 0 * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("785363660305596416")
     const status = await botChannel.messages.fetch("788828444288614413")
     axios.get('https://xivreq.herokuapp.com/api/requests')
@@ -42,7 +42,24 @@ const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
                                 unclaimed++
                             }
                         }     
-                        status.edit(`There are Currently **${unclaimed}** requests`)
+                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** ${unclaimed===1? 'request':'requests'}`)
+                    })
+                    .catch( err => {
+                        console.log(err)
+                    })
+})
+const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
+    const botChannel = await bot.channels.fetch("785363660305596416")
+    const status = await botChannel.messages.fetch("788828444288614413")
+    axios.get('https://xivreq.herokuapp.com/api/requests')
+                    .then( requests => {
+                        let unclaimed = 0
+                        for(const request of requests.data.Requests){
+                            if(!request.claimed){
+                                unclaimed++
+                            }
+                        }     
+                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** ${unclaimed===1? 'request':'requests'}`)
                     })
                     .catch( err => {
                         console.log(err)
@@ -50,7 +67,7 @@ const onHour = new CronJob('0 * * * * *',  async function statusUpdate() {
 })
 // const halfHour = new CronJob('0 30 * * * *', statusUpdate())
 onHour.start()
-// halfHour.start()
+halfHour.start()
 
 
 bot.on( 'message' , async message => {
