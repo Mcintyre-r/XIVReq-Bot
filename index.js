@@ -136,6 +136,26 @@ bot.on( 'message' , async message => {
             message.channel.send('There are Currently **0** unclaimed requests.')
             }
             break;
+        case 'update' :
+            if (message.member.hasPermission("MANAGE_MESSAGES")) {
+                axios.get('https://xivreq.herokuapp.com/api/requests')
+                    .then( requests => {
+                        let unclaimed = 0
+                        for(const request of requests){
+                            if(!request.claimed){
+                                unclaimed++
+                            }
+                        }
+                        const status = message.channel.messages.fetch("788828444288614413")
+                        status.edit(`There are Currently **${unclaimed}** requests`)
+                    })
+                    .catch( err => {
+                        console.log(err)
+                        message.reply('Something went wrong please try again later.')
+                    })
+            }
+            break;
+
     }
 }
 })   
