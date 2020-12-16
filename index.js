@@ -212,9 +212,11 @@ bot.on( 'message' , async message => {
                 .setDescription('The prefix for all commands is ? followed by the command (I.E. ?help) Then any parameters required.')
                 .addFields(
                     {name: '?help', value:['- Returns this reply showing all possible commands','\n']},
-                    {name: '?request <arg>', value: ['- Currently being worked on.','\n']}
+                    {name: '?request ItemName', value: ['- Starts a request for chosen item.','- Will prompt for quantity once entered','- The XIVAPI is fairly smart with searches, but if wrong item is requests simply delete, and re-request with more specificity','\n']},
+                    {name: '?crafter', value: ['- Used to register as a crafter within the system','- Will prompt user for confirmation that they want to become a crafter','- After using this command if you were logged in on the site you will need to relog to see changes','\n']},
+                    {name: '?update', value: ['- Forces pinned message to update with current amount of unclaimed requests','- Note that this will naturally happen every thirty minutes regardless','\n']}
                 )
-                message.reply(helpEmbed)
+                message.reply(helpEmbed).then( r => r.delete ({timeout: 60000})).catch(err => console.log(err)) 
                 break;
 
     }
