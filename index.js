@@ -180,7 +180,6 @@ bot.on( 'message' , async message => {
             break;
         case 'update' :
             message.delete({ timeout: 20000 })
-            if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 const botChannel = await bot.channels.fetch("785363660305596416")
                 const status = await botChannel.messages.fetch("788828444288614413")
                 axios.get('https://xivreq.herokuapp.com/api/requests')
@@ -196,7 +195,6 @@ bot.on( 'message' , async message => {
                                 .catch( err => {
                                     console.log(err)
                                 })
-            }
             break;
 
     }
