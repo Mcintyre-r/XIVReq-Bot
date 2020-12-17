@@ -122,7 +122,6 @@ bot.on( 'message' , async message => {
             }
             axios.get('https://xivreq.herokuapp.com/api/user/', { params: {'uuid': user.uuid}})
                 .then( retUser => {
-                 
                     if(retUser.data){
                         if(retUser.data.crafter){
                             message.reply('You are already registered as a crafter :)').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
@@ -142,8 +141,6 @@ bot.on( 'message' , async message => {
                                     } else{
                                         message.channel.send('Request Voided...').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
                                     }
-
-                            
                         })}
                     } else {
                         message.reply("Are you sure you want to become a crafter? (response valid for 10 seconds)").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
@@ -217,7 +214,61 @@ bot.on( 'message' , async message => {
                 )
                 message.reply(helpEmbed).then( r => r.delete ({timeout: 60000})).catch(err => console.log(err)) 
                 break;
-
+            case 'set' :
+                if(item !== '?set') {
+                    // parses given number from string to int
+                         
+                    const setSubmit = item.replace("?set", "")
+                    post.quantity = 1;
+                    post.requestedBy = message.author.username+'#'+message.author.discriminator;
+                    post.requesterId = message.author.id;
+                    post.requesterPicture = message.author.avatar;
+                    post.item = itemSubmit.trimStart()
+                    const user = message.author
+        
+                    axios.get(`https://xivreq.herokuapp.com/api/set?name=${setSubmit}`)
+                    .then(setClass => {
+                        const jobs = {
+                            drk: 'darkknight',
+                            mch: 'machinist',
+                            whm: 'whitemage',
+                            gnb: 'gunbreaker',
+                            ast: 'astrologian',
+                            blm: 'blackmage',
+                            brd: 'bard',
+                            dnc: 'dancer',
+                            drg: 'dragoon',
+                            mnk: 'monk',
+                            nin: 'ninja',
+                            pld: 'paladin',
+                            rdm: 'redmage',
+                            sam: 'samurai',
+                            war: 'warrior',
+                            sch: 'scholar',
+                            smn: 'summoner',
+                        }
+                        if(setClass){
+                        post.item = `${setClass.toUppercase()} set`
+                        post.itemIcon = `https://xivapi.com/cj/1/${jobs[setClass]}.png`
+                        post.itemID = 00000
+                        post.set = true
+                        post.setClass = setClass
+                        axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
+                        .then(res => message.channel.send('Request submitted, check status at https://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+                        .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
+                        } else {
+                            message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+                    })
+                } else {
+                    message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+                }
+                
+                break;                
     }
 }
 })   
