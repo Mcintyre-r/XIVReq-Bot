@@ -247,6 +247,7 @@ bot.on( 'message' , async message => {
                             sch: 'scholar',
                             smn: 'summoner',
                         }
+                        console.log(setClass)
                         if(setClass){
                         post.item = `${setClass.toUppercase()} set`
                         post.itemIcon = `https://xivapi.com/cj/1/${jobs[setClass]}.png`
