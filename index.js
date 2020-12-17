@@ -227,7 +227,8 @@ bot.on( 'message' , async message => {
                     const user = message.author
         
                     axios.get(`https://xivreq.herokuapp.com/api/set?name=${post.item}`)
-                    .then(setClass => {
+                    .then(res => {
+                        const job = res.data.class
                         const jobs = {
                             drk: 'darkknight',
                             mch: 'machinist',
@@ -247,13 +248,13 @@ bot.on( 'message' , async message => {
                             sch: 'scholar',
                             smn: 'summoner',
                         }
-                        console.log(setClass)
-                        if(setClass){
-                        post.item = `${setClass.toUppercase()} set`
-                        post.itemIcon = `https://xivapi.com/cj/1/${jobs[setClass]}.png`
+                        console.log(job)
+                        if(job){
+                        post.item = `${job.toUppercase()} set`
+                        post.itemIcon = `https://xivapi.com/cj/1/${jobs[job]}.png`
                         post.itemID = 00000
                         post.set = true
-                        post.setClass = setClass
+                        post.setClass = job
                         axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
                         .then(res => message.channel.send('Request submitted, check status at https://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
                         .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
