@@ -226,7 +226,7 @@ bot.on( 'message' , async message => {
                     post.item = setSubmit.trimStart()
                     const user = message.author
         
-                    axios.get(`https://xivreq.herokuapp.com/api/set?name=${setSubmit}`)
+                    axios.get(`https://xivreq.herokuapp.com/api/set?name=${item}`)
                     .then(setClass => {
                         const jobs = {
                             drk: 'darkknight',
