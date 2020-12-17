@@ -215,9 +215,8 @@ bot.on( 'message' , async message => {
                 message.reply(helpEmbed).then( r => r.delete ({timeout: 60000})).catch(err => console.log(err)) 
                 break;
             case 'set' :
-                if(item !== '?set') {
-                    // parses given number from string to int
-                         
+                message.delete({ timeout: 20000 })
+                if(item !== '?set') {           
                     const setSubmit = item.replace("?set", "")
                     post.quantity = 1;
                     post.requestedBy = message.author.username+'#'+message.author.discriminator;
