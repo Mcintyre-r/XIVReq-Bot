@@ -9,7 +9,6 @@ const PREFIX = '?'
 bot.on('ready', () =>{
     console.log('Req-Bot Online')
 })
-bot.on("debug", console.log)
 
 const onHour = new CronJob('0 0 * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("785363660305596416")
