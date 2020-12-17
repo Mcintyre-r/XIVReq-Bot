@@ -250,7 +250,7 @@ bot.on( 'message' , async message => {
                         }
                         console.log(job)
                         if(job){
-                        post.item = `${job.toUppercase()} set`
+                        post.item = `${job.toUpperCase()} set`
                         post.itemIcon = `https://xivapi.com/cj/1/${jobs[job]}.png`
                         post.itemID = 00000
                         post.set = true
