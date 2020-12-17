@@ -223,7 +223,7 @@ bot.on( 'message' , async message => {
                     post.requestedBy = message.author.username+'#'+message.author.discriminator;
                     post.requesterId = message.author.id;
                     post.requesterPicture = message.author.avatar;
-                    post.item = itemSubmit.trimStart()
+                    post.item = setSubmit.trimStart()
                     const user = message.author
         
                     axios.get(`https://xivreq.herokuapp.com/api/set?name=${setSubmit}`)
