@@ -210,20 +210,21 @@ bot.on( 'message' , async message => {
                     {name: '?help', value:['- Returns this reply showing all possible commands','\n']},
                     {name: '?request ItemName', value: ['- Starts a request for chosen item.','- Will prompt for quantity once entered','- The XIVAPI is fairly smart with searches, but if wrong item is requests simply delete, and re-request with more specificity','\n']},
                     {name: '?crafter', value: ['- Used to register as a crafter within the system','- Will prompt user for confirmation that they want to become a crafter','- After using this command if you were logged in on the site you will need to relog to see changes','\n']},
-                    {name: '?update', value: ['- Forces pinned message to update with current amount of unclaimed requests','- Note that this will naturally happen every thirty minutes regardless','\n']}
+                    {name: '?update', value: ['- Forces pinned message to update with current amount of unclaimed requests','- Note that this will naturally happen every thirty minutes regardless','\n']},
+                    {name: '?set job', value: ['- Requests a full set of Exarchic gear','- Use job abreviations instead of full name. I.E. ?set nin, ?set drk, ?set pld, ?set sch','- Request is kept as one full request, but can still be exported to teamcraft.','\n']}
                 )
                 message.reply(helpEmbed).then( r => r.delete ({timeout: 60000})).catch(err => console.log(err)) 
                 break;
             case 'set' :
                 message.delete({ timeout: 20000 })
                 if(item !== '?set') {           
-                    const setSubmit = item.replace("?set", "")
+                    const setSubmit = item.replace("?set", "");
                     post.quantity = 1;
                     post.requestedBy = message.author.username+'#'+message.author.discriminator;
                     post.requesterId = message.author.id;
                     post.requesterPicture = message.author.avatar;
-                    post.item = setSubmit.trimStart()
-                    const user = message.author
+                    post.item = setSubmit.trimStart();
+                    const user = message.author;
         
                     axios.get(`https://xivreq.herokuapp.com/api/set?name=${post.item}`)
                     .then(res => {
