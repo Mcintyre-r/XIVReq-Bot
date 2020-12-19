@@ -6,7 +6,6 @@ const CronJob = require('cron').CronJob
 const movieDB = require("./models/movie-model.js");
 const viewerDB = require("./models/viewer-model.js")
 const powerDB = require("./models/power-model.js")
-// const monado = require('./assets/monado.mp4')
 require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config()
@@ -82,6 +81,7 @@ job.start()
 
 
 bot.on('message',async req => {
+
     const attachment = new MessageAttachment('https://cdn.discordapp.com/attachments/313148981502935040/697154625815707798/image0.gif');
     const channel = await bot.channels.fetch('716015727630483580');
     const raidChannel = await bot.channels.fetch('747097374312103977')
@@ -106,7 +106,7 @@ bot.on('message',async req => {
     // list of clip names
     powerDB.checkPower().then(res => {
         if(res["Power"] === true || req.author.id === '59423394055069696'){
-            const clips = ['blade','death','butter','frog','women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario','hungry', 'ride wife', 'king','love']
+            const clips = ['silence','blade','death','butter','frog','women', 'scissors','eekum bokum','really gay','law','gay','center', 'news', 'army', 'leader', 'yeet', 'lid', 'console', 'joker', 'rainbow', 'reyn', 'head', 'good thing', 'tough', 'jump', 'ooph', 'oof', 'vsauce', 'mario','hungry', 'ride wife', 'king','love']
             clips.forEach( async e =>{
                 if(message.includes(e) && req.author.id != 738254569238167643){
                     if(e === 'eekum bokum'){
@@ -225,6 +225,43 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     }
 })
 
+bot.on('voiceStateUpdate', async (oldMember, newMember) => {
+    const channelID = '716015727630483580'
+    const channel = await bot.channels.fetch(channelID)
+    if(newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id === '211556765492314112'){
+        const connection = await channel.join();
+        const dispatcher = connection.play(`./assets/sophia.mp3`);
+
+        dispatcher.on('start', () => {
+            console.log('Playing entrance clip');
+        });
+
+        dispatcher.on('finish', () => {
+            channel.leave()
+        });
+
+        dispatcher.on('error', console.error);
+    } else if (newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id === '217362661195776002'){
+        const connection = await channel.join();
+        const dispatcher = connection.play(`./assets/megumin.mp3`);
+
+        dispatcher.on('start', () => {
+            console.log('Playing entrance clip');
+        });
+
+        dispatcher.on('finish', () => {
+            channel.leave()
+        });
+
+        dispatcher.on('error', console.error);
+    }
+
+
+
+    
+})
+
+
 
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('722372816619569263');
@@ -260,7 +297,6 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
             channel.leave()
         }
     }
-
 })
 
 
@@ -269,12 +305,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 
 bot.on( 'message' , async message => {
     let item = message.content.toLowerCase()
-    let post = {
-        item: '',
-        quantity: 0,
-        requestedBy: '',
-        completed: false
-    }
+
 
     let args = message.content.substring(PREFIX.length).split(" ");
 
@@ -334,54 +365,7 @@ bot.on( 'message' , async message => {
     
     switch(args[0].toLowerCase()){
 
-        // submits item request for request project
-        case 'request' :
 
-            message.reply("Please submit a quantity... Will expire in 10 seconds..").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-            message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
-                const quantity = collected.first().content
-                collected.first().delete({timeout: 1000 * 10})
-
-            // User Checks if submitted request exists and then formats request for submission.     
-            if(item !== '?request') {
-                // parses given number from string to int
-                const trueQuan = parseInt(quantity)      
-                const itemSubmit = item.replace("?request", "")
-                post.quantity = trueQuan;
-                post.requestedBy = message.author.username;
-                post.requesterId = message.author.id;
-                post.item = itemSubmit.trimStart()
-
-                axios.get(`https://xivapi.com/search?string=${post.item}&private_key=73bc4666b8044a95acbe3b469b59c0079beaf9666d164a35a68846fbd4f99f2f`)
-                .then(response => {
-                    
-                    const apiItem = response.data.Results
-                    // console.log(response.data)
-                    if(apiItem[0]){
-                        console.log(apiItem[0])
-                    post.item = apiItem[0].Name
-                    post.itemIcon = `https://xivapi.com${apiItem[0].Icon}`
-                    post.itemID = apiItem[0].ID
-                    console.log(post)
-                    // axios.post('http://localhost:8000/api/projects', post)
-                    // .then(res => message.channel.send('Request submitted now shut up \n Check status at http://localhost:3000/').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
-                    // .catch(err => message.channel.send('There was an error submitting your request please check request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
-                    } else {
-                        message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                    }
-                    
-                })
-                .catch(err => {
-                    message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                })
-
-               
-            } else {
-                message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-            }
-            })
-            break;
-        
         // returns a list of members in ward fc that either do or dont have the queried minion
         case 'minion' :
             message.reply("Specify True or False... Expires in 10s...").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
@@ -675,22 +659,21 @@ bot.on( 'message' , async message => {
             const mineEmbed = new MessageEmbed()
                 .setColor('#FFA500')
                 .setAuthor('Minecraft Server Info')
-                .setTitle('Info to setup:')
-                .setURL('https://www.curseforge.com/minecraft/modpacks/valhelsia-3')
+                // .setTitle('Info to setup:')
+                // .setURL('https://www.curseforge.com/minecraft/modpacks/all-the-mods-6/')
                 .setDescription('The following info is everything needed to join the server.')
                 .addFields(
-                    {name: 'Twitch App', value:'https://www.twitch.tv/downloads/', inline: true},
-                    {name: 'Mod Pack', value: ['Valhelsia 3', 'Choose version 3.0.14'], inline: true},
+                    {name: 'MultiMC', value:'https://multimc.org/#Download', inline: true},
+                    {name: 'Mod Pack', value: ['All The Mods 6', 'Choose version 1.3.3', 'https://www.curseforge.com/minecraft/modpacks/all-the-mods-6/download/3124239'], inline: true},
                     {name: 'Server Address', value: 'exa-li.com'},
-                    {name: 'Set Memory to atleast 7gb', value: 'https://puu.sh/GmPYE/a1780d409e.png'},
-                    {name: 'Addition Mods', value: ['https://www.curseforge.com/minecraft/mc-mods/morevanillalib/files/3003835','https://www.curseforge.com/minecraft/mc-mods/vanilla-hammers-forge/files/2991221']},
+                    {name: 'Set Memory to atleast 7gb', value: 'https://i.imgur.com/VDopARs.png'},
+                    // {name: 'Addition Mods', value: ['https://www.curseforge.com/minecraft/mc-mods/morevanillalib/files/3003835','https://www.curseforge.com/minecraft/mc-mods/vanilla-hammers-forge/files/2991221']},
                     {name: 'If you need help ping:', value: '@Exa'}
                 )
             message.reply(mineEmbed)
             break;
 
-// tank :Tank~1:748933412093689889
-// dps 748933412093689889 
+
 
     }
 })
