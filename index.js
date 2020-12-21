@@ -54,9 +54,9 @@ bot.on('raw', async (packet) => {
     const channel = await bot.channels.fetch(packet.d.channel_id);
     const message = await channel.messages.fetch(packet.d.message_id);
     const roles = {
-        '791016914704269317' : 'Oongaboonga',
+        '791167942921551882' : 'Oongaboonga',
         '791168038262276156' : 'MineCrafties',
-        '791167942921551882' : 'PVPers',
+        '791168065337163796' : 'PVPers',
     }
     const keys = Object.keys(roles)
 
