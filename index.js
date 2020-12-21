@@ -11,9 +11,6 @@ require('ffmpeg-static')
 require('dotenv').config()
 
 
-
-
-
 // Queue for handling api requests
 const queue = new Queue({
     rules: {                     // Describing our rules by rule name
@@ -34,10 +31,10 @@ const queue = new Queue({
     },
     retryTime: 10,              // Default retry time, in seconds. Can be configured in retry fn
     ignoreOverallOverheat: true  // Should we ignore overheat of queue itself
-  })
+})
 
-  // Compare function to sort
-  function compare(a, b) {
+// Compare function to sort
+function compare(a, b) {
     var nameA = a.name.toUpperCase(); // ignore upper and lowercase
     var nameB = b.name.toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
@@ -51,13 +48,44 @@ const queue = new Queue({
     return 0
 }
 
-
 const PREFIX = '?'
 
-bot.on('ready', () =>{
+bot.on('ready', async () =>{
     console.log('Exa-Bot Online')
 })
 
+
+bot.on('raw', async (packet) => {
+    if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791040740268179517') return;
+    
+    const channel = await bot.channels.fetch(packet.d.channel_id);
+    const message = await channel.messages.fetch(packet.d.message_id);
+    const roles = {
+        '791016914704269317' : 'test1',
+        '751666416335192114' : 'test2',
+        '738255120554262575' : 'test3',
+    }
+    const keys = Object.keys(roles)
+
+    if(!keys.includes(packet.d.emoji.id)){
+        message.reactions.cache.each( react =>{
+            if(!keys.includes(react._emoji.id)){
+                react.remove()
+            }
+        })
+        packet.t === 'MESSAGE_REACTION_ADD' ? message.reactions.cache.get(packet.d.emoji.id).remove().catch(error => console.error('Failed to remove reactions: ', error)): null;
+        return;
+    }
+
+    const user = await message.guild.members.fetch(packet.d.user_id)
+    const role = message.guild.roles.cache.find(role => role.name === roles[packet.d.emoji.id]);
+    if(packet.t === 'MESSAGE_REACTION_ADD'){
+        user.roles.add(role)
+    } else if (packet.t === 'MESSAGE_REACTION_REMOVE'){
+        user.roles.remove(role)
+    }
+
+});
 
 const job = new CronJob('0 0 0 * * 1', async function(){
     const textChat = await bot.channels.fetch('716015727630483579')
@@ -71,13 +99,8 @@ const job = new CronJob('0 0 0 * * 1', async function(){
 //     movieChat.send('<@&761665699407200286> Movie starting in one hour!')
 // })
 
-
 job.start()
 // movieJob.start()
-
-
-
-
 
 
 bot.on('message',async req => {
@@ -187,7 +210,6 @@ bot.on('message',async req => {
     }
 })
 
-
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('716015727630483580');
     const raidChannel = await bot.channels.fetch('747097374312103977');
@@ -260,8 +282,6 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 
     
 })
-
-
 
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channel = await bot.channels.fetch('722372816619569263');
@@ -509,11 +529,15 @@ bot.on( 'message' , async message => {
         case 'clear' :
             if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 console.log('Action: Clearing Messages')
-                message.channel.bulkDelete(100, true)
+                message.channel.messages.fetch({limit:100})
+                .then(fetched => {
+                    const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned)
+                    message.channel.bulkDelete(notPinned, true)
                    .then(res => {message.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
                     .catch(err => {
                     message.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
-                    console.log(err)})                        
+                    console.log(err)})     
+                })                  
             }
             else{
                 i=0
@@ -671,6 +695,26 @@ bot.on( 'message' , async message => {
                     {name: 'If you need help ping:', value: '@Exa'}
                 )
             message.reply(mineEmbed)
+            break;
+        case 'reaction':
+            console.log('Action: Showing Reaction info')
+            const reactEmbed = new MessageEmbed()
+                .setColor('#FFA500')
+                .setAuthor('Role Reaction setup')
+                .setDescription('React to this message to obtain the following roles \n')
+                .addFields(
+                    {name: '<a:myDoge:791016914704269317> : to become as Dog', value:'--', inline: false},
+                    {name: '<a:mumbo:751666416335192114> : to become as Mumbo', value:'--', inline: false},
+                    {name: '<:peepo:738255120554262575> : to become as Peepo', value:'--', inline: false},
+                )
+            message.channel.send(reactEmbed)
+            break;
+        case 'react':
+            const botChannel = await bot.channels.fetch('748695470452375653');
+            const reactor = await botChannel.messages.fetch('791040740268179517');
+            reactor.react(message.guild.emojis.cache.get('791016914704269317'))
+            reactor.react(message.guild.emojis.cache.get('738255120554262575'))
+            reactor.react(message.guild.emojis.cache.get('751666416335192114'))
             break;
 
 
