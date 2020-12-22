@@ -48,6 +48,37 @@ const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
 onHour.start()
 halfHour.start()
 
+bot.on('raw', async (packet) => {
+    if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '') return;
+    
+    const channel = await bot.channels.fetch(packet.d.channel_id);
+    const message = await channel.messages.fetch(packet.d.message_id);
+    const roles = {
+        '791016914704269317' : 'Oongaboonga',
+        '791168038262276156' : 'MineCrafties',
+        '791167942921551882' : 'PVPers',
+    }
+    const keys = Object.keys(roles)
+
+    if(!keys.includes(packet.d.emoji.id)){
+        message.reactions.cache.each( react =>{
+            if(!keys.includes(react._emoji.id)){
+                react.remove()
+            }
+        })
+        packet.t === 'MESSAGE_REACTION_ADD' ? message.reactions.cache.get(packet.d.emoji.id).remove().catch(error => console.error('Failed to remove reactions: ', error)): null;
+        return;
+    }
+
+    const user = await message.guild.members.fetch(packet.d.user_id)
+    const role = message.guild.roles.cache.find(role => role.name === roles[packet.d.emoji.id]);
+    if(packet.t === 'MESSAGE_REACTION_ADD'){
+        user.roles.add(role)
+    } else if (packet.t === 'MESSAGE_REACTION_REMOVE'){
+        user.roles.remove(role)
+    }
+
+});
 
 bot.on( 'message' , async message => {
     if(message.channel.id !== '785363660305596416' && message.author.id !== '706669135915909140'){
@@ -270,7 +301,24 @@ bot.on( 'message' , async message => {
                     message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
                 }
                 
-                break;                
+                break;   
+            case 'reaction':
+                    console.log('Action: Showing Reaction info')
+                    const reactEmbed = new MessageEmbed()
+                        .setColor('#FFA500')
+                        .setAuthor('Role Selection')
+                        .setDescription('React to this message to obtain the following roles: \n')
+                        .addFields(
+                            {name: '<:PVP:791168065337163796> : PVPers', value:['Access to the PVP channel','--'], inline: false},
+                            {name: '<:ARK:791167942921551882> : Oongaboonga', value:['Access to the Ark Survival Evolved channel','--'], inline: false},
+                            {name: '<:MC:791168038262276156> : Minecrafties', value:['Access to the Minecraft Channel','--'], inline: false},
+                        )
+                    message.channel.send(reactEmbed).then( mes => {
+                        mes.react(message.guild.emojis.cache.get('791168065337163796'))
+                        mes.react(message.guild.emojis.cache.get('791167942921551882'))
+                        mes.react(message.guild.emojis.cache.get('791168038262276156'))
+                    })
+                break;             
     }
 }
 })   
