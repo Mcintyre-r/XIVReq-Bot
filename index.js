@@ -49,7 +49,7 @@ onHour.start()
 halfHour.start()
 
 bot.on('raw', async (packet) => {
-    if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '') return;
+    if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '' ) return;
     
     const channel = await bot.channels.fetch(packet.d.channel_id);
     const message = await channel.messages.fetch(packet.d.message_id);
@@ -81,7 +81,7 @@ bot.on('raw', async (packet) => {
 });
 
 bot.on( 'message' , async message => {
-    if(message.channel.id !== '785363660305596416' && message.author.id !== '706669135915909140'){
+    if(!['791171226026246145','785363660305596416'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
     } else {
 
 
