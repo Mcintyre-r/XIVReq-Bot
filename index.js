@@ -49,7 +49,7 @@ onHour.start()
 halfHour.start()
 
 bot.on('raw', async (packet) => {
-    if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '' ) return;
+    if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791172262728433686' ) return;
     
     const channel = await bot.channels.fetch(packet.d.channel_id);
     const message = await channel.messages.fetch(packet.d.message_id);
