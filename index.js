@@ -420,16 +420,16 @@ bot.on( 'message' , async message => {
             case 'layer2':
                 message.channel.send(`**A**h, distinctly I remember it was in the bleak **December**;
 
-                Tomorrow, and tomorrow, and tomorrow,
-                Creeps in this petty pace from day to day,
-                To the last syllable of recorded time;
-                And all our yesterdays have lighted fools
-                The way to dusty death. Out, out, brief candle!
-                Life's but a walking shadow, a poor player,
-                That struts and frets his hour upon the stage,
-                And then is heard no more. It is a tale
-                Told by an idiot, full of sound and fury,
-                Signifying nothing.
+Fayaddai, mzp fayaddai, mzp fayaddai,
+Odqqbe uz ftue bqffk bmoq rday pmk fa pmk,
+Fa ftq xmef ekxxmnxq ar dqoadpqp fuyq;
+Mzp mxx agd kqefqdpmke tmhq xustfqp raaxe
+Ftq imk fa pgefk pqmft. Agf, agf, nduqr omzpxq!
+Xurq'e ngf m imxwuzs etmpai, m baad bxmkqd,
+Ftmf efdgfe mzp rdqfe tue tagd gbaz ftq efmsq,
+Mzp ftqz ue tqmdp za yadq. Uf ue m fmxq
+Faxp nk mz upuaf, rgxx ar eagzp mzp rgdk,
+Euszurkuzs zaftuzs.
                     `)
                 break;
         }}
