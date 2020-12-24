@@ -44,9 +44,6 @@ const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
                         console.log(err)
                     })
 })
-onHour.start()
-halfHour.start()
-
 const twitch = new CronJob('0 * * * * *', async function (){
     const twitchChannel = await bot.channels.fetch("791486341337972747")
     const trackerMessage = await twitchChannel.messages.fetch("791488829110222879")
@@ -92,12 +89,9 @@ const twitch = new CronJob('0 * * * * *', async function (){
                         `)
     trackerMessage.suppressEmbeds(true)
 })
-
+onHour.start()
+halfHour.start()
 twitch.start()
-
-
-
-
 
 
 bot.on('raw', async (packet) => {
@@ -109,6 +103,7 @@ bot.on('raw', async (packet) => {
         '791167942921551882' : 'Oongaboonga',
         '791168038262276156' : 'MineCrafties',
         '791168065337163796' : 'PVPers',
+        '791560712584560670' : '??????'
     }
     const keys = Object.keys(roles)
 
@@ -371,43 +366,10 @@ bot.on( 'message' , async message => {
                         mes.react(message.guild.emojis.cache.get('791168038262276156'))
                     })
                 break;  
-            case 'twitch':
-                    console.log('Action: Creating Twitch tracker')
-                    const twitchUsers = {
-                        'PhiiDelity': 'offline',
-                        'GlemyToto': 'offline',
-                        'OrbitalFramework': 'offline',
-                        'Ophie_v': 'offline',
-                        'EpicDragonzord': 'offline',
-                        'HiImNewInTown': 'offline'
-                    } 
-                    message.channel.send(`**Ward Twitch channels** \n 
-**Cucktales: **
-    ** Phii Delity: ** ${twitchUsers['PhiiDelity']}
-    ** Ophelia Varus: ** ${twitchUsers['Ophie_v']} 
-    ** Nivie Carrilaut: ** ${twitchUsers['GlemyToto']} 
-**Abusement Park: **
-    ** Senretsu Kokousen: ** ${twitchUsers['HiImNewInTown']}
-    ** Jarl Nilmerg: ** ${twitchUsers['EpicDragonzord']} 
-**Thunder Thighs: **
-    ** Insta Bility: ** ${twitchUsers['OrbitalFramework']}
-                    `)     
-                    break;   
             case 'test':
-                const phii = await axios.get(`https://api.twitch.tv/helix/streams?user_login=phiidelity`, {
-            headers: {
-                'Authorization': process.env.TWITCH_AUTH,
-                'Client-Id': process.env.TWITCH_SECRET
-                } 
-            })
-            const me = await axios.get(`https://api.twitch.tv/helix/streams?user_login=exa_rain`, {
-                headers: {
-                    'Authorization': process.env.TWITCH_AUTH,
-                    'Client-Id': process.env.TWITCH_SECRET
-                }   
-            })
-            console.log('phii', phii.data)
-            console.log('me', me.data.data)
+                const channel = await bot.channels.fetch('791171226026246145');
+                const message = await channel.messages.fetch('791174012741877760');
+                message.react(message.guild.emojis.cache.get('791560712584560670'))
             break;
         }}
         
