@@ -397,8 +397,8 @@ bot.on( 'message' , async message => {
                     'Client-Id': process.env.TWITCH_SECRET
                 }   
             })
-            console.log('phii', phii)
-            console.log('me', me)
+            console.log('phii', phii.data)
+            console.log('me', me.data.data)
             break;
         }}
         
