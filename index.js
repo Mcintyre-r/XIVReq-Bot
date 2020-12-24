@@ -94,8 +94,28 @@ const twitch = new CronJob('0 * * * * *', async function (){
 onHour.start()
 halfHour.start()
 twitch.start()
+async function layerOne(){
+    const layer1 = await bot.channels.fetch('791774466886729758')
+    layer1.send('The numbers Warden, what do they mean?')
+}
+async function layerTwo(){
+    const layer2 = await bot.channels.fetch('791777788302327870')
+    layer2.send(`**A**h, distinctly I remember it was in the bleak **December**;
 
-
+Tomorrow, and tomorrow, and tomorrow,
+Creeps in this petty pace from day to day,
+To the last syllable of recorded time;
+And all our yesterdays have lighted fools
+The way to dusty death. Out, out, brief candle!
+Life's but a walking shadow, a poor player,
+That struts and frets his hour upon the stage,
+And then is heard no more. It is a tale
+Told by an idiot, full of sound and fury,
+Signifying nothing.
+    `)
+}
+layerOne()
+layerTwo()
 bot.on('raw', async (packet) => {
     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
     
@@ -157,7 +177,24 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
         }
     }
 })
-
+bot.on('message', async message => {
+    const user = await message.guild.members.fetch(message.author.id)
+    const role = message.guild.roles.cache.find( role => role.name === 'door')
+    let mes = message.content.toLowerCase()
+    message.delete({ timeout: 5000 })
+    if(message.channel.id === '791774466886729758'){
+        if(mes.includes('nevermore')){
+            message.reply('Tis some visitor, tapping at my chamber door...').then(r => r.delete(10000)).catch(err=>console.log(err))
+            user.roles.add(role)
+        }
+    }
+    if(message.channel.id === '791777788302327870'){
+        if(mes.includes('macbeth')){
+            message.reply('I will not yield...').then(r => r.delete(10000)).catch(err=>console.log(err))
+            user.roles.add(role2)
+        }
+    }
+})
 
 bot.on( 'message' , async message => {
     if(!['791171226026246145','785363660305596416','791486341337972747'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
@@ -307,7 +344,6 @@ bot.on( 'message' , async message => {
                                     console.log(err)
                                 })
             break;
-
             case 'help' :
                 console.log('Action: Offering help')
                 message.delete({timeout: 1000 * 20})
