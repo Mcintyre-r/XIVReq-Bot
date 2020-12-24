@@ -94,28 +94,7 @@ const twitch = new CronJob('0 * * * * *', async function (){
 onHour.start()
 halfHour.start()
 twitch.start()
-async function layerOne(){
-    const layer1 = bot.channels.cache.get('791774466886729758')
-    layer1.send('The numbers Warden, what do they mean?')
-}
-async function layerTwo(){
-    const layer2 = bot.channels.cache.get('791777788302327870')
-    layer2.send(`**A**h, distinctly I remember it was in the bleak **December**;
 
-Tomorrow, and tomorrow, and tomorrow,
-Creeps in this petty pace from day to day,
-To the last syllable of recorded time;
-And all our yesterdays have lighted fools
-The way to dusty death. Out, out, brief candle!
-Life's but a walking shadow, a poor player,
-That struts and frets his hour upon the stage,
-And then is heard no more. It is a tale
-Told by an idiot, full of sound and fury,
-Signifying nothing.
-    `)
-}
-layerOne()
-layerTwo()
 bot.on('raw', async (packet) => {
     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
     
@@ -439,7 +418,26 @@ bot.on( 'message' , async message => {
                 const message = await channel.messages.fetch('791174012741877760');
                 message.react(message.guild.emojis.cache.get('791560712584560670'))
             break;
+            case 'layer1':
+                message.channel.send('The numbers Warden, what do they mean?')
+                break;
+            case 'layer2':
+                message.channel.send(`**A**h, distinctly I remember it was in the bleak **December**;
+
+                Tomorrow, and tomorrow, and tomorrow,
+                Creeps in this petty pace from day to day,
+                To the last syllable of recorded time;
+                And all our yesterdays have lighted fools
+                The way to dusty death. Out, out, brief candle!
+                Life's but a walking shadow, a poor player,
+                That struts and frets his hour upon the stage,
+                And then is heard no more. It is a tale
+                Told by an idiot, full of sound and fury,
+                Signifying nothing.
+                    `)
+                break;
         }}
+
         
 })   
  
