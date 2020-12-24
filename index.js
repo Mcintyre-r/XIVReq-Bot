@@ -95,11 +95,11 @@ onHour.start()
 halfHour.start()
 twitch.start()
 async function layerOne(){
-    const layer1 = await bot.channels.fetch('791774466886729758')
+    const layer1 = bot.channels.cache.get('791774466886729758')
     layer1.send('The numbers Warden, what do they mean?')
 }
 async function layerTwo(){
-    const layer2 = await bot.channels.fetch('791777788302327870')
+    const layer2 = bot.channels.cache.get('791777788302327870')
     layer2.send(`**A**h, distinctly I remember it was in the bleak **December**;
 
 Tomorrow, and tomorrow, and tomorrow,
