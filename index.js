@@ -176,7 +176,7 @@ bot.on('message', async message => {
 })
 
 bot.on( 'message' , async message => {
-    if(!['791171226026246145','785363660305596416','791486341337972747'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
+    if(!['791171226026246145','785363660305596416','791486341337972747','791774466886729758','791777788302327870'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
     } else {
 
 
