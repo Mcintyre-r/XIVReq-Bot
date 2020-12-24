@@ -127,6 +127,36 @@ bot.on('raw', async (packet) => {
 
 });
 
+bot.on('voiceStateUpdate', async (oldMember, newMember) => {
+    const channel = await bot.channels.fetch('791561945047760937');
+    let newUserChannel = newMember.channel
+    if(newMember.channel != null){
+        if(newUserChannel.name === '??????'){
+            const connection = await channel.join();
+            let users = Array.from(channel.members.keys());
+            if(users.length > 1){
+                const dispatcher = connection.play('./assets/numbers.mp3');
+    
+                dispatcher.on('start', () => {
+                    console.log('???????????');
+                });
+    
+                dispatcher.on('finish', () => {
+                    console.log('audio.mp3 has finished playing!');
+                    channel.leave()
+                });
+                dispatcher.on('error', console.error);
+            }  
+        }
+    }
+    if(oldMember.channel != null){
+        if(oldMember.channel.name === '??????'){
+            channel.leave()
+        }
+    }
+})
+
+
 bot.on( 'message' , async message => {
     if(!['791171226026246145','785363660305596416','791486341337972747'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
     } else {
