@@ -2,7 +2,6 @@ const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
 const bot  = new Client();
 const axios = require('axios');
 const { CronJob } = require('cron');
-const audio = require('./assets/numbers.mp3')
 require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config({path:'./.env'})
@@ -138,7 +137,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
             const connection = await channel.join();
             let users = Array.from(channel.members.keys());
             if(users.length > 1){
-                const dispatcher = connection.play(audio);
+                const dispatcher = connection.play('./assets/numbers.mp3');
     
                 dispatcher.on('start', () => {
                     console.log('???????????');
