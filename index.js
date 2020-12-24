@@ -68,7 +68,8 @@ const twitch = new CronJob('0 * * * * *', async function (){
         if(userData.data.data.length){
             twitchUsers[user] = `**live**
         Title: ${userData.data.data[0].title}
-        URL: https://www.twitch.tv/${user}`
+        URL: https://www.twitch.tv/${user}
+        `
         }
     }
     trackerMessage.edit(`**Ward Twitch channels** \n 
@@ -77,10 +78,12 @@ const twitch = new CronJob('0 * * * * *', async function (){
     Phii Delity: ${twitchUsers['PhiiDelity']}
     Ophelia Varus: ${twitchUsers['Ophie_v']} 
     Nivie Carrilaut: ${twitchUsers['GlemyToto']} 
+
 **Abusement Park: **
 
     Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}
     Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} 
+
 **Thunder Thighs: **
 
     Insta Bility: ${twitchUsers['OrbitalFramework']}
