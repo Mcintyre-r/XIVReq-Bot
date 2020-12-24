@@ -64,9 +64,9 @@ const twitch = new CronJob('0 * * * * *', async function (){
                 'Client-Id': process.env.TWITCH_SECRET
             }
         })
-        if(userData.body.data.length){
+        if(userData.data.data.length){
             twitchUsers[user] = `**live**
-Title: ${userData.body.data.title}
+Title: ${userData.data.data.title}
 URL: https://www.twitch.tv/${user}
             `
         }
@@ -85,6 +85,8 @@ URL: https://www.twitch.tv/${user}
     // 791486341337972747 channel id
     // 791488829110222879 message id
 })
+
+twitch.start()
 
 
 
