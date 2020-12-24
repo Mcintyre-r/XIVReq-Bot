@@ -44,9 +44,26 @@ const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
                         console.log(err)
                     })
 })
-
 onHour.start()
 halfHour.start()
+
+const twitch = new CronJob('0 * * * * *', async function (){
+    const twitchUsers = {
+        PhiiDelity: 'offline',
+        GlemyToto: 'offline',
+        OrbitalFramework: 'offline',
+        Ophie_v: 'offline',
+        EpicDragonzord: 'offline'
+    } 
+    for(const user of Object.keys(twitchUsers)){
+        axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, )
+    }
+})
+
+
+
+
+
 
 bot.on('raw', async (packet) => {
     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
@@ -318,7 +335,28 @@ bot.on( 'message' , async message => {
                         mes.react(message.guild.emojis.cache.get('791167942921551882'))
                         mes.react(message.guild.emojis.cache.get('791168038262276156'))
                     })
-                break;             
+                break;  
+            case 'twitch':
+                    console.log('Action: Creating Twitch tracker')
+                    const twitchUsers = {
+                        'PhiiDelity': 'offline',
+                        'GlemyToto': 'offline',
+                        'OrbitalFramework': 'offline',
+                        'Ophie_v': 'offline',
+                        'EpicDragonzord': 'offline',
+                        'HiImNewInTown': 'offline'
+                    } 
+                    message.channel.send(`**Ward Twitch channels** \n \n \n
+                    Cucktales: \n \n
+                    Phii Delity: ${twitchUsers['PhiiDelity']}\n
+                    Ophelia Varus: ${twitchUsers['Ophie_v']}\n
+                    Nivie Carrilaut: ${twitchUsers['GlemyToto']}\n \n \n
+                    Abusement Park: \n \n
+                    Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}\n
+                    Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} \n\n\n
+                    Thunder Thighs: \n \n
+                    Insta Bility: ${twitchUsers['OrbitalFramework']}
+                    `)           
     }
 }
 })   
