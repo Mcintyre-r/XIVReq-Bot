@@ -56,7 +56,8 @@ const twitch = new CronJob('0 * * * * *', async function (){
         OrbitalFramework: 'offline',
         Ophie_v: 'offline',
         EpicDragonzord: 'offline',
-        HiImNewInTown: 'offline'
+        HiImNewInTown: 'offline',
+        Tyyrm: 'offline'
     } 
     for(const user of Object.keys(twitchUsers)){
         const userData = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {
@@ -87,6 +88,7 @@ const twitch = new CronJob('0 * * * * *', async function (){
 **Thunder Thighs: **
 
     Insta Bility: ${twitchUsers['OrbitalFramework']}
+    Tyyrm Mahonokishi: ${twitchUsers['Tyyrm']}
                         `)
     trackerMessage.suppressEmbeds(true)
 })
