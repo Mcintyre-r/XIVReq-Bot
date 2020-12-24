@@ -55,7 +55,8 @@ const twitch = new CronJob('0 * * * * *', async function (){
         GlemyToto: 'offline',
         OrbitalFramework: 'offline',
         Ophie_v: 'offline',
-        EpicDragonzord: 'offline'
+        EpicDragonzord: 'offline',
+        HiImNewInTown: 'offline'
     } 
     for(const user of Object.keys(twitchUsers)){
         const userData = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {
@@ -66,21 +67,23 @@ const twitch = new CronJob('0 * * * * *', async function (){
         })
         if(userData.data.data.length){
             twitchUsers[user] = `**live**
-Title: ${userData.data.data.title}
-URL: https://www.twitch.tv/${user}
-            `
+        Title: ${userData.data.data[0].title}
+        URL: https://www.twitch.tv/${user}`
         }
     }
     trackerMessage.edit(`**Ward Twitch channels** \n 
 **Cucktales: **
-    ** Phii Delity: ** ${twitchUsers['PhiiDelity']}
-    ** Ophelia Varus: ** ${twitchUsers['Ophie_v']} 
-    ** Nivie Carrilaut: ** ${twitchUsers['GlemyToto']} 
+
+    Phii Delity: ${twitchUsers['PhiiDelity']}
+    Ophelia Varus: ${twitchUsers['Ophie_v']} 
+    Nivie Carrilaut: ${twitchUsers['GlemyToto']} 
 **Abusement Park: **
-    ** Senretsu Kokousen: ** ${twitchUsers['HiImNewInTown']}
-    ** Jarl Nilmerg: ** ${twitchUsers['EpicDragonzord']} 
+
+    Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}
+    Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} 
 **Thunder Thighs: **
-    ** Insta Bility: ** ${twitchUsers['OrbitalFramework']}
+
+    Insta Bility: ${twitchUsers['OrbitalFramework']}
                         `)
     // 791486341337972747 channel id
     // 791488829110222879 message id
