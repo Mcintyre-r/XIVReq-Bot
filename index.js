@@ -98,7 +98,7 @@ bot.on('raw', async (packet) => {
 });
 
 bot.on( 'message' , async message => {
-    if(!['791171226026246145','785363660305596416'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
+    if(!['791171226026246145','785363660305596416','791486341337972747'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
     } else {
 
 
@@ -346,16 +346,16 @@ bot.on( 'message' , async message => {
                         'EpicDragonzord': 'offline',
                         'HiImNewInTown': 'offline'
                     } 
-                    message.channel.send(`**Ward Twitch channels** \n \n \n
-                    Cucktales: \n \n
-                    Phii Delity: ${twitchUsers['PhiiDelity']}\n
-                    Ophelia Varus: ${twitchUsers['Ophie_v']}\n
-                    Nivie Carrilaut: ${twitchUsers['GlemyToto']}\n \n \n
-                    Abusement Park: \n \n
-                    Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}\n
-                    Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} \n\n\n
-                    Thunder Thighs: \n \n
-                    Insta Bility: ${twitchUsers['OrbitalFramework']}
+                    message.channel.send(`**Ward Twitch channels** \n \n 
+Cucktales: \n
+    Phii Delity: ${twitchUsers['PhiiDelity']}
+    Ophelia Varus: ${twitchUsers['Ophie_v']}
+    Nivie Carrilaut: ${twitchUsers['GlemyToto']} \n
+Abusement Park: \n 
+    Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}
+    Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} \n
+Thunder Thighs: \n
+    Insta Bility: ${twitchUsers['OrbitalFramework']}
                     `)           
     }
 }
