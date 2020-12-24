@@ -351,10 +351,10 @@ bot.on( 'message' , async message => {
     ** Phii Delity: ** ${twitchUsers['PhiiDelity']}
     ** Ophelia Varus: ** ${twitchUsers['Ophie_v']} 
     ** Nivie Carrilaut: ** ${twitchUsers['GlemyToto']} 
-Abusement Park: 
+**Abusement Park: **
     ** Senretsu Kokousen: ** ${twitchUsers['HiImNewInTown']}
     ** Jarl Nilmerg: ** ${twitchUsers['EpicDragonzord']} 
-Thunder Thighs: 
+**Thunder Thighs: **
     ** Insta Bility: ** ${twitchUsers['OrbitalFramework']}
                     `)           
     }
