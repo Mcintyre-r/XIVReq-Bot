@@ -88,8 +88,7 @@ const twitch = new CronJob('0 * * * * *', async function (){
 
     Insta Bility: ${twitchUsers['OrbitalFramework']}
                         `)
-    // 791486341337972747 channel id
-    // 791488829110222879 message id
+    trackerMessage.suppressEmbeds(true)
 })
 
 twitch.start()
