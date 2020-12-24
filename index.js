@@ -346,16 +346,16 @@ bot.on( 'message' , async message => {
                         'EpicDragonzord': 'offline',
                         'HiImNewInTown': 'offline'
                     } 
-                    message.channel.send(`**Ward Twitch channels** \n \n 
-Cucktales: \n
-    Phii Delity: ${twitchUsers['PhiiDelity']}
-    Ophelia Varus: ${twitchUsers['Ophie_v']}
-    Nivie Carrilaut: ${twitchUsers['GlemyToto']} \n
-Abusement Park: \n 
-    Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}
-    Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} \n
-Thunder Thighs: \n
-    Insta Bility: ${twitchUsers['OrbitalFramework']}
+                    message.channel.send(`**Ward Twitch channels** \n 
+**Cucktales: **
+    ** Phii Delity: ** ${twitchUsers['PhiiDelity']}
+    ** Ophelia Varus: ** ${twitchUsers['Ophie_v']} 
+    ** Nivie Carrilaut: ** ${twitchUsers['GlemyToto']} 
+Abusement Park: 
+    ** Senretsu Kokousen: ** ${twitchUsers['HiImNewInTown']}
+    ** Jarl Nilmerg: ** ${twitchUsers['EpicDragonzord']} 
+Thunder Thighs: 
+    ** Insta Bility: ** ${twitchUsers['OrbitalFramework']}
                     `)           
     }
 }
