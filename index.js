@@ -160,17 +160,19 @@ bot.on('message', async message => {
     const user = await message.guild.members.fetch(message.author.id)
     const role = message.guild.roles.cache.find( role => role.name === 'door')
     let mes = message.content.toLowerCase()
-    message.delete({ timeout: 5000 })
+    
     if(message.channel.id === '791774466886729758'){
         if(mes.includes('nevermore')){
             message.reply('Tis some visitor, tapping at my chamber door...').then(r => r.delete(10000)).catch(err=>console.log(err))
             user.roles.add(role)
+            message.delete({ timeout: 5000 })
         }
     }
     if(message.channel.id === '791777788302327870'){
         if(mes.includes('macbeth')){
             message.reply('I will not yield...').then(r => r.delete(10000)).catch(err=>console.log(err))
             user.roles.add(role2)
+            message.delete({ timeout: 5000 })
         }
     }
 })
@@ -413,11 +415,6 @@ bot.on( 'message' , async message => {
                         mes.react(message.guild.emojis.cache.get('791168038262276156'))
                     })
                 break;  
-            case 'test':
-                const channel = await bot.channels.fetch('791171226026246145');
-                const message = await channel.messages.fetch('791174012741877760');
-                message.react(message.guild.emojis.cache.get('791560712584560670'))
-            break;
             case 'layer1':
                 message.channel.send('The numbers Warden, what do they mean?')
                 break;
