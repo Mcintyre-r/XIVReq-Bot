@@ -195,7 +195,11 @@ bot.on('message', async message => {
         
         let correct = 0
         const answer = message.content.split(' ')
-        console.log(answer)
+        console.log('answer',answer)
+        console.log('tank', tank)
+        console.log('melee', melee)
+        console.log('ranged',ranged)
+        console.log('healer', healer)
         if(answer.length === 4){
             if(tank.has(answer[0])){
                 console.log('tank')
