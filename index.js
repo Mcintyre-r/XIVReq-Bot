@@ -2,6 +2,8 @@ const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
 const bot  = new Client();
 const axios = require('axios');
 const { CronJob } = require('cron');
+require('ffmpeg')
+require('ffmpeg-static')
 require('dotenv').config({path:'./.env'})
 
 const PREFIX = '?'
