@@ -158,22 +158,41 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 })
 bot.on('message', async message => {
     const user = await message.guild.members.fetch(message.author.id)
-    const role = message.guild.roles.cache.find( role => role.name === 'door')
+    const role = message.guild.roles.cache.find( role => role.name === 'dear')
+    const role2 = message.guild.roles.cache.find( role => role.name === 'adventurer')
+    const role3 = message.guild.roles.cache.find( role => role.name === 'never')
+    const role4 = message.guild.roles.cache.find( role => role.name === 'trust')
+    const role5 = message.guild.roles.cache.find( role => role.name === 'elavor')
+    const role6 = message.guild.roles.cache.find( role => role.name === 'violence')
     let mes = message.content.toLowerCase()
     if(message.channel.id === '791774466886729758'){
         if(mes.includes('nevermore')){
-            message.reply('Tis some visitor, tapping at my chamber door...').then(r => r.delete(10000)).catch(err=>console.log(err))
+            message.reply('Tis some visitor, tapping at my chamber door...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             user.roles.add(role)
             message.delete({ timeout: 5000 })
         }
     }
     if(message.channel.id === '791777788302327870'){
         if(mes.includes('macbeth')){
-            message.reply('I will not yield...').then(r => r.delete(10000)).catch(err=>console.log(err))
+            message.reply('I will not yield...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
             user.roles.add(role2)
             message.delete({ timeout: 5000 })
         }
     }
+    if(message.channel.id === '791800103399849994'){
+        console.log(message.author)
+        console.log(message.content)
+    }
+    if(message.channel.id === '791800327925792808'){}
+    if(message.channel.id === '791800408884117534'){}
+    if(message.channel.id === '791800484834574347'){
+        if(mes.includes('inferno')){
+            message.reply('This path leads only to violence...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+            user.roles.add(role6)
+            message.delete({ timeout: 5000 })
+        }
+    }
+    if(message.channel.id === '791802171599486976'){}
 })
 
 bot.on( 'message' , async message => {
@@ -433,8 +452,6 @@ Euszurkuzs zaftuzs.
                     `)
                 break;
         }}
-
-        
 })   
  
 bot.login(process.env.discordAPI)
