@@ -164,14 +164,10 @@ bot.on('message', async message => {
     const role4 = message.guild.roles.cache.find( role => role.name === 'trust')
     const role5 = message.guild.roles.cache.find( role => role.name === 'elavor')
     const role6 = message.guild.roles.cache.find( role => role.name === 'violence')
-    const tank = new Map()
-    const melee = new Map()
-    const ranged = new Map()
-    const healer = new Map()
-    tank.set( '<:war:232433632705380352>','<:GNB:598582951512506379>','<:drk:232434213612158976>','<:pld:232433599796871178>')
-    melee.set('<:nin:232434147401007104>','<:mnk:232433560525471744>','<:drg:232433525972926464>')
-    ranged.set('<:DNC:598583058743951360>','<:RDM:598584807051493378>', '<:mch:232434259632062464>','<:smn:232434101611659264>','<:blm:232433670110183424>', '<:brd:232433491927629824>')
-    healer.set('<:whm:232433710828486656>', '<:sch:232433749042659328>','<:ast:232434181907546113>')
+    const tank = [ '<:war:232433632705380352>','<:GNB:598582951512506379>','<:drk:232434213612158976>','<:pld:232433599796871178>']
+    const melee = ['<:nin:232434147401007104>','<:mnk:232433560525471744>','<:drg:232433525972926464>']
+    const ranged = ['<:DNC:598583058743951360>','<:RDM:598584807051493378>', '<:mch:232434259632062464>','<:smn:232434101611659264>','<:blm:232433670110183424>', '<:brd:232433491927629824>']
+    const healer = ['<:whm:232433710828486656>', '<:sch:232433749042659328>','<:ast:232434181907546113>']
     let mes = message.content.toLowerCase()
     //layer 1
     if(message.channel.id === '791774466886729758'){
@@ -191,29 +187,24 @@ bot.on('message', async message => {
     }
     //layer 3
     if(message.channel.id === '791800103399849994'){
-        console.log(user._roles)
+        // console.log(user._roles)
         
         let correct = 0
         const answer = message.content.split(' ')
-        console.log('answer',answer)
-        console.log('tank', tank)
-        console.log('melee', melee)
-        console.log('ranged',ranged)
-        console.log('healer', healer)
         if(answer.length === 4){
-            if(tank.has(answer[0])){
+            if(tank.includes(answer[0])){
                 console.log('tank')
                 correct+=1
             }
-            if(melee.has(answer[1])){
+            if(melee.includes(answer[1])){
                 console.log('melee')
                 correct+=1
             }
-            if(ranged.has(answer[2])){
+            if(ranged.includes(answer[2])){
                 console.log('ranged')
                 correct+=1
             }
-            if(healer.has(answer[3])){
+            if(healer.includes(answer[3])){
                 console.log('healer')
                 correct+=1
             }
