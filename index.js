@@ -191,10 +191,11 @@ bot.on('message', async message => {
     }
     //layer 3
     if(message.channel.id === '791800103399849994'){
-        console.log(user)
-        console.log()
+        console.log(user._roles)
+        
         let correct = 0
         const answer = message.content.split(' ')
+        console.log(answer)
         if(answer.length === 4){
             if(tank.has(answer[0])){
                 correct+=1
