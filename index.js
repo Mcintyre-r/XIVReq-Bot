@@ -193,27 +193,23 @@ bot.on('message', async message => {
         const answer = message.content.split(' ')
         if(answer.length === 4){
             if(tank.includes(answer[0])){
-                console.log('tank')
                 correct+=1
             }
             if(melee.includes(answer[1])){
-                console.log('melee')
                 correct+=1
             }
             if(ranged.includes(answer[2])){
-                console.log('ranged')
                 correct+=1
             }
             if(healer.includes(answer[3])){
-                console.log('healer')
                 correct+=1
             }
             if(correct === 4){
-                message.reply('complete').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+                message.reply('All the panels darken, and the path is clear.. ').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
                 user.roles.add(role3)
                 message.delete({ timeout: 5000 })
             } else {
-                message.reply(`${correct} choices`).then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+                message.reply(`${correct} light panels darken`).then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
                 message.delete({ timeout: 5000 })
             }
         }
@@ -235,7 +231,7 @@ bot.on('message', async message => {
 })
 
 bot.on( 'message' , async message => {
-    if(!['791171226026246145','785363660305596416','791486341337972747','791774466886729758','791777788302327870'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
+    if(!['791171226026246145','785363660305596416','791486341337972747','791774466886729758','791777788302327870', '791800484834574347', '791800103399849994'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
     } else {
 
 
@@ -489,6 +485,15 @@ Mzp ftqz ue tqmdp za yadq. Uf ue m fmxq
 Faxp nk mz upuaf, rgxx ar eagzp mzp rgdk,
 Euszurkuzs zaftuzs.
                     `)
+                break;
+            case 'layer3':
+                message.channel.send(`Lying before you are four panels of **light**, and enscribed before them reads:
+                
+"From front to back your brave party ventures forth"
+`)
+                break;
+            case 'layer6':
+                message.channel.send('Everyone on this journey has their role to play...')
                 break;
         }}
 })   
