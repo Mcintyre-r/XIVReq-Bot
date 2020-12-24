@@ -198,15 +198,19 @@ bot.on('message', async message => {
         console.log(answer)
         if(answer.length === 4){
             if(tank.has(answer[0])){
+                console.log('tank')
                 correct+=1
             }
             if(melee.has(answer[1])){
+                console.log('melee')
                 correct+=1
             }
             if(ranged.has(answer[2])){
+                console.log('ranged')
                 correct+=1
             }
             if(healer.has(answer[3])){
+                console.log('healer')
                 correct+=1
             }
             if(correct === 4){
