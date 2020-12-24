@@ -183,8 +183,8 @@ bot.on('message', async message => {
     }
     //layer 3
     if(message.channel.id === '791800103399849994'){
-        console.log(message.author)
-        console.log(message.content)
+        console.log(user)
+        console.log(message.content.split(' '))
     }
     //layer 4
     if(message.channel.id === '791800327925792808'){}
