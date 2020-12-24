@@ -48,6 +48,8 @@ onHour.start()
 halfHour.start()
 
 const twitch = new CronJob('0 * * * * *', async function (){
+    const twitchChannel = await bot.channels.fetch("791486341337972747")
+    const trackerMessage = await twitchChannel.messages.fetch("791488829110222879")
     const twitchUsers = {
         PhiiDelity: 'offline',
         GlemyToto: 'offline',
@@ -56,8 +58,32 @@ const twitch = new CronJob('0 * * * * *', async function (){
         EpicDragonzord: 'offline'
     } 
     for(const user of Object.keys(twitchUsers)){
-        axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, )
+        const userData = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {
+            headers: {
+                'Authorization': process.env.TWITCH_AUTH,
+                'Client-Id': process.env.TWITCH_SECRET
+            }
+        })
+        if(userData.body.data.length){
+            twitchUsers[user] = `**live**
+Title: ${userData.body.data.title}
+URL: https://www.twitch.tv/${user}
+            `
+        }
     }
+    trackerMessage.edit(`**Ward Twitch channels** \n 
+**Cucktales: **
+    ** Phii Delity: ** ${twitchUsers['PhiiDelity']}
+    ** Ophelia Varus: ** ${twitchUsers['Ophie_v']} 
+    ** Nivie Carrilaut: ** ${twitchUsers['GlemyToto']} 
+**Abusement Park: **
+    ** Senretsu Kokousen: ** ${twitchUsers['HiImNewInTown']}
+    ** Jarl Nilmerg: ** ${twitchUsers['EpicDragonzord']} 
+**Thunder Thighs: **
+    ** Insta Bility: ** ${twitchUsers['OrbitalFramework']}
+                        `)
+    // 791486341337972747 channel id
+    // 791488829110222879 message id
 })
 
 
@@ -356,9 +382,26 @@ bot.on( 'message' , async message => {
     ** Jarl Nilmerg: ** ${twitchUsers['EpicDragonzord']} 
 **Thunder Thighs: **
     ** Insta Bility: ** ${twitchUsers['OrbitalFramework']}
-                    `)           
-    }
-}
+                    `)     
+                    break;   
+            case 'test':
+                const phii = await axios.get(`https://api.twitch.tv/helix/streams?user_login=phiidelity`, {
+            headers: {
+                'Authorization': process.env.TWITCH_AUTH,
+                'Client-Id': process.env.TWITCH_SECRET
+                } 
+            })
+            const me = await axios.get(`https://api.twitch.tv/helix/streams?user_login=exa_rain`, {
+                headers: {
+                    'Authorization': process.env.TWITCH_AUTH,
+                    'Client-Id': process.env.TWITCH_SECRET
+                }   
+            })
+            console.log('phii', phii)
+            console.log('me', me)
+            break;
+        }}
+        
 })   
  
 bot.login(process.env.discordAPI)
