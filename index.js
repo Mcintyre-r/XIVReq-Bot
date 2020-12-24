@@ -160,7 +160,6 @@ bot.on('message', async message => {
     const user = await message.guild.members.fetch(message.author.id)
     const role = message.guild.roles.cache.find( role => role.name === 'door')
     let mes = message.content.toLowerCase()
-    
     if(message.channel.id === '791774466886729758'){
         if(mes.includes('nevermore')){
             message.reply('Tis some visitor, tapping at my chamber door...').then(r => r.delete(10000)).catch(err=>console.log(err))
