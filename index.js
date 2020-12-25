@@ -489,7 +489,7 @@ Euszurkuzs zaftuzs.
             case 'layer3':
                 message.channel.send(`Lying before you are four panels of **light**, and enscribed before them reads:
                 
-"From front to back your brave party ventures forth"
+"From front to back your brave **party** ventures forth"
 `)
                 break;
             case 'layer6':
