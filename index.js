@@ -495,7 +495,7 @@ bot.on( 'message' , async message => {
 //             case 'layer6':
 //                 message.channel.send('Everyone on this journey has their roles to play...')
 //                 break;
-//         }}
+        }}
 })   
  
 bot.login(process.env.discordAPI)
