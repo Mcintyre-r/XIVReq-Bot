@@ -493,7 +493,7 @@ Euszurkuzs zaftuzs.
 `)
                 break;
             case 'layer6':
-                message.channel.send('Everyone on this journey has their role to play...')
+                message.channel.send('Everyone on this journey has their roles to play...')
                 break;
         }}
 })   
