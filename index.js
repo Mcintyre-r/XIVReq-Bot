@@ -104,7 +104,7 @@ bot.on('raw', async (packet) => {
         '791167942921551882' : 'Oongaboonga',
         '791168038262276156' : 'MineCrafties',
         '791168065337163796' : 'PVPers',
-        '791560712584560670' : '??????'
+        // '791560712584560670' : '??????'
     }
     const keys = Object.keys(roles)
 
@@ -128,107 +128,107 @@ bot.on('raw', async (packet) => {
 
 });
 
-bot.on('voiceStateUpdate', async (oldMember, newMember) => {
-    const channel = await bot.channels.fetch('791561945047760937');
-    let newUserChannel = newMember.channel
-    if(newMember.channel != null){
-        if(newUserChannel.name === '??????'){
-            const connection = await channel.join();
-            let users = Array.from(channel.members.keys());
-            if(users.length > 1){
-                const dispatcher = connection.play('./assets/numbers.mp3');
+// bot.on('voiceStateUpdate', async (oldMember, newMember) => {
+//     const channel = await bot.channels.fetch('791561945047760937');
+//     let newUserChannel = newMember.channel
+//     if(newMember.channel != null){
+//         if(newUserChannel.name === '??????'){
+//             const connection = await channel.join();
+//             let users = Array.from(channel.members.keys());
+//             if(users.length > 1){
+//                 const dispatcher = connection.play('./assets/numbers.mp3');
     
-                dispatcher.on('start', () => {
-                    console.log('???????????');
-                });
+//                 dispatcher.on('start', () => {
+//                     console.log('???????????');
+//                 });
     
-                dispatcher.on('finish', () => {
-                    console.log('audio.mp3 has finished playing!');
-                    channel.leave()
-                });
-                dispatcher.on('error', console.error);
-            }  
-        }
-    }
-    if(oldMember.channel != null){
-        if(oldMember.channel.name === '??????'){
-            channel.leave()
-        }
-    }
-})
-bot.on('message', async message => {
-    const user = await message.guild.members.fetch(message.author.id)
-    const role = message.guild.roles.cache.find( role => role.name === 'dear')
-    const role2 = message.guild.roles.cache.find( role => role.name === 'adventurer')
-    const role3 = message.guild.roles.cache.find( role => role.name === 'never')
-    const role4 = message.guild.roles.cache.find( role => role.name === 'trust')
-    const role5 = message.guild.roles.cache.find( role => role.name === 'elavor')
-    const role6 = message.guild.roles.cache.find( role => role.name === 'violence')
-    const tank = [ '<:war:232433632705380352>','<:GNB:598582951512506379>','<:drk:232434213612158976>','<:pld:232433599796871178>']
-    const melee = ['<:nin:232434147401007104>','<:mnk:232433560525471744>','<:drg:232433525972926464>']
-    const ranged = ['<:DNC:598583058743951360>','<:RDM:598584807051493378>', '<:mch:232434259632062464>','<:smn:232434101611659264>','<:blm:232433670110183424>', '<:brd:232433491927629824>']
-    const healer = ['<:whm:232433710828486656>', '<:sch:232433749042659328>','<:ast:232434181907546113>']
-    let mes = message.content.toLowerCase()
-    //layer 1
-    if(message.channel.id === '791774466886729758'){
-        if(mes.includes('nevermore')){
-            message.reply('Tis some visitor, tapping at my chamber door...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-            user.roles.add(role)
-            message.delete({ timeout: 5000 })
-        }
-    }
-    //layer 2
-    if(message.channel.id === '791777788302327870'){
-        if(mes.includes('macbeth')){
-            message.reply('I will not yield...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-            user.roles.add(role2)
-            message.delete({ timeout: 5000 })
-        }
-    }
-    //layer 3
-    if(message.channel.id === '791800103399849994'){
-        // console.log(user._roles)
+//                 dispatcher.on('finish', () => {
+//                     console.log('audio.mp3 has finished playing!');
+//                     channel.leave()
+//                 });
+//                 dispatcher.on('error', console.error);
+//             }  
+//         }
+//     }
+//     if(oldMember.channel != null){
+//         if(oldMember.channel.name === '??????'){
+//             channel.leave()
+//         }
+//     }
+// })
+// bot.on('message', async message => {
+//     const user = await message.guild.members.fetch(message.author.id)
+//     const role = message.guild.roles.cache.find( role => role.name === 'dear')
+//     const role2 = message.guild.roles.cache.find( role => role.name === 'adventurer')
+//     const role3 = message.guild.roles.cache.find( role => role.name === 'never')
+//     const role4 = message.guild.roles.cache.find( role => role.name === 'trust')
+//     const role5 = message.guild.roles.cache.find( role => role.name === 'elavor')
+//     const role6 = message.guild.roles.cache.find( role => role.name === 'violence')
+//     const tank = [ '<:war:232433632705380352>','<:GNB:598582951512506379>','<:drk:232434213612158976>','<:pld:232433599796871178>']
+//     const melee = ['<:nin:232434147401007104>','<:mnk:232433560525471744>','<:drg:232433525972926464>']
+//     const ranged = ['<:DNC:598583058743951360>','<:RDM:598584807051493378>', '<:mch:232434259632062464>','<:smn:232434101611659264>','<:blm:232433670110183424>', '<:brd:232433491927629824>']
+//     const healer = ['<:whm:232433710828486656>', '<:sch:232433749042659328>','<:ast:232434181907546113>']
+//     let mes = message.content.toLowerCase()
+//     //layer 1
+//     if(message.channel.id === '791774466886729758'){
+//         if(mes.includes('nevermore')){
+//             message.reply('Tis some visitor, tapping at my chamber door...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+//             user.roles.add(role)
+//             message.delete({ timeout: 5000 })
+//         }
+//     }
+//     //layer 2
+//     if(message.channel.id === '791777788302327870'){
+//         if(mes.includes('macbeth')){
+//             message.reply('I will not yield...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+//             user.roles.add(role2)
+//             message.delete({ timeout: 5000 })
+//         }
+//     }
+//     //layer 3
+//     if(message.channel.id === '791800103399849994'){
+//         // console.log(user._roles)
         
-        let correct = 0
-        const answer = message.content.split(' ')
-        if(answer.length === 4){
-            if(tank.includes(answer[0])){
-                correct+=1
-            }
-            if(melee.includes(answer[1])){
-                correct+=1
-            }
-            if(ranged.includes(answer[2])){
-                correct+=1
-            }
-            if(healer.includes(answer[3])){
-                correct+=1
-            }
-            if(correct === 4){
-                message.reply('All the panels darken, and the path is clear.. ').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-                user.roles.add(role3)
-                message.delete({ timeout: 5000 })
-            } else {
-                message.reply(`${correct} light panels darken`).then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-                message.delete({ timeout: 5000 })
-            }
-        }
-    }
-    //layer 4
-    if(message.channel.id === '791800327925792808'){}
-    //layer 5
-    if(message.channel.id === '791800408884117534'){}
-    //layer 6
-    if(message.channel.id === '791800484834574347'){
-        if(mes.includes('inferno')){
-            message.reply('This path leads only to violence...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-            user.roles.add(role6)
-            message.delete({ timeout: 5000 })
-        }
-    }
-    //layer 7
-    if(message.channel.id === '791802171599486976'){}
-})
+//         let correct = 0
+//         const answer = message.content.split(' ')
+//         if(answer.length === 4){
+//             if(tank.includes(answer[0])){
+//                 correct+=1
+//             }
+//             if(melee.includes(answer[1])){
+//                 correct+=1
+//             }
+//             if(ranged.includes(answer[2])){
+//                 correct+=1
+//             }
+//             if(healer.includes(answer[3])){
+//                 correct+=1
+//             }
+//             if(correct === 4){
+//                 message.reply('All the panels darken, and the path is clear.. ').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+//                 user.roles.add(role3)
+//                 message.delete({ timeout: 5000 })
+//             } else {
+//                 message.reply(`${correct} light panels darken`).then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+//                 message.delete({ timeout: 5000 })
+//             }
+//         }
+//     }
+//     //layer 4
+//     if(message.channel.id === '791800327925792808'){}
+//     //layer 5
+//     if(message.channel.id === '791800408884117534'){}
+//     //layer 6
+//     if(message.channel.id === '791800484834574347'){
+//         if(mes.includes('inferno')){
+//             message.reply('This path leads only to violence...').then( r => r.delete ({timeout: 10000})).catch(err => console.log(err))
+//             user.roles.add(role6)
+//             message.delete({ timeout: 5000 })
+//         }
+//     }
+//     //layer 7
+//     if(message.channel.id === '791802171599486976'){}
+// })
 
 bot.on( 'message' , async message => {
     if(!['791171226026246145','785363660305596416','791486341337972747','791774466886729758','791777788302327870', '791800484834574347', '791800103399849994'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
@@ -468,34 +468,34 @@ bot.on( 'message' , async message => {
                         mes.react(message.guild.emojis.cache.get('791168038262276156'))
                     })
                 break;  
-            case 'layer1':
-                message.channel.send('The numbers Warden, what do they mean?')
-                break;
-            case 'layer2':
-                message.channel.send(`**A**h, distinctly I remember it was in the bleak **December**;
+//             case 'layer1':
+//                 message.channel.send('The numbers Warden, what do they mean?')
+//                 break;
+//             case 'layer2':
+//                 message.channel.send(`**A**h, distinctly I remember it was in the bleak **December**;
 
-Fayaddai, mzp fayaddai, mzp fayaddai,
-Odqqbe uz ftue bqffk bmoq rday pmk fa pmk,
-Fa ftq xmef ekxxmnxq ar dqoadpqp fuyq;
-Mzp mxx agd kqefqdpmke tmhq xustfqp raaxe
-Ftq imk fa pgefk pqmft. Agf, agf, nduqr omzpxq!
-Xurq'e ngf m imxwuzs etmpai, m baad bxmkqd,
-Ftmf efdgfe mzp rdqfe tue tagd gbaz ftq efmsq,
-Mzp ftqz ue tqmdp za yadq. Uf ue m fmxq
-Faxp nk mz upuaf, rgxx ar eagzp mzp rgdk,
-Euszurkuzs zaftuzs.
-                    `)
-                break;
-            case 'layer3':
-                message.channel.send(`Lying before you are four panels of **light**, and enscribed before them reads:
+// Fayaddai, mzp fayaddai, mzp fayaddai,
+// Odqqbe uz ftue bqffk bmoq rday pmk fa pmk,
+// Fa ftq xmef ekxxmnxq ar dqoadpqp fuyq;
+// Mzp mxx agd kqefqdpmke tmhq xustfqp raaxe
+// Ftq imk fa pgefk pqmft. Agf, agf, nduqr omzpxq!
+// Xurq'e ngf m imxwuzs etmpai, m baad bxmkqd,
+// Ftmf efdgfe mzp rdqfe tue tagd gbaz ftq efmsq,
+// Mzp ftqz ue tqmdp za yadq. Uf ue m fmxq
+// Faxp nk mz upuaf, rgxx ar eagzp mzp rgdk,
+// Euszurkuzs zaftuzs.
+//                     `)
+//                 break;
+//             case 'layer3':
+//                 message.channel.send(`Lying before you are four panels of **light**, and enscribed before them reads:
                 
-"From front to back your brave **party** ventures forth"
-`)
-                break;
-            case 'layer6':
-                message.channel.send('Everyone on this journey has their roles to play...')
-                break;
-        }}
+// "From front to back your brave **party** ventures forth"
+// `)
+//                 break;
+//             case 'layer6':
+//                 message.channel.send('Everyone on this journey has their roles to play...')
+//                 break;
+//         }}
 })   
  
 bot.login(process.env.discordAPI)
