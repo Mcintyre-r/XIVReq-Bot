@@ -486,7 +486,7 @@ bot.on( 'message' , async message => {
                         mes.react(message.guild.emojis.cache.get('791168038262276156'))
                     })
                 break; 
-            case 'setMessage':
+            case 'setmessage':
                 message.channel.send('dumb bitch')
                 break; 
 //             case 'layer1':
