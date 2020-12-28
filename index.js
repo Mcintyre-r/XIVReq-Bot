@@ -97,16 +97,15 @@ const fish = new CronJob('0 * * * * *',  async function statusUpdate() {
     const fishMes = await botChannel.messages.fetch("792920670832033812")
     const time = new Date()
     const hour = time.getHours()%2
-    console.log(time.getHours())
     const minute = 60-time.getMinutes()
     let hourString = ''
     let minuteString = ''
     if(hour === 0) hourString = `1 hour ${minute? 'and' : ''}`
     if(minute) minuteString = `${minute} ${minute === 1 ? 'minute': 'minutes'} `
-    if(!hour && !minute){ fishMes.edit(`
+    if(!hour && !minute){ fishMes.edit(`---\n
 **Ocean Fishing Tracker**
 Fishing boat leaving now`) }
-    else(fishMes.edit(`
+    else(fishMes.edit(`---\n
 **Ocean Fishing Tracker**
 Next fishing boat leaving in ${hourString} ${minuteString}`))
             
