@@ -48,7 +48,7 @@ const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
 })
 const twitch = new CronJob('0 * * * * *', async function (){
     const twitchChannel = await bot.channels.fetch("791486341337972747")
-    const trackerMessage = await twitchChannel.messages.fetch("791488829110222879")
+    const trackerMessage = await twitchChannel.messages.fetch("792920520277360701")
     const twitchUsers = {
         PhiiDelity: 'offline',
         GlemyToto: 'offline',
@@ -94,7 +94,7 @@ const twitch = new CronJob('0 * * * * *', async function (){
 
 const fish = new CronJob('0 * * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("791486341337972747")
-    const fishMes = await botChannel.messages.fetch("")
+    const fishMes = await botChannel.messages.fetch("792920670832033812")
     const time = new Date()
     const hour = time.getHours()%2
     const minute = 60-time.getMinutes()
