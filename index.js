@@ -91,9 +91,27 @@ const twitch = new CronJob('0 * * * * *', async function (){
                         `)
     trackerMessage.suppressEmbeds(true)
 })
+
+const fish = new CronJob('0 * * * * *',  async function statusUpdate() {
+    const botChannel = await bot.channels.fetch("791486341337972747")
+    const fishMes = await botChannel.messages.fetch("")
+    const time = new Date()
+    const hour = time.getHours()%2
+    const minute = 60-time.getMinutes()
+    let hourString = ''
+    let minuteString = ''
+    if(hour) hourString = `1 hour ${minute? '' : 'and'}`
+    if(minute) minuteString = `${minute} ${minute === 1 ? 'minute': 'minutes'} `
+    if(!hour && !minute){ fishMes.edit(`**Ocean Fishing Tracker**
+Fishing boat leaving now`) }
+    else(fishMes.edit(`**Ocean Fishing Tracker**
+Next fishing boat leaving in ${hourString} ${minuteString}`))
+            
+})
 onHour.start()
 halfHour.start()
 twitch.start()
+// fish.start()
 
 bot.on('raw', async (packet) => {
     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
@@ -467,7 +485,10 @@ bot.on( 'message' , async message => {
                         mes.react(message.guild.emojis.cache.get('791167942921551882'))
                         mes.react(message.guild.emojis.cache.get('791168038262276156'))
                     })
-                break;  
+                break; 
+            case 'setMessage':
+                message.channel.send('dumb bitch')
+                break; 
 //             case 'layer1':
 //                 message.channel.send('The numbers Warden, what do they mean?')
 //                 break;
