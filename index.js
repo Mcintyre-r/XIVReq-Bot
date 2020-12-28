@@ -111,7 +111,7 @@ Next fishing boat leaving in ${hourString} ${minuteString}`))
 onHour.start()
 halfHour.start()
 twitch.start()
-// fish.start()
+fish.start()
 
 bot.on('raw', async (packet) => {
     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
