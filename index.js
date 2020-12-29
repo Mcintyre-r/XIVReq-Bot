@@ -6,6 +6,8 @@ const CronJob = require('cron').CronJob
 const movieDB = require("./models/movie-model.js");
 const viewerDB = require("./models/viewer-model.js")
 const powerDB = require("./models/power-model.js")
+const VoiceText = require('voicetext')
+const fs = require('fs')
 require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config()
@@ -250,33 +252,60 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channelID = '716015727630483580'
     const channel = await bot.channels.fetch(channelID)
-    if(newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id === '211556765492314112'){
-        const connection = await channel.join();
-        const dispatcher = connection.play(`./assets/sophia.mp3`);
-
-        dispatcher.on('start', () => {
-            console.log('Playing entrance clip');
-        });
-
-        dispatcher.on('finish', () => {
-            channel.leave()
-        });
-
-        dispatcher.on('error', console.error);
-    } else if (newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id === '217362661195776002'){
-        const connection = await channel.join();
-        const dispatcher = connection.play(`./assets/megumin.mp3`);
-
-        dispatcher.on('start', () => {
-            console.log('Playing entrance clip');
-        });
-
-        dispatcher.on('finish', () => {
-            channel.leave()
-        });
-
-        dispatcher.on('error', console.error);
+    
+    // console.log(user.user.username)
+    if(newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id != '738254569238167643'){
+        const user = await newMember.guild.members.fetch(newMember.id)
+            voice = new VoiceText('sf3u5x3k31ybx269')
+            voice
+                .speaker(voice.SPEAKER.HIKARI)
+                .emotion(voice.EMOTION.HAPPINESS)
+                .emotion_level(voice.EMOTION_LEVEL.HIGH)
+                .speak(`nani. chotto matte a minute. is that. supreme gamer ${user.user.username} san   `, async (e, buf) => {
+                    if(e) console.error(e)
+                    await fs.writeFile('./tes.wav', buf, 'binary', e => console.log(e))
+                    const connection = await channel.join();
+                    const dispatcher = connection.play('tes.wav');
+                    dispatcher.on('start', () => {
+                        console.log('Playing entrance clip');
+                    });
+                    dispatcher.on('finish', () => {
+                        channel.leave()
+                    });
+                    dispatcher.on('error', console.error);
+                } )
     }
+
+
+
+    // if(newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id === '211556765492314112'){
+
+    //     const connection = await channel.join();
+    //     const dispatcher = connection.play(`./assets/sophia.mp3`);
+
+    //     dispatcher.on('start', () => {
+    //         console.log('Playing entrance clip');
+    //     });
+
+    //     dispatcher.on('finish', () => {
+    //         channel.leave()
+    //     });
+
+    //     dispatcher.on('error', console.error);
+    // } else if (newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id === '217362661195776002'){
+    //     const connection = await channel.join();
+    //     const dispatcher = connection.play(`./assets/megumin.mp3`);
+
+    //     dispatcher.on('start', () => {
+    //         console.log('Playing entrance clip');
+    //     });
+
+    //     dispatcher.on('finish', () => {
+    //         channel.leave()
+    //     });
+
+    //     dispatcher.on('error', console.error);
+    // }
 
 
 
@@ -680,6 +709,7 @@ bot.on( 'message' , async message => {
         // info for minecraft server
         case 'minecraft':
             console.log('Action: Showing Minecraft info')
+            message.delete({timeout: 1000 * 20})
             const mineEmbed = new MessageEmbed()
                 .setColor('#FFA500')
                 .setAuthor('Minecraft Server Info')
@@ -697,6 +727,7 @@ bot.on( 'message' , async message => {
             message.reply(mineEmbed)
             break;
         case 'reaction':
+            message.delete({timeout: 1000 * 20})
             console.log('Action: Showing Reaction info')
             const reactEmbed = new MessageEmbed()
                 .setColor('#FFA500')
@@ -707,14 +738,25 @@ bot.on( 'message' , async message => {
                     {name: '<a:mumbo:751666416335192114> : to become as Mumbo', value:'--', inline: false},
                     {name: '<:peepo:738255120554262575> : to become as Peepo', value:'--', inline: false},
                 )
-            message.channel.send(reactEmbed)
-            break;
-        case 'react':
-            const botChannel = await bot.channels.fetch('748695470452375653');
-            const reactor = await botChannel.messages.fetch('791040740268179517');
-            reactor.react(message.guild.emojis.cache.get('791016914704269317'))
-            reactor.react(message.guild.emojis.cache.get('738255120554262575'))
-            reactor.react(message.guild.emojis.cache.get('751666416335192114'))
+            message.channel.send(reactEmbed).then( mes => {
+                console.log(mes)
+                mes.react(message.guild.emojis.cache.get('791016914704269317'))
+                mes.react(message.guild.emojis.cache.get('738255120554262575'))
+                mes.react(message.guild.emojis.cache.get('751666416335192114'))
+            })
+        break;
+        case 'whenfish':
+            message.delete({timeout: 1000 * 20})
+            const time = new Date()
+            const hour = time.getHours()%2
+            const minute = 60-time.getMinutes()
+            console.log(hour, minute)
+            let hourString = ''
+            let minuteString = ''
+            if(hour) hourString = `1 hour ${minute? '' : 'and'}`
+            if(minute) minuteString = `${minute} ${minute === 1 ? 'minute': 'minutes'} `
+            if(!hour && !minute){ message.reply(`Fishing boat leaving now`) }
+            else(message.reply(`Next fishing boat leaving in ${hourString} ${minuteString}`).then(r => r.delete({timeout: 20000})).catch(err => console.log(err)))
             break;
 
 
