@@ -252,7 +252,19 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     const channelID = '716015727630483580'
     const channel = await bot.channels.fetch(channelID)
-    
+    let date = new Date().getHours()
+    if(newMember.id === '211556765492314112') date += 6
+    else if(newMember.id === '200420433118363648') date += 14
+    if(date >= 24) date-=24
+    const Morning = [5,6,7,8,9,10,11]
+    const Afternoon = [12,13,14,15,16,17,18]
+    const Evening = [19,20,21,22,23,0]
+    const Night = [1,2,3,4]
+    let phrase = ''
+    if(Morning.includes(date)) phrase = 'Ohayou'
+    if(Afternoon.includes(date)) phrase = 'Konnichiwa'
+    if(Evening.includes(date)) phrase = 'Konbanwa'
+    if(Night.includes(date)) phrase = 'Fucking go to bed'
     // console.log(user.user.username)
     if(newMember.channelID === channelID && oldMember.channelID !== channelID && newMember.id != '738254569238167643'){
         const user = await newMember.guild.members.fetch(newMember.id)
@@ -261,7 +273,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
                 .speaker(voice.SPEAKER.HIKARI)
                 .emotion(voice.EMOTION.HAPPINESS)
                 .emotion_level(voice.EMOTION_LEVEL.HIGH)
-                .speak(`nani. chotto matte a minute. is that. supreme gamer ${user.user.username} san   `, async (e, buf) => {
+                .speak(`${phrase} ${user.user.username} san   `, async (e, buf) => {
                     if(e) console.error(e)
                     await fs.writeFile('./tes.wav', buf, 'binary', e => console.log(e))
                     const connection = await channel.join();
