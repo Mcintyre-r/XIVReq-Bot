@@ -12,40 +12,24 @@ bot.on('ready', () =>{
     console.log('Req-Bot Online')
 })
 
-// const onHour = new CronJob('0 0 * * * *',  async function statusUpdate() {
-//     const botChannel = await bot.channels.fetch("785363660305596416")
-//     const status = await botChannel.messages.fetch("788828444288614413")
-//     axios.get('https://xivreq.herokuapp.com/api/requests')
-//                     .then( requests => {
-//                         let unclaimed = 0
-//                         for(const request of requests.data.Requests){
-//                             if(!request.claimed){
-//                                 unclaimed++
-//                             }
-//                         }     
-//                         status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com\n Type \`?help\` for information on available bot commands.`)
-//                     })
-//                     .catch( err => {
-//                         console.log(err)
-//                     })
-// })
-// const halfHour = new CronJob('0 30 * * * *',  async function statusUpdate() {
-//     const botChannel = await bot.channels.fetch("785363660305596416")
-//     const status = await botChannel.messages.fetch("788828444288614413")
-//     axios.get('https://xivreq.herokuapp.com/api/requests')
-//                     .then( requests => {
-//                         let unclaimed = 0
-//                         for(const request of requests.data.Requests){
-//                             if(!request.claimed){
-//                                 unclaimed++
-//                             }
-//                         }     
-//                         status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com \n Type \`?help\` for information on available bot commands.  `)
-//                     })
-//                     .catch( err => {
-//                         console.log(err)
-//                     })
-// })
+const requestUpdate = new CronJob('0 * * * * *',  async function statusUpdate() {
+    const botChannel = await bot.channels.fetch("785363660305596416")
+    const status = await botChannel.messages.fetch("788828444288614413")
+    axios.get('https://xivreq.herokuapp.com/api/requests')
+                    .then( requests => {
+                        let unclaimed = 0
+                        for(const request of requests.data.Requests){
+                            if(!request.claimed){
+                                unclaimed++
+                            }
+                        }     
+                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com\n Type \`?help\` for information on available bot commands.`)
+                    })
+                    .catch( err => {
+                        console.log(err)
+                    })
+})
+
 const twitch = new CronJob('0 * * * * *', async function (){
     const twitchChannel = await bot.channels.fetch("791486341337972747")
     const trackerMessage = await twitchChannel.messages.fetch("792920520277360701")
@@ -132,8 +116,7 @@ Fishing boat leaving now`) }
 Next fishing boat leaving in ${hourString} ${minuteString}`))
 
 })
-// onHour.start()
-// halfHour.start()
+requestUpdate.start()
 twitch.start()
 fish.start()
 
