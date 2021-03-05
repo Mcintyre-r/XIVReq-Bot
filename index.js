@@ -6,7 +6,7 @@ require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config({path:'./.env'})
 
-// const PREFIX = '?'
+const PREFIX = '?'
 
 bot.on('ready', () =>{
     console.log('Req-Bot Online')
