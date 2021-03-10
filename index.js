@@ -50,7 +50,7 @@ const twitch = new CronJob('0 * * * * *', async function (){
     const members = {
         CuckTales: ['PhiiDelity', 'GlemyToto'],
         AbusementPark: ['EpicDragonzord', 'HiImNewInTown'],
-        ThunderThighs: ['Tyyrm', 'OrbitalFramework']
+        ThunderThighs: ['Tyyrm']
     }
     const multi = {
         CuckTales: 'https://multistre.am/',
@@ -92,8 +92,10 @@ const twitch = new CronJob('0 * * * * *', async function (){
 
 **Thunder Thighs: **
     ${count.ThunderThighs > 1 ? 'Multi: ' + multi.ThunderThighs + '\n': ''}
-    Insta Bility: ${twitchUsers['OrbitalFramework']}
     Tyyrm Mahonokishi: ${twitchUsers['Tyyrm']}
+
+**Others: **
+    Insta Bility: ${twitchUsers['OrbitalFramework']}
                         `)
     trackerMessage.suppressEmbeds(true)
 })
