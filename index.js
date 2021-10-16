@@ -14,7 +14,7 @@ bot.on('ready', () =>{
 
 const requestUpdate = new CronJob('0 * * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("898766114190950440")
-    const status = await botChannel.messages.fetch("")
+    const status = await botChannel.messages.fetch("898771122638708767")
     axios.get('https://xivreq.herokuapp.com/api/requests')
                     .then( requests => {
                         let unclaimed = 0
@@ -320,7 +320,7 @@ bot.on( 'message' , async message => {
         case 'update' :
             message.delete({ timeout: 20000 })
                 const botChannel = await bot.channels.fetch("898766114190950440")
-                const status = await botChannel.messages.fetch("788828444288614413")
+                const status = await botChannel.messages.fetch("898771122638708767")
                 axios.get('https://xivreq.herokuapp.com/api/requests')
                                 .then( requests => {
                                     let unclaimed = 0
