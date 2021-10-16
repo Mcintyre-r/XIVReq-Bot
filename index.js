@@ -13,8 +13,8 @@ bot.on('ready', () =>{
 })
 
 const requestUpdate = new CronJob('0 * * * * *',  async function statusUpdate() {
-    const botChannel = await bot.channels.fetch("785363660305596416")
-    const status = await botChannel.messages.fetch("788828444288614413")
+    const botChannel = await bot.channels.fetch("898766114190950440")
+    const status = await botChannel.messages.fetch("")
     axios.get('https://xivreq.herokuapp.com/api/requests')
                     .then( requests => {
                         let unclaimed = 0
@@ -119,8 +119,8 @@ Next fishing boat leaving in ${hourString} ${minuteString}`))
 
 })
 requestUpdate.start()
-twitch.start()
-fish.start()
+// twitch.start()
+// fish.start()
 
 // const test = new CronJob('0 * * * * *', async function () {
 //     const roleChannel = await bot.channels.fetch("791171226026246145");
@@ -151,44 +151,44 @@ fish.start()
 
 // })
 // test.start()
-bot.on('raw', async (packet) => {
-    if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
+// bot.on('raw', async (packet) => {
+//     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
     
-    const channel = await bot.channels.fetch(packet.d.channel_id);
-    const message = await channel.messages.fetch(packet.d.message_id);
-    const roles = {
-        '791167942921551882' : 'Oongaboonga',
-        '791168038262276156' : 'MineCrafties',
-        '791168065337163796' : 'PVPers',
-        '805672549634932746' : 'Tabletop'
-        // '791560712584560670' : '??????'
-    }
-    const keys = Object.keys(roles)
-    console.log(packet.d.emoji.id)
-    if(!keys.includes(packet.d.emoji.id)){
-        message.reactions.cache.each( react =>{
-            if(!keys.includes(react._emoji.id)){
-                react.remove()
-            }
-        })
-        packet.t === 'MESSAGE_REACTION_ADD' ? message.reactions.cache.get(packet.d.emoji.id).remove().catch(error => console.error('Failed to remove reactions: ', error)): null;
-        return;
-    }
+//     const channel = await bot.channels.fetch(packet.d.channel_id);
+//     const message = await channel.messages.fetch(packet.d.message_id);
+//     const roles = {
+//         '791167942921551882' : 'Oongaboonga',
+//         '791168038262276156' : 'MineCrafties',
+//         '791168065337163796' : 'PVPers',
+//         '805672549634932746' : 'Tabletop'
+//         // '791560712584560670' : '??????'
+//     }
+//     const keys = Object.keys(roles)
+//     console.log(packet.d.emoji.id)
+//     if(!keys.includes(packet.d.emoji.id)){
+//         message.reactions.cache.each( react =>{
+//             if(!keys.includes(react._emoji.id)){
+//                 react.remove()
+//             }
+//         })
+//         packet.t === 'MESSAGE_REACTION_ADD' ? message.reactions.cache.get(packet.d.emoji.id).remove().catch(error => console.error('Failed to remove reactions: ', error)): null;
+//         return;
+//     }
 
-    const user = await message.guild.members.fetch(packet.d.user_id)
-    const role = message.guild.roles.cache.find(role => role.name === roles[packet.d.emoji.id]);
-    if(packet.t === 'MESSAGE_REACTION_ADD'){
-        user.roles.add(role)
-    } else if (packet.t === 'MESSAGE_REACTION_REMOVE'){
-        user.roles.remove(role)
-    }
+//     const user = await message.guild.members.fetch(packet.d.user_id)
+//     const role = message.guild.roles.cache.find(role => role.name === roles[packet.d.emoji.id]);
+//     if(packet.t === 'MESSAGE_REACTION_ADD'){
+//         user.roles.add(role)
+//     } else if (packet.t === 'MESSAGE_REACTION_REMOVE'){
+//         user.roles.remove(role)
+//     }
 
-});
+// });
 
 
 
 bot.on( 'message' , async message => {
-    if(!['791171226026246145','791486341337972747','785363660305596416'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
+    if(!['898766114190950440'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
     } else {
 
 
@@ -319,7 +319,7 @@ bot.on( 'message' , async message => {
             break;
         case 'update' :
             message.delete({ timeout: 20000 })
-                const botChannel = await bot.channels.fetch("785363660305596416")
+                const botChannel = await bot.channels.fetch("898766114190950440")
                 const status = await botChannel.messages.fetch("788828444288614413")
                 axios.get('https://xivreq.herokuapp.com/api/requests')
                                 .then( requests => {
