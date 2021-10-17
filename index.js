@@ -6,7 +6,7 @@ require('ffmpeg')
 require('ffmpeg-static')
 require('dotenv').config({path:'./.env'})
 
-const PREFIX = '?'
+const PREFIX = '!'
 
 bot.on('ready', () =>{
     console.log('Req-Bot Online')
@@ -215,7 +215,7 @@ bot.on( 'message' , async message => {
                 collected.first().delete({timeout: 1000 * 15})
 
             // User Checks if submitted request exists and then formats request for submission.     
-            if(item !== '?request') {
+            if(item !== '!request') {
                 // parses given number from string to int
                 const trueQuan = parseInt(quantity)      
                 const itemSubmit = item.replace("?request", "")
@@ -354,7 +354,7 @@ bot.on( 'message' , async message => {
                 break;
             case 'set' :
                 message.delete({ timeout: 20000 })
-                if(item !== '?set') {           
+                if(item !== '!set') {           
                     const setSubmit = item.replace("?set", "");
                     post.quantity = 1;
                     post.requestedBy = message.author.username+'#'+message.author.discriminator;
