@@ -110,8 +110,7 @@ const fish = new CronJob('0 * * * * *',  async function statusUpdate() {
     let minuteString = ''
     if(hour === 0) hourString = `1 hour ${minute? 'and' : ''}`
     if(minute) minuteString = `${minute} ${minute === 1 ? 'minute': 'minutes'} `
-    if(!hour && !minute){ fishMes.edit(`---\n
-**Ocean Fishing Tracker**
+    if(!hour && !minute){ fishMes.edit(`**Ocean Fishing Tracker**
 Fishing boat leaving now`) }
     else(fishMes.edit(`**Ocean Fishing Tracker**
 Next fishing boat leaving in ${hourString} ${minuteString}`))
