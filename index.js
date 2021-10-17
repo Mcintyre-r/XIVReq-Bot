@@ -101,8 +101,8 @@ const twitch = new CronJob('0 * * * * *', async function (){
 })
 
 const fish = new CronJob('0 * * * * *',  async function statusUpdate() {
-    const botChannel = await bot.channels.fetch("791486341337972747")
-    const fishMes = await botChannel.messages.fetch("792920670832033812")
+    const botChannel = await bot.channels.fetch("898766114190950440")
+    const fishMes = await botChannel.messages.fetch("899421470244110336")
     const time = new Date()
     const hour = time.getHours()%2
     const minute = 60-time.getMinutes()
@@ -120,7 +120,7 @@ Next fishing boat leaving in ${hourString} ${minuteString}`))
 })
 requestUpdate.start()
 // twitch.start()
-// fish.start()
+fish.start()
 
 // const test = new CronJob('0 * * * * *', async function () {
 //     const roleChannel = await bot.channels.fetch("791171226026246145");
