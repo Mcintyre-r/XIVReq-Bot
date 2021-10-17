@@ -188,7 +188,7 @@ requestUpdate.start()
 
 
 bot.on( 'message' , async message => {
-    if(!['898766114190950440'].includes(message.channel.id) && message.author.id !== '706669135915909140'){
+    if(!['898766114190950440'].includes(message.channel.id) && message.author.id !== '706669135915909140' && message.content[0] !== PREFIX){
     } else {
 
 
