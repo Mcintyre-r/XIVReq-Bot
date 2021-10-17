@@ -189,10 +189,10 @@ requestUpdate.start()
 
 bot.on( 'message' , async message => {
     console.log(PREFIX, message.content[0], message.content[0] !== PREFIX)
-    if(!['898766114190950440'].includes(message.channel.id) && message.author.id !== '706669135915909140' && message.content[0] !== PREFIX){
+    if(!['898766114190950440'].includes(message.channel.id) || message.author.id === '706669135915909140' || message.content[0] !== PREFIX){
     } else {
 
-
+     
 
     let item = message.content.toLowerCase()
     let post = {
