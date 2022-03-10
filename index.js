@@ -186,7 +186,6 @@ fish.start()
 
 
 bot.on( 'message' , async message => {
-    // console.log(PREFIX, message.content[0], message.content[0] !== PREFIX)
     if(!['898766114190950440'].includes(message.channel.id) || message.author.id === '706669135915909140' || message.content[0] !== PREFIX){
     } else {
 
@@ -217,13 +216,12 @@ bot.on( 'message' , async message => {
             if(item !== '!request') {
                 // parses given number from string to int
                 const trueQuan = parseInt(quantity)      
-                const itemSubmit = item.replace("?request ", "")
+                const itemSubmit = item.replace("!request", "")
                 post.quantity = trueQuan;
                 post.requestedBy = message.author.username+'#'+message.author.discriminator;
                 post.requesterId = message.author.id;
                 post.requesterPicture = message.author.avatar;
                 post.item = itemSubmit.trimStart()
-                console.log(post.item)
                 const user = message.author
     
                 axios.get(`https://xivapi.com/search?string=${post.item}&private_key=${process.env.XIVAPI}`)
@@ -355,7 +353,7 @@ bot.on( 'message' , async message => {
             // case 'set' :
             //     message.delete({ timeout: 20000 })
             //     if(item !== '!set') {           
-            //         const setSubmit = item.replace("?set", "");
+            //         const setSubmit = item.replace("!set", "");
             //         post.quantity = 1;
             //         post.requestedBy = message.author.username+'#'+message.author.discriminator;
             //         post.requesterId = message.author.id;
