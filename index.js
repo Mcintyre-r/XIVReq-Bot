@@ -30,75 +30,75 @@ const requestUpdate = new CronJob('0 * * * * *',  async function statusUpdate() 
                     })
 })
 
-const twitch = new CronJob('0 * * * * *', async function (){
-    const twitchChannel = await bot.channels.fetch("791486341337972747")
-    const trackerMessage = await twitchChannel.messages.fetch("792920520277360701")
-    const twitchUsers = {
-        PhiiDelity: 'offline',
-        GlemyToto: 'offline',
-        OrbitalFramework: 'offline',
-        EpicDragonzord: 'offline',
-        HiImNewInTown: 'offline',
-        Tyyrm: 'offline'
-    } 
-    const count = {
-        CuckTales: 0,
-        AbusementPark: 0,
-        ThunderThighs: 0
-    }
+// const twitch = new CronJob('0 * * * * *', async function (){
+//     const twitchChannel = await bot.channels.fetch("791486341337972747")
+//     const trackerMessage = await twitchChannel.messages.fetch("792920520277360701")
+//     const twitchUsers = {
+//         PhiiDelity: 'offline',
+//         GlemyToto: 'offline',
+//         OrbitalFramework: 'offline',
+//         EpicDragonzord: 'offline',
+//         HiImNewInTown: 'offline',
+//         Tyyrm: 'offline'
+//     } 
+//     const count = {
+//         CuckTales: 0,
+//         AbusementPark: 0,
+//         ThunderThighs: 0
+//     }
 
-    const members = {
-        CuckTales: ['PhiiDelity', 'GlemyToto'],
-        AbusementPark: ['EpicDragonzord', 'HiImNewInTown'],
-        ThunderThighs: ['Tyyrm']
-    }
-    const multi = {
-        CuckTales: 'https://multistre.am/',
-        AbusementPark: 'https://multistre.am/',
-        ThunderThighs: 'https://multistre.am/'
-    }
+//     const members = {
+//         CuckTales: ['PhiiDelity', 'GlemyToto'],
+//         AbusementPark: ['EpicDragonzord', 'HiImNewInTown'],
+//         ThunderThighs: ['Tyyrm']
+//     }
+//     const multi = {
+//         CuckTales: 'https://multistre.am/',
+//         AbusementPark: 'https://multistre.am/',
+//         ThunderThighs: 'https://multistre.am/'
+//     }
 
 
-    for(const user of Object.keys(twitchUsers)){
-        const userData = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {
-            headers: {
-                'Authorization': process.env.TWITCH_AUTH,             
-                'client-Id':process.env.TWITCH_SECRET
-            }
-        }).catch(err =>  console.log(err))
-        if(userData.data.data.length){
-            for(const member of Object.keys(members)){
-                if(members[member].includes(user)) {
-                    count[member] = count[member]+1
-                    multi[member] = multi[member] + user + '/'
-                }
-            }
-            twitchUsers[user] = `**live**
-        Title: ${userData.data.data[0].title}
-        URL: https://www.twitch.tv/${user}
-        `
-        }
-    }
-    trackerMessage.edit(`**Ward Twitch channels** \n 
-**Cucktales: **
-    ${count.CuckTales > 1 ? 'Multi: ' + multi.CuckTales + '\n' : ''}
-    Phii Delity: ${twitchUsers['PhiiDelity']}
-    Nivie Carrilaut: ${twitchUsers['GlemyToto']} 
+//     for(const user of Object.keys(twitchUsers)){
+//         const userData = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {
+//             headers: {
+//                 'Authorization': process.env.TWITCH_AUTH,             
+//                 'client-Id':process.env.TWITCH_SECRET
+//             }
+//         }).catch(err =>  console.log(err))
+//         if(userData.data.data.length){
+//             for(const member of Object.keys(members)){
+//                 if(members[member].includes(user)) {
+//                     count[member] = count[member]+1
+//                     multi[member] = multi[member] + user + '/'
+//                 }
+//             }
+//             twitchUsers[user] = `**live**
+//         Title: ${userData.data.data[0].title}
+//         URL: https://www.twitch.tv/${user}
+//         `
+//         }
+//     }
+//     trackerMessage.edit(`**Ward Twitch channels** \n 
+// **Cucktales: **
+//     ${count.CuckTales > 1 ? 'Multi: ' + multi.CuckTales + '\n' : ''}
+//     Phii Delity: ${twitchUsers['PhiiDelity']}
+//     Nivie Carrilaut: ${twitchUsers['GlemyToto']} 
 
-**Abusement Park: **
-    ${count.AbusementPark > 1 ? 'Multi: '+multi.AbusementPark + '\n' : ''}
-    Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}
-    Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} 
+// **Abusement Park: **
+//     ${count.AbusementPark > 1 ? 'Multi: '+multi.AbusementPark + '\n' : ''}
+//     Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}
+//     Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} 
 
-**Thunder Thighs: **
-    ${count.ThunderThighs > 1 ? 'Multi: ' + multi.ThunderThighs + '\n': ''}
-    Tyyrm Mahonokishi: ${twitchUsers['Tyyrm']}
+// **Thunder Thighs: **
+//     ${count.ThunderThighs > 1 ? 'Multi: ' + multi.ThunderThighs + '\n': ''}
+//     Tyyrm Mahonokishi: ${twitchUsers['Tyyrm']}
 
-**Others: **
-    Insta Bility: ${twitchUsers['OrbitalFramework']}
-                        `)
-    trackerMessage.suppressEmbeds(true)
-})
+// **Others: **
+//     Insta Bility: ${twitchUsers['OrbitalFramework']}
+//                         `)
+//     trackerMessage.suppressEmbeds(true)
+// })
 
 const fish = new CronJob('0 * * * * *',  async function statusUpdate() {
     const botChannel = await bot.channels.fetch("898766114190950440")
@@ -186,7 +186,7 @@ fish.start()
 
 
 bot.on( 'message' , async message => {
-    console.log(PREFIX, message.content[0], message.content[0] !== PREFIX)
+    // console.log(PREFIX, message.content[0], message.content[0] !== PREFIX)
     if(!['898766114190950440'].includes(message.channel.id) || message.author.id === '706669135915909140' || message.content[0] !== PREFIX){
     } else {
 
@@ -217,12 +217,13 @@ bot.on( 'message' , async message => {
             if(item !== '!request') {
                 // parses given number from string to int
                 const trueQuan = parseInt(quantity)      
-                const itemSubmit = item.replace("?request", "")
+                const itemSubmit = item.replace("?request ", "")
                 post.quantity = trueQuan;
                 post.requestedBy = message.author.username+'#'+message.author.discriminator;
                 post.requesterId = message.author.id;
                 post.requesterPicture = message.author.avatar;
                 post.item = itemSubmit.trimStart()
+                console.log(post.item)
                 const user = message.author
     
                 axios.get(`https://xivapi.com/search?string=${post.item}&private_key=${process.env.XIVAPI}`)
@@ -351,62 +352,62 @@ bot.on( 'message' , async message => {
                 )
                 message.reply(helpEmbed).then( r => r.delete ({timeout: 60000})).catch(err => console.log(err)) 
                 break;
-            case 'set' :
-                message.delete({ timeout: 20000 })
-                if(item !== '!set') {           
-                    const setSubmit = item.replace("?set", "");
-                    post.quantity = 1;
-                    post.requestedBy = message.author.username+'#'+message.author.discriminator;
-                    post.requesterId = message.author.id;
-                    post.requesterPicture = message.author.avatar;
-                    post.item = setSubmit.trimStart();
-                    const user = message.author;
+            // case 'set' :
+            //     message.delete({ timeout: 20000 })
+            //     if(item !== '!set') {           
+            //         const setSubmit = item.replace("?set", "");
+            //         post.quantity = 1;
+            //         post.requestedBy = message.author.username+'#'+message.author.discriminator;
+            //         post.requesterId = message.author.id;
+            //         post.requesterPicture = message.author.avatar;
+            //         post.item = setSubmit.trimStart();
+            //         const user = message.author;
         
-                    axios.get(`https://xivreq.herokuapp.com/api/set?name=${post.item}`)
-                    .then(res => {
-                        const job = res.data.class
-                        const jobs = {
-                            drk: 'darkknight',
-                            mch: 'machinist',
-                            whm: 'whitemage',
-                            gnb: 'gunbreaker',
-                            ast: 'astrologian',
-                            blm: 'blackmage',
-                            brd: 'bard',
-                            dnc: 'dancer',
-                            drg: 'dragoon',
-                            mnk: 'monk',
-                            nin: 'ninja',
-                            pld: 'paladin',
-                            rdm: 'redmage',
-                            sam: 'samurai',
-                            war: 'warrior',
-                            sch: 'scholar',
-                            smn: 'summoner',
-                        }
-                        console.log(job)
-                        if(job){
-                        post.item = `${job.toUpperCase()} set`
-                        post.itemIcon = `https://xivapi.com/cj/1/${jobs[job]}.png`
-                        post.itemID = 00000
-                        post.set = true
-                        post.setClass = job
-                        axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
-                        .then(res => message.channel.send('Request submitted, check status at https://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
-                        .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
-                        } else {
-                            message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                    })
-                } else {
-                    message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                }
+            //         axios.get(`https://xivreq.herokuapp.com/api/set?name=${post.item}`)
+            //         .then(res => {
+            //             const job = res.data.class
+            //             const jobs = {
+            //                 drk: 'darkknight',
+            //                 mch: 'machinist',
+            //                 whm: 'whitemage',
+            //                 gnb: 'gunbreaker',
+            //                 ast: 'astrologian',
+            //                 blm: 'blackmage',
+            //                 brd: 'bard',
+            //                 dnc: 'dancer',
+            //                 drg: 'dragoon',
+            //                 mnk: 'monk',
+            //                 nin: 'ninja',
+            //                 pld: 'paladin',
+            //                 rdm: 'redmage',
+            //                 sam: 'samurai',
+            //                 war: 'warrior',
+            //                 sch: 'scholar',
+            //                 smn: 'summoner',
+            //             }
+            //             console.log(job)
+            //             if(job){
+            //             post.item = `${job.toUpperCase()} set`
+            //             post.itemIcon = `https://xivapi.com/cj/1/${jobs[job]}.png`
+            //             post.itemID = 00000
+            //             post.set = true
+            //             post.setClass = job
+            //             axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
+            //             .then(res => message.channel.send('Request submitted, check status at https://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
+            //             .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
+            //             } else {
+            //                 message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+            //             }
+            //         })
+            //         .catch(err => {
+            //             console.log(err)
+            //             message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+            //         })
+            //     } else {
+            //         message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
+            //     }
                 
-                break;   
+            //     break;   
             case 'reaction':
                     console.log('Action: Showing Reaction info')
                     const reactEmbed = new MessageEmbed()
