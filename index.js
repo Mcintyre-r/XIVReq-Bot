@@ -31,7 +31,7 @@ else{
         async function() {
             const channel = await bot.channels.fetch(`${process.env.botChannel}`);
                         
-            const status = await botChannel.messages.fetch(process.env.status)
+            const status = await channel.messages.fetch(process.env.status)
             axios.get('https://xivreq.herokuapp.com/api/requests')
                 .then( requests => {
                     let unclaimed = 0
@@ -317,9 +317,7 @@ else{
                     })                  
             break;
             case 'status' :
-                if (message.member.hasPermission("MANAGE_MESSAGES")) {
                 message.channel.send('There are Currently **0** unclaimed requests.')
-                }
             break;
             case 'setmessage':
                 const rowOne = new MessageActionRow()
