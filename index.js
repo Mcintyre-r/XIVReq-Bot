@@ -317,7 +317,7 @@ else{
                     })                  
             break;
             case 'status' :
-                message.channel.send('There are Currently **0** unclaimed requests.')
+                mes.channel.send('There are Currently **0** unclaimed requests.')
             break;
             case 'setmessage':
                 const rowOne = new MessageActionRow()
