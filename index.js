@@ -35,6 +35,17 @@ else{
                 
                 if (!lastMessage.pinned) {
                   console.log(lastMessage)
+                  if((Date.now()-lastMessage.createdTimestamp)>(5 * 60 * 1000)){
+                    channel.messages.fetch({limit:100})
+                    .then(fetched => {
+                        const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned)
+                        mes.channel.bulkDelete(notPinned, true)
+                    .then(res => {mes.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
+                        .catch(err => {
+                        mes.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
+                        console.log(err)})     
+                    })                  
+                  }
                 }
               })
               .catch(console.error);
