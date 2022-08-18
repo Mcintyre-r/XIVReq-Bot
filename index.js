@@ -1,433 +1,327 @@
-const {Client, MessageAttachment, MessageEmbed, Guild} = require('discord.js')
-const bot  = new Client();
-const axios = require('axios');
-const { CronJob } = require('cron');
-require('ffmpeg')
-require('ffmpeg-static')
-require('dotenv').config({path:'./.env'})
 
-const PREFIX = '!'
+var cluster = require('cluster');
+if (cluster.isMaster) {
+   var i = 0;
+   for (i; i< 1; i++){
+     cluster.fork();
+   }
+   //if the worker dies, restart it.
+   cluster.on('exit', function(worker){
+      console.log('Worker ' + worker.id + ' died..');
+      cluster.fork();
+   });
+}
+else{
+    const {Client, MessageAttachment, MessageEmbed, Guild, MessageActionRow, MessageButton,MessageSelectMenu,Modal, TextInputComponent} = require('discord.js')
+    const bot  = new Client({intents:["GUILD_EMOJIS_AND_STICKERS","GUILD_PRESENCES","GUILD_MESSAGES","GUILDS","GUILD_MESSAGE_REACTIONS","GUILD_WEBHOOKS","GUILD_VOICE_STATES"]});
+    const { CronJob } = require('cron');
+    const {requestAndFormat} = require('./utils')
+    const axios= require('axios');
+    require('ffmpeg')
+    require('ffmpeg-static')
+    require('dotenv').config({path:'./.env'})
+    const jobs = require('./jobs.json')
+    const PREFIX = '!'
+    bot.on('ready', () =>{
+        console.log('Req-Bot Online')
+    })
 
-bot.on('ready', () =>{
-    console.log('Req-Bot Online')
-})
-
-const requestUpdate = new CronJob('0 * * * * *',  async function statusUpdate() {
-    const botChannel = await bot.channels.fetch("898766114190950440")
-    const status = await botChannel.messages.fetch("898771122638708767")
-    axios.get('https://xivreq.herokuapp.com/api/requests')
-                    .then( requests => {
-                        let unclaimed = 0
-                        for(const request of requests.data.Requests){
-                            if(!request.claimed){
-                                unclaimed++
-                            }
-                        }     
-                        status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com\n Type \`?help\` for information on available bot commands.`)
-                    })
-                    .catch( err => {
-                        console.log(err)
-                    })
-})
-
-// const twitch = new CronJob('0 * * * * *', async function (){
-//     const twitchChannel = await bot.channels.fetch("791486341337972747")
-//     const trackerMessage = await twitchChannel.messages.fetch("792920520277360701")
-//     const twitchUsers = {
-//         PhiiDelity: 'offline',
-//         GlemyToto: 'offline',
-//         OrbitalFramework: 'offline',
-//         EpicDragonzord: 'offline',
-//         HiImNewInTown: 'offline',
-//         Tyyrm: 'offline'
-//     } 
-//     const count = {
-//         CuckTales: 0,
-//         AbusementPark: 0,
-//         ThunderThighs: 0
-//     }
-
-//     const members = {
-//         CuckTales: ['PhiiDelity', 'GlemyToto'],
-//         AbusementPark: ['EpicDragonzord', 'HiImNewInTown'],
-//         ThunderThighs: ['Tyyrm']
-//     }
-//     const multi = {
-//         CuckTales: 'https://multistre.am/',
-//         AbusementPark: 'https://multistre.am/',
-//         ThunderThighs: 'https://multistre.am/'
-//     }
-
-
-//     for(const user of Object.keys(twitchUsers)){
-//         const userData = await axios.get(`https://api.twitch.tv/helix/streams?user_login=${user}`, {
-//             headers: {
-//                 'Authorization': process.env.TWITCH_AUTH,             
-//                 'client-Id':process.env.TWITCH_SECRET
-//             }
-//         }).catch(err =>  console.log(err))
-//         if(userData.data.data.length){
-//             for(const member of Object.keys(members)){
-//                 if(members[member].includes(user)) {
-//                     count[member] = count[member]+1
-//                     multi[member] = multi[member] + user + '/'
-//                 }
-//             }
-//             twitchUsers[user] = `**live**
-//         Title: ${userData.data.data[0].title}
-//         URL: https://www.twitch.tv/${user}
-//         `
-//         }
-//     }
-//     trackerMessage.edit(`**Ward Twitch channels** \n 
-// **Cucktales: **
-//     ${count.CuckTales > 1 ? 'Multi: ' + multi.CuckTales + '\n' : ''}
-//     Phii Delity: ${twitchUsers['PhiiDelity']}
-//     Nivie Carrilaut: ${twitchUsers['GlemyToto']} 
-
-// **Abusement Park: **
-//     ${count.AbusementPark > 1 ? 'Multi: '+multi.AbusementPark + '\n' : ''}
-//     Senretsu Kokousen: ${twitchUsers['HiImNewInTown']}
-//     Jarl Nilmerg: ${twitchUsers['EpicDragonzord']} 
-
-// **Thunder Thighs: **
-//     ${count.ThunderThighs > 1 ? 'Multi: ' + multi.ThunderThighs + '\n': ''}
-//     Tyyrm Mahonokishi: ${twitchUsers['Tyyrm']}
-
-// **Others: **
-//     Insta Bility: ${twitchUsers['OrbitalFramework']}
-//                         `)
-//     trackerMessage.suppressEmbeds(true)
-// })
-
-const fish = new CronJob('0 * * * * *',  async function statusUpdate() {
-    const botChannel = await bot.channels.fetch("898766114190950440")
-    const fishMes = await botChannel.messages.fetch("899421470244110336")
-    const time = new Date()
-    const hour = time.getHours()%2
-    const minute = 60-time.getMinutes()
-    let hourString = ''
-    let minuteString = ''
-    if(hour === 0) hourString = `1 hour ${minute? 'and' : ''}`
-    if(minute) minuteString = `${minute} ${minute === 1 ? 'minute': 'minutes'} `
-    if(!hour && !minute){ fishMes.edit(`**Ocean Fishing Tracker**
-Fishing boat leaving now`) }
-    else(fishMes.edit(`**Ocean Fishing Tracker**
-Next fishing boat leaving in ${hourString} ${minuteString}`))
-
-})
-requestUpdate.start()
-// twitch.start()
-fish.start()
-
-// const test = new CronJob('0 * * * * *', async function () {
-//     const roleChannel = await bot.channels.fetch("791171226026246145");
-//     const roleMes = await roleChannel.messages.fetch("791174012741877760");
-// //     // roleMes.reactions.cache.each( react => {
-// //     //     if(react.emoji.id === '791560712584560670'){
-// //     //         react.remove()
-// //     //     }
-// //     // })
-
-//         const reactEmbed = new MessageEmbed()
-//                         .setColor('#FFA500')
-//                         .setAuthor('Role Selection')
-//                         .setDescription('React to this message to obtain the following roles: \n')
-//                         .addFields(
-//                             {name: '<:PVP:791168065337163796> : PVPers', value:['Access to the PVP channel','--'], inline: false},
-//                             {name: '<:ARK:791167942921551882> : Oongaboonga', value:['Access to the Ark Survival Evolved channel','--'], inline: false},
-//                             {name: '<:MC:791168038262276156> : Minecrafties', value:['Access to the Minecraft channel','--'], inline: false},
-//                             {name: '<:tabletop:805672549634932746> : Tabletop', value:['Grants Tabletop Sim role','--'], inline: false},
-//                         )
-//         roleMes.edit(reactEmbed)
-
-
-
-
-
-// //     roleMes.react('805672549634932746')
-
-// })
-// test.start()
-// bot.on('raw', async (packet) => {
-//     if (!['MESSAGE_REACTION_ADD', 'MESSAGE_REACTION_REMOVE'].includes(packet.t) || packet.d.message_id !== '791174012741877760' ) return;
-    
-//     const channel = await bot.channels.fetch(packet.d.channel_id);
-//     const message = await channel.messages.fetch(packet.d.message_id);
-//     const roles = {
-//         '791167942921551882' : 'Oongaboonga',
-//         '791168038262276156' : 'MineCrafties',
-//         '791168065337163796' : 'PVPers',
-//         '805672549634932746' : 'Tabletop'
-//         // '791560712584560670' : '??????'
-//     }
-//     const keys = Object.keys(roles)
-//     console.log(packet.d.emoji.id)
-//     if(!keys.includes(packet.d.emoji.id)){
-//         message.reactions.cache.each( react =>{
-//             if(!keys.includes(react._emoji.id)){
-//                 react.remove()
-//             }
-//         })
-//         packet.t === 'MESSAGE_REACTION_ADD' ? message.reactions.cache.get(packet.d.emoji.id).remove().catch(error => console.error('Failed to remove reactions: ', error)): null;
-//         return;
-//     }
-
-//     const user = await message.guild.members.fetch(packet.d.user_id)
-//     const role = message.guild.roles.cache.find(role => role.name === roles[packet.d.emoji.id]);
-//     if(packet.t === 'MESSAGE_REACTION_ADD'){
-//         user.roles.add(role)
-//     } else if (packet.t === 'MESSAGE_REACTION_REMOVE'){
-//         user.roles.remove(role)
-//     }
-
-// });
-
-
-
-bot.on( 'message' , async message => {
-    if(!['898766114190950440'].includes(message.channel.id) || message.author.id === '706669135915909140' || message.content[0] !== PREFIX){
-    } else {
-
-     
-
-    let item = message.content.toLowerCase()
-    let post = {
-        item: '',
-        quantity: 0,
-        requestedBy: ''
-    }
-
-    let args = message.content.substring(PREFIX.length).split(" ");
-    const filter = m => m.author.id === message.author.id;
-
-    
-    switch(args[0].toLowerCase()){
-
-        // submits item request for request project
-        case 'request' :
-            message.delete({ timeout: 20000 })
-            message.reply("Please submit a quantity... Answer must be an integer... Will expire in 15 seconds..").then(r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-            message.channel.awaitMessages(filter, { max: 1, time: 15000}).then(collected => {
-                const quantity = collected.first().content
-                collected.first().delete({timeout: 1000 * 15})
-
-            // User Checks if submitted request exists and then formats request for submission.     
-            if(item !== '!request') {
-                // parses given number from string to int
-                const trueQuan = parseInt(quantity)      
-                const itemSubmit = item.replace("!request", "")
-                post.quantity = trueQuan;
-                post.requestedBy = message.author.username+'#'+message.author.discriminator;
-                post.requesterId = message.author.id;
-                post.requesterPicture = message.author.avatar;
-                post.item = itemSubmit.trimStart()
-                const user = message.author
-    
-                axios.get(`https://xivapi.com/search?string=${post.item}&private_key=${process.env.XIVAPI}`)
-                .then(response => {
-                    const apiItem = response.data.Results
-                    if(apiItem[0]){
-                    post.item = apiItem[0].Name
-                    post.itemIcon = `https://xivapi.com${apiItem[0].Icon}`
-                    post.itemID = apiItem[0].ID
-                    axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
-                    .then(res => message.channel.send('Request submitted, check status at https://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
-                    .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
-                    } else {
-                        message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                    message.channel.send('Cannot find item, check name submission').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                })
-            } else {
-                message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-            }
-            })
-            break;
-        case 'crafter' :
-            message.delete({ timeout: 20000 })
-            const user = {
-                uuid: message.author.id,
-                username: message.author.username,
-                avatar: message.author.avatar,
-                discriminator: message.author.discriminator,
-                crafter: true
-            }
-            axios.get('https://xivreq.herokuapp.com/api/user/', { params: {'uuid': user.uuid}})
-                .then( retUser => {
-                    if(retUser.data){
-                        if(retUser.data.crafter){
-                            message.reply('You are already registered as a crafter :)').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-                        } else {
-                            message.reply("Are you sure you want to become a crafter? (response valid for 10 seconds)").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-                                message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
-                                    let answer = collected.first().content
-                                    collected.first().delete({timeout: 1000 * 10})
-                                    answer = answer.toLowerCase()
-                                    if(answer.includes('yes')){
-                                        axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
-                                            .then( added => message.channel.send('You are now registered as a crafter!\nYou can claim requests to complete at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
-                                            .catch( err => {
-                                                console.log(err)
-                                                message.channel.send('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-                                            })
-                                    } else{
-                                        message.channel.send('Request Voided...').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-                                    }
-                        })}
-                    } else {
-                        message.reply("Are you sure you want to become a crafter? (response valid for 10 seconds)").then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-                                message.channel.awaitMessages(filter, { max: 1, time: 10000}).then(collected => {
-                                    let answer = collected.first().content
-                                    collected.first().delete({timeout: 1000 * 10})
-                                    answer = answer.toLowerCase()
-                                    if(answer.includes('yes')){
-                                        axios.put('https://xivreq.herokuapp.com/api/user/crafter', user)
-                                            .then( added => message.channel.send('You are now registered as a crafter!\nYou can claim requests to complete at: https://xivreq.com\nHappy Crafting!').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
-                                            .catch( err => message.channel.send('Something went wrong while processing your request.\nPlease try again shortly, or contact Exa#0469 if the problem persists').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
-                                        } else{
-                                            message.channel.send('Request Voided...').then(r => r.delete ({timeout: 10000})).catch(err => console.log(err))
-                                        }
-                                    })
-                                }
-                })
-            break;
-        case 'clear' :
-            if (message.member.hasPermission("MANAGE_MESSAGES")) {
-                console.log('Action: Clearing Messages')
-                message.channel.messages.fetch({limit:100})
-                .then(fetched => {
-                    const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned)
-                    message.channel.bulkDelete(notPinned, true)
-                   .then(res => {message.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
-                    .catch(err => {
-                    message.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
-                    console.log(err)})     
-                })
-                                   
-            }
-            break;
-        case 'status' :
-            if (message.member.hasPermission("MANAGE_MESSAGES")) {
-            message.channel.send('There are Currently **0** unclaimed requests.')
-            }
-            break;
-        case 'update' :
-            message.delete({ timeout: 20000 })
-                const botChannel = await bot.channels.fetch("898766114190950440")
-                const status = await botChannel.messages.fetch("898771122638708767")
-                axios.get('https://xivreq.herokuapp.com/api/requests')
-                                .then( requests => {
-                                    let unclaimed = 0
-                                    for(const request of requests.data.Requests){
-                                        if(!request.claimed){
-                                            unclaimed++
-                                        }
-                                    }     
-                                    status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}\n To view the status of or claim requests head to: https://XIVREQ.com\n Type \`?help\` for information on available bot commands.`)
-                                })
-                                .catch( err => {
-                                    console.log(err)
-                                })
-            break;
-            case 'help' :
-                console.log('Action: Offering help')
-                message.delete({timeout: 1000 * 20})
-                const helpEmbed = new MessageEmbed()
-                .setColor('#FFA500')
-                .setAuthor('Bot Commands')
-                .setTitle('Enter any of the following commands:')
-                .setDescription('The prefix for all commands is ? followed by the command (I.E. ?help) Then any parameters required.')
-                .addFields(
-                    {name: '?help', value:['- Returns this reply showing all possible commands','\n']},
-                    {name: '?request ItemName', value: ['- Starts a request for chosen item.','- Will prompt for quantity once entered','- The XIVAPI is fairly smart with searches, but if wrong item is requests simply delete, and re-request with more specificity','\n']},
-                    {name: '?crafter', value: ['- Used to register as a crafter within the system','- Will prompt user for confirmation that they want to become a crafter','- After using this command if you were logged in on the site you will need to relog to see changes','\n']},
-                    {name: '?update', value: ['- Forces pinned message to update with current amount of unclaimed requests','- Note that this will naturally happen every thirty minutes regardless','\n']},
-                    {name: '?set job', value: ['- Requests a full set of Exarchic gear','- Use job abreviations instead of full name. I.E. ?set nin, ?set drk, ?set pld, ?set sch','- Request is kept as one full request, but can still be exported to teamcraft.','\n']}
+    // /[^_]+$/g after underscore
+    // /^[^_]+(?=_)/g before underscore
+    bot.on('interactionCreate', async interaction => {
+        const cancelRow = new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId(`cancel_`)
+                    .setLabel('Cancel')
+                    .setStyle('SECONDARY')
                 )
-                message.reply(helpEmbed).then( r => r.delete ({timeout: 60000})).catch(err => console.log(err)) 
-                break;
-            // case 'set' :
-            //     message.delete({ timeout: 20000 })
-            //     if(item !== '!set') {           
-            //         const setSubmit = item.replace("!set", "");
-            //         post.quantity = 1;
-            //         post.requestedBy = message.author.username+'#'+message.author.discriminator;
-            //         post.requesterId = message.author.id;
-            //         post.requesterPicture = message.author.avatar;
-            //         post.item = setSubmit.trimStart();
-            //         const user = message.author;
-        
-            //         axios.get(`https://xivreq.herokuapp.com/api/set?name=${post.item}`)
-            //         .then(res => {
-            //             const job = res.data.class
-            //             const jobs = {
-            //                 drk: 'darkknight',
-            //                 mch: 'machinist',
-            //                 whm: 'whitemage',
-            //                 gnb: 'gunbreaker',
-            //                 ast: 'astrologian',
-            //                 blm: 'blackmage',
-            //                 brd: 'bard',
-            //                 dnc: 'dancer',
-            //                 drg: 'dragoon',
-            //                 mnk: 'monk',
-            //                 nin: 'ninja',
-            //                 pld: 'paladin',
-            //                 rdm: 'redmage',
-            //                 sam: 'samurai',
-            //                 war: 'warrior',
-            //                 sch: 'scholar',
-            //                 smn: 'summoner',
-            //             }
-            //             console.log(job)
-            //             if(job){
-            //             post.item = `${job.toUpperCase()} set`
-            //             post.itemIcon = `https://xivapi.com/cj/1/${jobs[job]}.png`
-            //             post.itemID = 00000
-            //             post.set = true
-            //             post.setClass = job
-            //             axios.post('https://xivreq.herokuapp.com/api/requests/submit', {post, user} )
-            //             .then(res => message.channel.send('Request submitted, check status at https://xivreq.com\n\nWhile you are waiting for your request to be claimed, please gather the materials required.\nExport the request to teamcraft via the website if you are unsure of the required materials.\nThank you :) ').then( r => r.delete ({timeout: 25000})).catch(err => console.log(err)))
-            //             .catch(err => message.channel.send('There was an error submitting your request. \n Please check the request and try again.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)))
-            //             } else {
-            //                 message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-            //             }
-            //         })
-            //         .catch(err => {
-            //             console.log(err)
-            //             message.channel.send('Cannot find set, check job submitted').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-            //         })
-            //     } else {
-            //         message.channel.send('Requests cannot be empty.').then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))
-            //     }
-                
-            //     break;   
-            case 'reaction':
-                    console.log('Action: Showing Reaction info')
-                    const reactEmbed = new MessageEmbed()
-                        .setColor('#FFA500')
-                        .setAuthor('Role Selection')
-                        .setDescription('React to this message to obtain the following roles: \n')
-                        .addFields(
-                            {name: '<:PVP:791168065337163796> : PVPers', value:['Access to the PVP channel','--'], inline: false},
-                            {name: '<:ARK:791167942921551882> : Oongaboonga', value:['Access to the Ark Survival Evolved channel','--'], inline: false},
-                            {name: '<:MC:791168038262276156> : Minecrafties', value:['Access to the Minecraft Channel','--'], inline: false},
-                        )
-                    message.channel.send(reactEmbed).then( mes => {
-                        mes.react(message.guild.emojis.cache.get('791168065337163796'))
-                        mes.react(message.guild.emojis.cache.get('791167942921551882'))
-                        mes.react(message.guild.emojis.cache.get('791168038262276156'))
-                    })
-                break; 
-            case 'setmessage':
-                message.channel.send('dumb bitch')
-                break; 
+        switch(interaction.customId.match(/^[^_]+(?=_)/g)[0]){
+            case 'primary': {
+                switch(interaction.customId.match(/[^_]+$/g)[0]){
+                    case 'battle': {
+                        interaction.deferUpdate()
+                        const roleRow = new MessageActionRow()
+                            .addComponents(
+                                new MessageButton()
+                                    .setCustomId(`secondary_tank`)
+                                    .setLabel('Tank')
+                                    .setStyle('PRIMARY'),
+                                new MessageButton()
+                                    .setCustomId(`secondary_melee`)
+                                    .setLabel('Melee')
+                                    .setStyle('DANGER'),
+                                new MessageButton()
+                                    .setCustomId(`secondary_ranged`)
+                                    .setLabel('Ranged')
+                                    .setStyle('DANGER'),
+                                new MessageButton()
+                                    .setCustomId(`secondary_caster`)
+                                    .setLabel('Caster')
+                                    .setStyle('DANGER'),
+                                new MessageButton()
+                                    .setCustomId(`secondary_healer`)
+                                    .setLabel('Healer')
+                                    .setStyle('SUCCESS')
+                            );
+                        interaction.channel.send({content:`<@${interaction.user.id}> please select a role:`,components:[roleRow,cancelRow]})
+                        break;
+                    }
+                    
+                    case 'crafter':{
+                        interaction.deferUpdate()
+                        const jobRow = new MessageActionRow()
+                            .addComponents(
+                                new MessageSelectMenu()
+                                    .setCustomId('tertiary_dohl')
+                                    .setPlaceholder('')
+                                    .addOptions(jobs[interaction.customId.match(/[^_]+$/g)[0]]),
+                            );
+                        interaction.channel.send({content:`<@${interaction.user.id}> please select a crafter:`,components: [jobRow,cancelRow]})
+                        break;
+                    }
+                    case 'gatherer':{
+                        interaction.deferUpdate()
+                        const jobRow = new MessageActionRow()
+                            .addComponents(
+                                new MessageSelectMenu()
+                                    .setCustomId('tertiary_dohl')
+                                    .setPlaceholder('')
+                                    .addOptions(jobs[interaction.customId.match(/[^_]+$/g)[0]]),
+                            );
+                        interaction.channel.send({content:`<@${interaction.user.id}> please select a gatherer:`,components: [jobRow,cancelRow]})
+                        break;
+                    }
+                    case 'report':{
+                        const modal = new Modal()
+                        .setCustomId('error_')
+                        .setTitle('Error Report')
+                        const errorDescription = new TextInputComponent()
+                            .setCustomId('error')
+                            .setLabel("Description of Error:")
+                            .setStyle('PARAGRAPH')
+                        const replicationSteps = new TextInputComponent()
+                            .setCustomId('replicant')
+                            .setLabel("How to replicate:")
+                            .setStyle('PARAGRAPH')
+                        const userOrder = new TextInputComponent()
+                            .setCustomId('userorder')
+                            .setLabel("What was your order:")
+                            .setStyle('PARAGRAPH')
+                        const errorDescriptionRow = new MessageActionRow().addComponents(errorDescription)
+                        const replicationStepsRow = new MessageActionRow().addComponents(replicationSteps)
+                        const userOrderRow = new MessageActionRow().addComponents(userOrder)
+                        modal.addComponents(errorDescriptionRow,replicationStepsRow,userOrderRow);
+                        interaction.showModal(modal);
+                        break;
+                    }
+                    case 'signup':{
+                        interaction.deferUpdate()
+                        const signupRow = new MessageActionRow()
+                            .addComponents(
+                                new MessageButton()
+                                    .setCustomId(`becomeCrafter_signup`)
+                                    .setLabel('Signup')
+                                    .setStyle('SUCCESS'),
+                                new MessageButton()
+                                    .setCustomId(`cancel_`)
+                                    .setLabel('Cancel')
+                                    .setStyle('DANGER')
+                                )
+                        const dropoutRow = new MessageActionRow()
+                            .addComponents(
+                                new MessageButton()
+                                    .setCustomId(`becomeCrafter_dropout`)
+                                    .setLabel('Dropout')
+                                    .setStyle('SUCCESS'),
+                                new MessageButton()
+                                    .setCustomId(`cancel_`)
+                                    .setLabel('Cancel')
+                                    .setStyle('DANGER')
+                                )
+                        axios.get(`${process.env.apiUrl}/api/user/`, { params: {'uuid': interaction.user.id}}).then(res => {
+                            if(!res.data.crafter){
+                                interaction.channel.send({content:`<@${interaction.user.id}> would you like to become a crafter?`,components: [signupRow]})
+                            } else {
+                                interaction.channel.send({content:`<@${interaction.user.id}> would you like to cease being a crafter?`,components: [dropoutRow]})
+                            }
+                            
 
-        }}
-})   
- 
-bot.login(process.env.discordAPI)
+                        }).catch(err => console.log(err))
+                    }
+                }
+                break;
+            }
+            case 'secondary': {
+                interaction.deferUpdate()
+                const jobRow = new MessageActionRow()
+                    .addComponents(
+                        new MessageSelectMenu()
+                            .setCustomId('tertiary_')
+                            .setPlaceholder('')
+                            .addOptions(jobs[interaction.customId.match(/[^_]+$/g)[0]])
+                    );
+                if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
+                    interaction.message.delete()
+                    interaction.channel.send({content:`<@${interaction.user.id}> please select a job:`,components: [jobRow,cancelRow]})
+                }
+                break;
+            }
+            case 'tertiary': {
+                interaction.deferUpdate()
+                const options = await requestAndFormat(interaction.values[0],interaction.customId.match(/^[^_]+(?=_)/g)[0])
+                const jobRow = new MessageActionRow()
+                    .addComponents(
+                        new MessageSelectMenu()
+                            .setCustomId('select_')
+                            .setPlaceholder('')
+                            .setMinValues(1)
+                            .addOptions(options)
+                    );
+                if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
+                    interaction.message.delete()
+                    interaction.channel.send({content:`<@${interaction.user.id}> please select all pieces you'd like to request:`,components: [jobRow,cancelRow]})
+                }
+                break;
+            }
+            case 'select': {
+                const user = {
+                    uuid: interaction.user.id,
+                    username: interaction.user.username,
+                    avatar: interaction.user.avatar,
+                    discriminator: interaction.user.discriminator
+                }
+                const pieces = []
+                for(const piece of interaction.values){
+                    pieces.push(piece.match(/[^_]+$/g)[0])
+                }
+                const request = await requestAndFormat(interaction.values[0].match(/^[^_]+(?=_)/g)[0],interaction.customId.match(/^[^_]+(?=_)/g)[0],pieces)
+                request["requesterId"] = interaction.user.id
+                request["requestedBy"] = interaction.user.username
+                request["requesterPicture"] = interaction.user.avatar
+                request["Class"] = interaction.values[0].match(/^[^_]+(?=_)/g)[0]
+                if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id || interaction.isModalSubmit()){
+                    if(!interaction.isModalSubmit()) interaction.message.delete();
+                    axios.post(`${process.env.apiUrl}/api/requests/submit`, {request,user} ).then(res => interaction.reply({content:`<@${interaction.user.id}> your request has been sent. Please check the website for your order status. Once the order has been claimed a crafter will reach out to you regarding materials/tome items.`, ephemeral: true})).catch(err => console.log(err))
+                }
+                break;
+            }
+            case 'cancel': {
+                interaction.deferUpdate()
+                interaction.message.delete()
+                break;
+            }
+            case 'becomeCrafter':{
+                // interaction.customId.match(/[^_]+$/g)[0])
+                const crafter = interaction.customId.match(/[^_]+$/g)[0] === 'signup' 
+                console.log(interaction.customId.match(/[^_]+$/g)[0], crafter)
+                const user = {
+                    uuid: interaction.user.id,
+                    username: interaction.user.username,
+                    avatar: interaction.user.avatar,
+                    discriminator: interaction.user.discriminator,
+                    crafter: crafter
+                }
+                axios.put(`${process.env.apiUrl}/api/user/crafter`, user).then(res => {
+                    if(!interaction.isModalSubmit()) interaction.message.delete();
+                    interaction.reply({content:`<@${interaction.user.id}> your user profile has now been updated!`, ephemeral: true})
+                }).catch(err => console.log(err))
+                break;
+            }
+            case 'error': {
+                interaction.deferUpdate()
+                let errorDescriptor;
+                let errorReplicator;
+                let userorder;
+                for(const value of interaction.fields.components){
+                    if(value.components[0].customId === 'error') errorDescriptor = value.components[0].value
+                    if(value.components[0].customId === 'replicant') errorReplicator = value.components[0].value
+                    if(value.components[0].customId === 'userorder') userorder = value.components[0].value
+                }
+                const channel = await bot.channels.fetch(`${process.env.errorChannel}`);
+                const randomBetween = (min, max) => Math.floor(Math.random()*(max-min+1)+min);
+
+                const errorReport = new MessageEmbed()
+                                    .setTitle("Error Log")
+                                    .setColor([
+                                        randomBetween(0, 255),
+                                        randomBetween(0, 255),
+                                        randomBetween(0, 255)
+                                      ])
+                                    .setTimestamp(Date.now())
+                                    .addFields(
+                                        {name:'Description',value:errorDescriptor},
+                                        {name:'How to reproduce',value:errorReplicator},
+                                        {name:'Users Order',value:userorder},
+                                        {name:'User Reporting',value: interaction.user.username+'#'+interaction.user.discriminator}
+                                    )
+                channel.send({embeds:[errorReport]})
+                interaction.channel.send({content:`<@${interaction.user.id}> Thank you for the report, your order will be manually made, and an admin will reach out for more info if needed.`, ephemeral: true})
+               
+                break; 
+            }
+        }
+    })
+    bot.on('unhandledRejection', error => {
+        console.error('Unhandled promise rejection:', error);
+    });
+    bot.on( 'messageCreate' , async mes => {
+        if(!['898766114190950440'].includes(mes.channel.id) || mes.author.id === '706669135915909140' || mes.content[0] !== PREFIX){
+        } else {
+        let args = mes.content.substring(PREFIX.length).split(" ");
+        switch(args[0].toLowerCase()){
+            case 'clear' :
+                if (mes.member._roles.includes("730074491161673798")) {
+                    console.log('Action: Clearing Messages')
+                    mes.channel.messages.fetch({limit:100})
+                    .then(fetched => {
+                        const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned)
+                        mes.channel.bulkDelete(notPinned, true)
+                    .then(res => {mes.channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
+                        .catch(err => {
+                        mes.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
+                        console.log(err)})     
+                    })                  
+                }
+            break;
+            case 'setmessage':
+                const rowOne = new MessageActionRow()
+                .addComponents(
+                        new MessageButton()
+                        .setCustomId(`primary_battle`)
+                        .setLabel('Battle Set')
+                        .setStyle('SECONDARY'),
+                        new MessageButton()
+                        .setCustomId(`primary_crafter`)
+                        .setLabel('Crafter Set')
+                        .setStyle('SECONDARY'),
+                        new MessageButton()
+                        .setCustomId(`primary_gatherer`)
+                        .setLabel('Gathering Set')
+                        .setStyle('SECONDARY'),
+                );
+                const rowTwo = new MessageActionRow()
+                .addComponents(
+                        new MessageButton()
+                        .setCustomId(`primary_signup`)
+                        .setLabel('Become Crafter')
+                        .setStyle('SECONDARY'),
+                        new MessageButton()
+                        .setCustomId(`primary_report`)
+                        .setLabel('Error Report')
+                        .setStyle('SECONDARY'),
+                        new MessageButton()
+                        .setURL(`https://www.xivreq.com`)
+                        .setLabel('Vist XIVReq')
+                        .setStyle('LINK')
+                );
+                mes.channel.send({files: ["./assets/req.png"]}).then(e=>{
+                    mes.channel.send({content:'Welcome to XIV Req! Choose an option to begin:',components:[rowOne,rowTwo]})
+                }).catch(err=> console.log(err))
+                
+            break; 
+            }}
+    })   
+    
+    bot.login(process.env.discordAPI)
+}

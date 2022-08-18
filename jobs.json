@@ -1,0 +1,136 @@
+{ 
+    "tank": [
+        {
+            "label": "Paladin",
+            "value": "PLD"
+        },
+        {
+            "label": "Warrior",
+            "value": "WAR"
+        },
+        {
+            "label": "Dark Knight",
+            "value": "DRK"
+        },
+        {
+            "label":"Gunbreaker",
+            "value": "GNB"
+        }
+    ],
+    "healer": [
+        {
+            "label": "White Mage",
+            "value": "WHM"
+        },
+        {
+            "label": "Scholar",
+            "value": "SCH"
+        },
+        {
+            "label": "Astrologian",
+            "value": "AST"
+        },
+        {
+            "label":"Sage",
+            "value": "SGE"
+        }
+    ],
+    "melee": [
+        {
+            "label": "Dragoon",
+            "value": "DRG"
+        },
+        {
+            "label": "Monk",
+            "value": "MNK"
+        },
+        {
+            "label": "Ninja",
+            "value": "NIN"
+        },
+        {
+            "label":"Samurai",
+            "value": "SAM"
+        },
+        {
+            "label":"Reaper",
+            "value": "RPR"
+        }
+    ],
+    "ranged": [
+        {
+            "label": "Bard",
+            "value": "BRD"
+        },
+        {
+            "label": "Dancer",
+            "value": "DNC"
+        },
+        {
+            "label": "Machinist",
+            "value": "MCH"
+        }
+    ],
+    "caster": [
+        {
+            "label": "Black Mage",
+            "value": "BLM"
+        },
+        {
+            "label": "Summoner",
+            "value": "SMN"
+        },
+        {
+            "label": "Red Mage",
+            "value": "RDM"
+        }
+    ],
+    "crafter": [
+        {
+            "label": "Achemist",
+            "value": "ALC"
+        },
+        {
+            "label": "Armorer",
+            "value": "ARM"
+        },
+        {
+            "label": "Blacksmith",
+            "value": "BSM"
+        },
+        {
+            "label": "Carpenter",
+            "value": "CRP"
+        },
+        {
+            "label": "Culinarian",
+            "value": "CUL"
+        },
+        {
+            "label": "Goldsmith",
+            "value": "GSM"
+        },
+        {
+            "label": "Leatherworker",
+            "value": "LTW"
+        },
+        {
+            "label": "Weaver",
+            "value": "WVR"
+        }
+    ],
+    "gatherer": [
+        {
+            "label": "Botanist",
+            "value": "BTN"
+        },
+        {
+            "label": "Fisher",
+            "value": "FSH"
+        },
+        {
+            "label": "Miner",
+            "value": "MIN"
+        }
+    ]
+}
