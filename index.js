@@ -35,10 +35,8 @@ else{
                 .then(fetched => {
                 const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned && ((Date.now()-fetchedMsg.createdTimestamp))>(2 * 60 * 1000))
                 channel.bulkDelete(notPinned, true)
-                    .then(res => {channel.send(`Bulk deleted ${res.size} messages`).then( r => r.delete ({timeout: 15000})).catch(err => console.log(err))}) 
-                        .catch(err => {
-                        channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
-                        console.log(err)})     
+                    .then(res => console.log(res)) 
+                        .catch(err => console.log(err))     
                 })
                 .catch(console.error);
         },
