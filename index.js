@@ -26,6 +26,24 @@ else{
         console.log('Req-Bot Online')
     })
 
+    const interactionSweeper = new CronJob(
+        '* * * * *',
+        async function() {
+            const channel = await bot.channels.fetch(`${process.env.botChannel}`);
+            channel.messages.fetch({ limit: 1 }).then(messages => {
+                let lastMessage = messages.first();
+                
+                if (!lastMessage.pinned) {
+                  console.log(lastMessage)
+                }
+              })
+              .catch(console.error);
+        },
+        null,
+        true,
+        'America/Los_Angeles'
+    )
+
     // /[^_]+$/g after underscore
     // /^[^_]+(?=_)/g before underscore
     bot.on('interactionCreate', async interaction => {
