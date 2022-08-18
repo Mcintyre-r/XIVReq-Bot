@@ -30,7 +30,21 @@ else{
         '* * * * *',
         async function() {
             const channel = await bot.channels.fetch(`${process.env.botChannel}`);
-
+                        
+            const status = await botChannel.messages.fetch(process.env.status)
+            axios.get('https://xivreq.herokuapp.com/api/requests')
+                .then( requests => {
+                    let unclaimed = 0
+                    for(const request of requests.data.Requests){
+                        if(!request.claimed){
+                            unclaimed++
+                        }
+                    }     
+                    status.edit(`There ${unclaimed===1?'is':'are'} currently **${unclaimed}** unclaimed ${unclaimed===1? 'request':'requests'}.`)
+                })
+                .catch( err => {
+                    console.log(err)
+                })
             channel.messages.fetch({limit:100})
                 .then(fetched => {
                     console.log(fetched.first())
@@ -301,6 +315,11 @@ else{
                         mes.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
                         console.log(err)})     
                     })                  
+            break;
+            case 'status' :
+                if (message.member.hasPermission("MANAGE_MESSAGES")) {
+                message.channel.send('There are Currently **0** unclaimed requests.')
+                }
             break;
             case 'setmessage':
                 const rowOne = new MessageActionRow()
