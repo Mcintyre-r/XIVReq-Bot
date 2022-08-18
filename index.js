@@ -230,7 +230,6 @@ else{
                 break;
             }
             case 'error': {
-                interaction.deferUpdate()
                 let errorDescriptor;
                 let errorReplicator;
                 let userorder;
@@ -257,7 +256,7 @@ else{
                                         {name:'User Reporting',value: interaction.user.username+'#'+interaction.user.discriminator}
                                     )
                 channel.send({embeds:[errorReport]})
-                interaction.channel.send({content:`<@${interaction.user.id}> Thank you for the report, your order will be manually made, and an admin will reach out for more info if needed.`, ephemeral: true})
+                interaction.reply({content:`<@${interaction.user.id}> Thank you for the report, your order will be manually made, and an admin will reach out for more info if needed.`, ephemeral: true})
                
                 break; 
             }
