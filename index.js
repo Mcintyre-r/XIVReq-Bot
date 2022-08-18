@@ -266,12 +266,11 @@ else{
         console.error('Unhandled promise rejection:', error);
     });
     bot.on( 'messageCreate' , async mes => {
-        if(!['898766114190950440'].includes(mes.channel.id) || mes.author.id === '706669135915909140' || mes.content[0] !== PREFIX){
+        if(!['1009632907645685882'].includes(mes.channel.id) || mes.author.id === '706669135915909140' || mes.content[0] !== PREFIX|| mes.author.id !== '59423394055069696'){
         } else {
         let args = mes.content.substring(PREFIX.length).split(" ");
         switch(args[0].toLowerCase()){
             case 'clear' :
-                if (mes.member._roles.includes("730074491161673798")) {
                     console.log('Action: Clearing Messages')
                     mes.channel.messages.fetch({limit:100})
                     .then(fetched => {
@@ -282,7 +281,6 @@ else{
                         mes.channel.send("Well you broke something... ").then( r => r.delete ({timeout: 15000})).catch(err => console.log(err)) 
                         console.log(err)})     
                     })                  
-                }
             break;
             case 'setmessage':
                 const rowOne = new MessageActionRow()
@@ -324,4 +322,4 @@ else{
     })   
     
     bot.login(process.env.discordAPI)
-}
+}1
