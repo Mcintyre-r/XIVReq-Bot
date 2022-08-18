@@ -198,6 +198,7 @@ else{
                 const request = await requestAndFormat(interaction.values[0].match(/^[^_]+(?=_)/g)[0],interaction.customId.match(/^[^_]+(?=_)/g)[0],pieces)
                 request["requesterId"] = interaction.user.id
                 request["requestedBy"] = interaction.user.username
+                request["requesterDiscriminator"] = interaction.user.discriminator
                 request["requesterPicture"] = interaction.user.avatar
                 request["Class"] = interaction.values[0].match(/^[^_]+(?=_)/g)[0]
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id || interaction.isModalSubmit()){
