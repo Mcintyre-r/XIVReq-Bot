@@ -309,7 +309,7 @@ else{
                         .setLabel('Error Report')
                         .setStyle('SECONDARY'),
                         new MessageButton()
-                        .setURL(`https://www.xivreq.com`)
+                        .setURL(`https://xivreq.com`)
                         .setLabel('Vist XIVReq')
                         .setStyle('LINK')
                 );
