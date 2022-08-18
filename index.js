@@ -33,6 +33,7 @@ else{
 
             channel.messages.fetch({limit:100})
                 .then(fetched => {
+                    console.log(fetched.first())
                 const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned && ((Date.now()-fetchedMsg.createdTimestamp))>(2 * 60 * 1000))
                 channel.bulkDelete(notPinned, true)
                     .then(res => console.log(res)) 
