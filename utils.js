@@ -50,13 +50,13 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             let FingerRCheck = piece.EquipSlotCategory["FingerR"] === 1
             delete piece.EquipSlotCategory
             piece.slot = slot
-            console.log(FingerRCheck)
+            // console.log(FingerRCheck)
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
             if(gearSet["FingerR"] && FingerRCheck){
                 
             piece.slot = "FingerR"
             gearSet["FingerR"] = piece
-            console.log(piece)
+            // console.log(piece)
             
             }
         }
@@ -73,6 +73,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
                     })
                 }
             }
+            console.log(options)
             return options
         }
         case "select" :{
