@@ -49,12 +49,11 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             slot = Object.keys(piece.EquipSlotCategory).find(key => piece.EquipSlotCategory[key] === 1)
             delete piece.EquipSlotCategory
             piece.slot = slot
-            console.log(slot)
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
             if(gearSet["FingerR"] && slot === "FingerL"){
-                console.log({piece,gearSet})
             gearSet["FingerR"] = piece
             gearSet["FingerR"].slot = "FingerR"
+            console.log({piece,gearSet})
             }
 
         }
@@ -63,6 +62,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
         case "tertiary":{
             let options= []
             for(const piece in gearSet){
+                console.log(piece)
                 if(gearSet[piece]){
                     options.push({
                         label: gearSet[piece].slot,
@@ -71,7 +71,6 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
                     })
                 }
             }
-            console.log(options)
             return options
         }
         case "select" :{
