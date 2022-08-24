@@ -53,9 +53,10 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             // console.log(FingerRCheck)
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
             if(gearSet["FingerR"] && FingerRCheck){
-                
             piece.slot = "FingerR"
             gearSet["FingerR"] = piece
+            if(gearSet["FingerL"]) gearSet["FingerL"].slot = "FingerL"
+
             // console.log(piece)
             
             }
