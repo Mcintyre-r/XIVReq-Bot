@@ -47,18 +47,12 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             delete piece.EquipSlotCategory.ID
             delete piece.EquipSlotCategory.SoulCrystal
             slot = Object.keys(piece.EquipSlotCategory).find(key => piece.EquipSlotCategory[key] === 1)
-            let FingerRCheck = piece.EquipSlotCategory["FingerR"] === 1
             delete piece.EquipSlotCategory
             piece.slot = slot
-            // console.log(FingerRCheck)
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
-            if(gearSet["FingerR"] && FingerRCheck){
-            piece.slot = "FingerR"
+            if(gearSet["FingerR"] && slot === "FingerL"){
             gearSet["FingerR"] = piece
-            if(gearSet["FingerL"]) gearSet["FingerL"].slot = "FingerL"
-
-            // console.log(piece)
-            
+            gearSet["FingerR"].slot = "FingerR"
             }
         }
     }
@@ -74,7 +68,6 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
                     })
                 }
             }
-            console.log(options)
             return options
         }
         case "select" :{
