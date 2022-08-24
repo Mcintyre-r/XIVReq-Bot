@@ -47,10 +47,11 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             delete piece.EquipSlotCategory.ID
             delete piece.EquipSlotCategory.SoulCrystal
             slot = Object.keys(piece.EquipSlotCategory).find(key => piece.EquipSlotCategory[key] === 1)
+            let FingerRCheck = piece.EquipSlotCategory["FingerR"] === 1
             delete piece.EquipSlotCategory
             piece.slot = slot
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
-            if(gearSet["FingerR"] && piece.EquipSlotCategory["FingerR"] === 1){
+            if(gearSet["FingerR"] && FingerRCheck){
             gearSet["FingerR"] = piece
             gearSet["FingerR"].slot = "FingerR"
             }
