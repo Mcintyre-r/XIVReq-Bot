@@ -50,7 +50,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             delete piece.EquipSlotCategory
             piece.slot = slot
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
-            if(gearSet["FingerR"]){
+            if(gearSet["FingerL"] && gearSet["FingerR"]){
             gearSet["FingerR"] = Object.assign({},gearSet["FingerL"])
             gearSet["FingerR"].slot = "FingerR"
             }
