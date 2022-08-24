@@ -54,6 +54,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             gearSet["FingerR"] = piece
             gearSet["FingerR"].slot = "FingerR"
             }
+
         }
     }
     switch(step){
@@ -68,6 +69,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
                     })
                 }
             }
+            console.log(options)
             return options
         }
         case "select" :{
