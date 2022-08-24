@@ -49,8 +49,10 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             slot = Object.keys(piece.EquipSlotCategory).find(key => piece.EquipSlotCategory[key] === 1)
             delete piece.EquipSlotCategory
             piece.slot = slot
+            console.log(slot)
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
             if(gearSet["FingerR"] && slot === "FingerL"){
+                console.log({piece,gearSet})
             gearSet["FingerR"] = piece
             gearSet["FingerR"].slot = "FingerR"
             }
