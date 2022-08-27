@@ -372,7 +372,7 @@ else{
         console.error('Unhandled promise rejection:', error);
     });
     bot.on( 'messageCreate' , async mes => {
-        if(![process.env.MES_CHAN_ID].includes(mes.channel.id) || mes.author.id === process.env.BOT_ID || mes.content[0] !== PREFIX|| mes.author.id !== process.env.RAIN_ID){
+        if(![process.env.BOT_CHANNEL].includes(mes.channel.id) || mes.author.id === process.env.BOT_ID || mes.content[0] !== PREFIX|| mes.author.id !== process.env.RAIN_ID){
         } else {
         let args = mes.content.substring(PREFIX.length).split(" ");
         switch(args[0].toLowerCase()){
