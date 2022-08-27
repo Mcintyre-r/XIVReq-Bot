@@ -1,6 +1,5 @@
 const axios = require('axios');
 
-
 exports.requestAndFormat = async (job,step,choices = ["all"]) => {
     let dohl = false
     const dohlJobs = ["BSM","ALC","WVR","CRP","CUL","ARM","GSM","LTW","BTN","MIN","FSH"]
