@@ -333,7 +333,6 @@ else{
                     new MessageSelectMenu()
                         .setCustomId(`potSubmit_${interaction.values[0]}`)
                         .setPlaceholder('')
-                        .setMinValues(1)
                         .addOptions(quantityOptions)
                 );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
