@@ -166,8 +166,17 @@ else{
                                 .addOptions(potOpt),
                         );
                         console.log(resetUsers)
-                        if(resetUsers.data.includes(interaction.user.id)) console.log('hello')
-                        interaction.channel.send({content:`<@${interaction.user.id}> please choose which type of pot you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
+                        let alreadyOrdered = false
+                        if(resetUsers.data){
+                            for(const resetUser of resetUsers.data){
+                                if(resetUser.uuid = interaction.user.id) alreadyOrdered = true
+                            }
+                        }
+                        if(alreadyOrdered){
+                            interaction.channel.send({content:`<@${interaction.user.id}> you have already submitted an order for food, please wait until after weekly reset to submit another. `}).catch(err => console.log(err))
+                        } else {
+                            interaction.channel.send({content:`<@${interaction.user.id}> please choose which food you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
+                        }
                         break;
                     }
                     case 'report':{
