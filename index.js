@@ -148,7 +148,7 @@ else{
                         break;
                     }
                     case 'food':{
-                        interaction.deferUpdate()
+
                         const pots = await axios.get('https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=LevelItem=610,ItemSortCategory.ID=7,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300')
                         const resetUsers = await axios.get(`${process.env.API_URL}/api/reset/`)
                         let potOpt = []
@@ -173,8 +173,9 @@ else{
                             }
                         }
                         if(alreadyOrdered){
-                            interaction.channel.send({content:`<@${interaction.user.id}> you have already submitted an order for food, please wait until after weekly reset to submit another. `}).catch(err => console.log(err))
+                            interaction.channel.reply({content:`<@${interaction.user.id}> you have already submitted an order for food, please wait until after weekly reset to submit another. `,ephemeral:true}).catch(err => console.log(err))
                         } else {
+                            interaction.deferUpdate()
                             interaction.channel.send({content:`<@${interaction.user.id}> please choose which food you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
                         }
                         break;
