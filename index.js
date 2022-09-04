@@ -173,7 +173,7 @@ else{
                             }
                         }
                         if(alreadyOrdered){
-                            interaction.channel.reply({content:`<@${interaction.user.id}> you have already submitted an order for food, please wait until after weekly reset to submit another. `,ephemeral:true}).catch(err => console.log(err))
+                            interaction.reply({content:`<@${interaction.user.id}> you have already submitted an order for food, please wait until after weekly reset to submit another. `,ephemeral:true}).catch(err => console.log(err))
                         } else {
                             interaction.deferUpdate()
                             interaction.channel.send({content:`<@${interaction.user.id}> please choose which food you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
