@@ -150,6 +150,7 @@ else{
                     case 'food':{
                         interaction.deferUpdate()
                         const pots = await axios.get('https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=LevelItem=610,ItemSortCategory.ID=7,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300')
+                        const resetUsers = await axios.get(`${process.env.API_URL}/api/reset/`)
                         let potOpt = []
                         for(const pot of pots.data.Results){
                             potOpt.push({
@@ -164,7 +165,8 @@ else{
                                 .setPlaceholder('')
                                 .addOptions(potOpt),
                         );
-                        console.log(potOpt)
+                        console.log(resetUsers)
+                        if(resetUsers.data.includes(interaction.user.id)) console.log('hello')
                         interaction.channel.send({content:`<@${interaction.user.id}> please choose which type of pot you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
                         break;
                     }
@@ -401,7 +403,8 @@ else{
                 request["requesterPicture"] = interaction.user.avatar
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
                     interaction.message.delete()
-                    axios.post(`${process.env.API_URL}/api/requests/submit`, {request,user} ).then(res => interaction.reply({content:`<@${interaction.user.id}> your request has been sent. Please check the website for your order status. Once the order has been claimed a crafter will reach out to you regarding materials/tome items.`, ephemeral: true})).catch(err => console.log(err))
+                    axios.post(`${process.env.API_URL}/api/requests/submit`, {request,user} ).then(res => interaction.reply({content:`<@${interaction.user.id}> your request has been sent. Please check the website for your order status. You will be able to place another order for food after next weekly reset. `, ephemeral: true})).catch(err => console.log(err))
+                    axios.post(`${process.env.API_URL}/api/reset/add`, {uuid: interaction.user.id} ).then(res => console.log(res)).catch(err => console.log(err))
                 }
                 break;
             }
