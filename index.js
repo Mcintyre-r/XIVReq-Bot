@@ -47,13 +47,21 @@ else{
                 })
             channel.messages.fetch({limit:100})
                 .then(fetched => {
-                    console.log(fetched.first())
                 const notPinned = fetched.filter( fetchedMsg => !fetchedMsg.pinned && !fetchedMsg.webhookId && ((Date.now()-fetchedMsg.createdTimestamp))>(2 * 60 * 1000))
                 channel.bulkDelete(notPinned, true)
-                    .then(res => console.log(res)) 
+                    .then(res => console.log("hello")) 
                         .catch(err => console.log(err))     
                 })
                 .catch(console.error);
+        },
+        null,
+        true,
+        'America/Los_Angeles'
+    )
+    const weeklyReset = new CronJob(
+        '0 0 * * TUE',
+        async function() {
+            axios.delete(`${prcoess.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
         },
         null,
         true,
@@ -143,7 +151,6 @@ else{
                                 .setPlaceholder('')
                                 .addOptions(potOpt),
                         );
-                        console.log(potOpt)
                         interaction.channel.send({content:`<@${interaction.user.id}> please choose which type of pot you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
                         break;
                     }
@@ -165,7 +172,6 @@ else{
                                 .setPlaceholder('')
                                 .addOptions(potOpt),
                         );
-                        console.log(resetUsers)
                         let alreadyOrdered = false
                         if(resetUsers.data){
                             for(const resetUser of resetUsers.data){
