@@ -147,9 +147,27 @@ else{
                         interaction.channel.send({content:`<@${interaction.user.id}> please choose which type of pot you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
                         break;
                     }
-                    // case 'food':{
-                    //     break;
-                    // }
+                    case 'food':{
+                        interaction.deferUpdate()
+                        const pots = await axios.get('https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=LevelItem=610,ItemSortCategory.ID=7,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300')
+                        let potOpt = []
+                        for(const pot of pots.data.Results){
+                            potOpt.push({
+                                label: pot.Name,
+                                value : pot.Name
+                            })
+                        }
+                        const potRow = new MessageActionRow()
+                        .addComponents(
+                            new MessageSelectMenu()
+                                .setCustomId('foodSubmit_')
+                                .setPlaceholder('')
+                                .addOptions(potOpt),
+                        );
+                        console.log(potOpt)
+                        interaction.channel.send({content:`<@${interaction.user.id}> please choose which type of pot you'd like:`,components: [potRow,cancelRow]}).catch(err => console.log(err))
+                        break;
+                    }
                     case 'report':{
                         const modal = new Modal()
                         .setCustomId('error_')
@@ -340,7 +358,7 @@ else{
                     interaction.channel.send({content:`<@${interaction.user.id}> please select how many Palaka Mistletoe you will be offering:`,components: [quantityRow,cancelRow]})
                 }
                 break;
-            }
+            }         
             case 'potSubmit': {
                 const pots = await axios.get(`https://xivapi.com/search?string=Grade 7 Tincture of ${interaction.customId.match(/[^_]+$/g)[0]}&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5`)
                 const request = {}
@@ -361,7 +379,29 @@ else{
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
                     interaction.message.delete()
                     axios.post(`${process.env.API_URL}/api/requests/submit`, {request,user} ).then(res => interaction.reply({content:`<@${interaction.user.id}> your request has been sent. Please check the website for your order status. Once the order has been claimed a crafter will reach out to you regarding materials/tome items.`, ephemeral: true})).catch(err => console.log(err))
-                    // interaction.channel.send({content:`<@${interaction.user.id}> These are your choice: ${interaction.values[0]}x Grade 7 Tincture of ${interaction.customId.match(/[^_]+$/g)[0]}`,ephemeral:true})
+                }
+                break;
+            }
+            case 'foodSubmit': {
+                const pots = await axios.get(`https://xivapi.com/search?string=${interaction.values[0]}&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5`)
+                const request = {}
+                const user = { 
+                    uuid: interaction.user.id,
+                    username: interaction.user.username,
+                    avatar: interaction.user.avatar,
+                    discriminator: interaction.user.discriminator
+                }
+                request["potID"] = pots.data.Results[0].ID
+                request["potIcon"] = pots.data.Results[0].IconHD
+                request["potName"] = pots.data.Results[0].Name
+                request["quantity"] = 30
+                request["requesterId"] = interaction.user.id
+                request["requestedBy"] = interaction.user.username
+                request["requesterDiscriminator"] = interaction.user.discriminator
+                request["requesterPicture"] = interaction.user.avatar
+                if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
+                    interaction.message.delete()
+                    axios.post(`${process.env.API_URL}/api/requests/submit`, {request,user} ).then(res => interaction.reply({content:`<@${interaction.user.id}> your request has been sent. Please check the website for your order status. Once the order has been claimed a crafter will reach out to you regarding materials/tome items.`, ephemeral: true})).catch(err => console.log(err))
                 }
                 break;
             }
@@ -411,6 +451,10 @@ else{
                         new MessageButton()
                         .setCustomId(`primary_pot`)
                         .setLabel('Request Pots')
+                        .setStyle('SECONDARY'),
+                        new MessageButton()
+                        .setCustomId(`primary_food`)
+                        .setLabel('Request Food')
                         .setStyle('SECONDARY')
                 )
                 const rowThree = new MessageActionRow()
