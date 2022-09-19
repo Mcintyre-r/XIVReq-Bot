@@ -177,7 +177,7 @@ else{
                         if(resetUsers.data){
                             for(const resetUser of resetUsers.data){
                                 console.log(resetUser.uuid, '=',interaction.user.id)
-                                if(resetUser.uuid = interaction.user.id) alreadyOrdered = true
+                                if(resetUser.uuid === interaction.user.id) alreadyOrdered = true
                             }
                         }
                         console.log(alreadyOrdered)
