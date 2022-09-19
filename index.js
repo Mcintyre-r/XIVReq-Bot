@@ -173,11 +173,14 @@ else{
                                 .addOptions(potOpt),
                         );
                         let alreadyOrdered = false
+                        console.log(alreadyOrdered)
                         if(resetUsers.data){
                             for(const resetUser of resetUsers.data){
+                                console.log(resetUser.uuid, '=',interaction.user.id)
                                 if(resetUser.uuid = interaction.user.id) alreadyOrdered = true
                             }
                         }
+                        console.log(alreadyOrdered)
                         if(alreadyOrdered){
                             interaction.reply({content:`<@${interaction.user.id}> you have already submitted an order for food, please wait until after weekly reset to submit another. `,ephemeral:true}).catch(err => console.log(err))
                         } else {
