@@ -12,7 +12,7 @@ if (cluster.isMaster) {
    });
 }
 else{
-    const {Client, GatewayIntentBits, MessageAttachment, EmbedBuilder, Guild, MessageActionBuilder, ButtonBuilder,StringSelectMenuBuilder,ModalBuilder, TextInputBuilder} = require('discord.js')
+    const {Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder,StringSelectMenuBuilder,ModalBuilder, TextInputBuilder} = require('discord.js')
     // const bot  = new Client({intents:["GUILD_EMOJIS_AND_STICKERS","GUILD_PRESENCES","GUILD_MESSAGES","GUILDS","GUILD_MESSAGE_REACTIONS","GUILD_WEBHOOKS","GUILD_VOICE_STATES"]});
     const bot  = new Client({intents:[GatewayIntentBits.GuildEmojisAndStickers,GatewayIntentBits.GuildPresences,GatewayIntentBits.GuildMessages,GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessageReactions,GatewayIntentBits.GuildWebhooks,GatewayIntentBits.GuildVoiceStates]});
     const { CronJob } = require('cron');
@@ -72,7 +72,7 @@ else{
     // /[^_]+$/g after underscore
     // /^[^_]+(?=_)/g before underscore
     bot.on('interactionCreate', async interaction => {
-        const cancelRow = new MessageActionBuilder()
+        const cancelRow = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
                     .setCustomId(`cancel_`)
@@ -84,7 +84,7 @@ else{
                 switch(interaction.customId.match(/[^_]+$/g)[0]){
                     case 'battle': {
                         interaction.deferUpdate()
-                        const roleRow = new MessageActionBuilder()
+                        const roleRow = new ActionRowBuilder()
                             .addComponents(
                                 new ButtonBuilder()
                                     .setCustomId(`secondary_tank`)
@@ -113,7 +113,7 @@ else{
                     
                     case 'crafter':{
                         interaction.deferUpdate()
-                        const jobRow = new MessageActionBuilder()
+                        const jobRow = new ActionRowBuilder()
                             .addComponents(
                                 new StringSelectMenuBuilder()
                                     .setCustomId('tertiary_dohl')
@@ -125,7 +125,7 @@ else{
                     }
                     case 'gatherer':{
                         interaction.deferUpdate()
-                        const jobRow = new MessageActionBuilder()
+                        const jobRow = new ActionRowBuilder()
                             .addComponents(
                                 new StringSelectMenuBuilder()
                                     .setCustomId('tertiary_dohl')
@@ -145,7 +145,7 @@ else{
                                 value : `${pot.Name.split(" ").pop()}`
                             })
                         }
-                        const potRow = new MessageActionBuilder()
+                        const potRow = new ActionRowBuilder()
                         .addComponents(
                             new StringSelectMenuBuilder()
                                 .setCustomId('potChoice_')
@@ -166,7 +166,7 @@ else{
                                 value : pot.Name
                             })
                         }
-                        const potRow = new MessageActionBuilder()
+                        const potRow = new ActionRowBuilder()
                         .addComponents(
                             new StringSelectMenuBuilder()
                                 .setCustomId('foodSubmit_')
@@ -206,16 +206,16 @@ else{
                             .setCustomId('userorder')
                             .setLabel("What was your order:")
                             .setStyle('PARAGRAPH')
-                        const errorDescriptionRow = new MessageActionBuilder().addComponents(errorDescription)
-                        const replicationStepsRow = new MessageActionBuilder().addComponents(replicationSteps)
-                        const userOrderRow = new MessageActionBuilder().addComponents(userOrder)
+                        const errorDescriptionRow = new ActionRowBuilder().addComponents(errorDescription)
+                        const replicationStepsRow = new ActionRowBuilder().addComponents(replicationSteps)
+                        const userOrderRow = new ActionRowBuilder().addComponents(userOrder)
                         modal.addComponents(errorDescriptionRow,replicationStepsRow,userOrderRow);
                         interaction.showModal(modal);
                         break;
                     }
                     case 'signup':{
                         interaction.deferUpdate()
-                        const signupRow = new MessageActionBuilder()
+                        const signupRow = new ActionRowBuilder()
                             .addComponents(
                                 new ButtonBuilder()
                                     .setCustomId(`becomeCrafter_signup`)
@@ -226,7 +226,7 @@ else{
                                     .setLabel('Cancel')
                                     .setStyle('DANGER')
                                 )
-                        const dropoutRow = new MessageActionBuilder()
+                        const dropoutRow = new ActionRowBuilder()
                             .addComponents(
                                 new ButtonBuilder()
                                     .setCustomId(`becomeCrafter_dropout`)
@@ -253,7 +253,7 @@ else{
             }
             case 'secondary': {
                 interaction.deferUpdate()
-                const jobRow = new MessageActionBuilder()
+                const jobRow = new ActionRowBuilder()
                     .addComponents(
                         new StringSelectMenuBuilder()
                             .setCustomId('tertiary_')
@@ -269,7 +269,7 @@ else{
             case 'tertiary': {
                 interaction.deferUpdate()
                 const options = await requestAndFormat(interaction.values[0],interaction.customId.match(/^[^_]+(?=_)/g)[0])
-                const jobRow = new MessageActionBuilder()
+                const jobRow = new ActionRowBuilder()
                     .addComponents(
                         new StringSelectMenuBuilder()
                             .setCustomId('select_')
@@ -368,7 +368,7 @@ else{
                         value : `${i*20}`
                     })
                 }
-                const quantityRow = new MessageActionBuilder()
+                const quantityRow = new ActionRowBuilder()
                 .addComponents(
                     new StringSelectMenuBuilder()
                         .setCustomId(`potSubmit_${interaction.values[0]}`)
@@ -454,7 +454,7 @@ else{
                 mes.channel.send('There are Currently **0** unclaimed requests.')
             break;
             case 'setmessage':
-                const rowOne = new MessageActionBuilder()
+                const rowOne = new ActionRowBuilder()
                 .addComponents(
                         new ButtonBuilder()
                         .setCustomId(`primary_battle`)
@@ -469,7 +469,7 @@ else{
                         .setLabel('Gathering Set')
                         .setStyle('SECONDARY'),
                 );
-                const rowTwo = new MessageActionBuilder()
+                const rowTwo = new ActionRowBuilder()
                 .addComponents(
                         new ButtonBuilder()
                         .setCustomId(`primary_pot`)
@@ -480,7 +480,7 @@ else{
                         .setLabel('Request Food')
                         .setStyle('SECONDARY')
                 )
-                const rowThree = new MessageActionBuilder()
+                const rowThree = new ActionRowBuilder()
                 .addComponents(
                         new ButtonBuilder()
                         .setCustomId(`primary_signup`)
