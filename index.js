@@ -13,7 +13,8 @@ if (cluster.isMaster) {
 }
 else{
     const {Client, MessageAttachment, MessageEmbed, Guild, MessageActionRow, MessageButton,MessageSelectMenu,Modal, TextInputComponent} = require('discord.js')
-    const bot  = new Client({intents:["GUILD_EMOJIS_AND_STICKERS","GUILD_PRESENCES","GUILD_MESSAGES","GUILDS","GUILD_MESSAGE_REACTIONS","GUILD_WEBHOOKS","GUILD_VOICE_STATES"]});
+    // const bot  = new Client({intents:["GUILD_EMOJIS_AND_STICKERS","GUILD_PRESENCES","GUILD_MESSAGES","GUILDS","GUILD_MESSAGE_REACTIONS","GUILD_WEBHOOKS","GUILD_VOICE_STATES"]});
+    const bot  = new Client({intents:["GuildEmojisAndSticker","GuildPresence","GuildMessage","Guild","GuildMessageReaction","GuildWebhook","GuildVoiceState"]});
     const { CronJob } = require('cron');
     const {requestAndFormat} = require('./utils')
     const axios= require('axios');
