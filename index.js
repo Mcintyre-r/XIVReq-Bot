@@ -77,7 +77,7 @@ else{
                 new ButtonBuilder()
                     .setCustomId(`cancel_`)
                     .setLabel('Cancel')
-                    .setStyle('SECONDARY')
+                    .setStyle('Secondary')
                 )
         switch(interaction.customId.match(/^[^_]+(?=_)/g)[0]){
             case 'primary': {
@@ -89,23 +89,23 @@ else{
                                 new ButtonBuilder()
                                     .setCustomId(`secondary_tank`)
                                     .setLabel('Tank')
-                                    .setStyle('PRIMARY'),
+                                    .setStyle('Primary'),
                                 new ButtonBuilder()
                                     .setCustomId(`secondary_melee`)
                                     .setLabel('Melee')
-                                    .setStyle('DANGER'),
+                                    .setStyle('Danger'),
                                 new ButtonBuilder()
                                     .setCustomId(`secondary_ranged`)
                                     .setLabel('Ranged')
-                                    .setStyle('DANGER'),
+                                    .setStyle('Danger'),
                                 new ButtonBuilder()
                                     .setCustomId(`secondary_caster`)
                                     .setLabel('Caster')
-                                    .setStyle('DANGER'),
+                                    .setStyle('Danger'),
                                 new ButtonBuilder()
                                     .setCustomId(`secondary_healer`)
                                     .setLabel('Healer')
-                                    .setStyle('SUCCESS')
+                                    .setStyle('Success')
                             );
                         interaction.channel.send({content:`<@${interaction.user.id}> please select a role:`,components:[roleRow,cancelRow]})
                         break;
@@ -220,22 +220,22 @@ else{
                                 new ButtonBuilder()
                                     .setCustomId(`becomeCrafter_signup`)
                                     .setLabel('Signup')
-                                    .setStyle('SUCCESS'),
+                                    .setStyle('Success'),
                                 new ButtonBuilder()
                                     .setCustomId(`cancel_`)
                                     .setLabel('Cancel')
-                                    .setStyle('DANGER')
+                                    .setStyle('Danger')
                                 )
                         const dropoutRow = new ActionRowBuilder()
                             .addComponents(
                                 new ButtonBuilder()
                                     .setCustomId(`becomeCrafter_dropout`)
                                     .setLabel('Dropout')
-                                    .setStyle('SUCCESS'),
+                                    .setStyle('Success'),
                                 new ButtonBuilder()
                                     .setCustomId(`cancel_`)
                                     .setLabel('Cancel')
-                                    .setStyle('DANGER')
+                                    .setStyle('Danger')
                                 )
                         axios.get(`${process.env.API_URL}/api/user/`, { params: {'uuid': interaction.user.id}}).then(res => {
                             if(!res.data.crafter){
@@ -459,41 +459,41 @@ else{
                         new ButtonBuilder()
                         .setCustomId(`primary_battle`)
                         .setLabel('Battle Set')
-                        .setStyle('SECONDARY'),
+                        .setStyle('Secondary'),
                         new ButtonBuilder()
                         .setCustomId(`primary_crafter`)
                         .setLabel('Crafter Set')
-                        .setStyle('SECONDARY'),
+                        .setStyle('Secondary'),
                         new ButtonBuilder()
                         .setCustomId(`primary_gatherer`)
                         .setLabel('Gathering Set')
-                        .setStyle('SECONDARY'),
+                        .setStyle('Secondary'),
                 );
                 const rowTwo = new ActionRowBuilder()
                 .addComponents(
                         new ButtonBuilder()
                         .setCustomId(`primary_pot`)
                         .setLabel('Request Pots')
-                        .setStyle('SECONDARY'),
+                        .setStyle('Secondary'),
                         new ButtonBuilder()
                         .setCustomId(`primary_food`)
                         .setLabel('Request Food')
-                        .setStyle('SECONDARY')
+                        .setStyle('Secondary')
                 )
                 const rowThree = new ActionRowBuilder()
                 .addComponents(
                         new ButtonBuilder()
                         .setCustomId(`primary_signup`)
                         .setLabel('Become Crafter')
-                        .setStyle('SECONDARY'),
+                        .setStyle('Secondary'),
                         new ButtonBuilder()
                         .setCustomId(`primary_report`)
                         .setLabel('Error Report')
-                        .setStyle('SECONDARY'),
+                        .setStyle('Secondary'),
                         new ButtonBuilder()
                         .setURL(`https://xivreq.com`)
                         .setLabel('Vist XIVReq')
-                        .setStyle('LINK')
+                        .setStyle('Link')
                 );
                 mes.channel.send({files: ["./assets/req.png"]}).then(e=>{
                     mes.channel.send({content:'Welcome to XIV Req! Choose an option to begin:',components:[rowOne,rowTwo,rowThree]})
