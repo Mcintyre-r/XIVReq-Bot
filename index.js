@@ -269,13 +269,14 @@ else{
             case 'tertiary': {
                 interaction.deferUpdate()
                 const options = await requestAndFormat(interaction.values[0],interaction.customId.match(/^[^_]+(?=_)/g)[0])
+                console.log(options)
                 const jobRow = new ActionRowBuilder()
                     .addComponents(
                         new StringSelectMenuBuilder()
                             .setCustomId('select_')
                             .setPlaceholder('')
                             .setMinValues(1)
-                            .setMaxValues(12)
+                            .setMaxValues(11)
                             .addOptions(options)
                     );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
