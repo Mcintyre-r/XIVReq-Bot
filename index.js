@@ -379,7 +379,7 @@ else{
                 );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
                     interaction.message.delete()
-                    interaction.channel.send({content:`<@${interaction.user.id}> please select how many Palaka Mistletoe you will be offering:`,components: [quantityRow,cancelRow]})
+                    interaction.channel.send({content:`<@${interaction.user.id}> please select how many Alche-mist you will be offering:`,components: [quantityRow,cancelRow]})
                 }
                 break;
             }         
