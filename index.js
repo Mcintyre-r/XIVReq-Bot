@@ -59,7 +59,7 @@ else{
         true,
         'America/Los_Angeles'
     )
-    /*const weeklyReset = new CronJob(
+    const weeklyReset = new CronJob(
         '0 0 * * 4',
         async function() {
             axios.delete(`${prcoess.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
@@ -67,7 +67,7 @@ else{
         null,
         true,
         'America/Los_Angeles'
-    ) */
+    )
     
 
     // /[^_]+$/g after underscore
