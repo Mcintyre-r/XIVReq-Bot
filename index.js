@@ -382,7 +382,7 @@ else{
                 );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
                     interaction.message.delete()
-                    interaction.channel.send({content:`<@${interaction.user.id}> please select how many Alche-mist you will be offering:`,components: [quantityRow,cancelRow]})
+                    interaction.channel.send({content:`<@${interaction.user.id}> please select how many tomestone materials you will be offering (1 material = 3 pots):`,components: [quantityRow,cancelRow]})
                 }
                 break;
             }         
