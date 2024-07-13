@@ -62,7 +62,7 @@ else{
     const weeklyReset = new CronJob(
         '0 0 * * 4',
         async function() {
-            axios.delete(`${prcoess.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
+            axios.delete(`${process.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
         },
         null,
         true,
@@ -460,7 +460,7 @@ else{
                 mes.channel.send('There are Currently **0** unclaimed requests.')
             break;
             case 'weeklyreset':
-                 await axios.delete(`${prcoess.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
+                 await axios.delete(`${process.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
             break;
             case 'setmessage':
                 const rowOne = new ActionRowBuilder()
