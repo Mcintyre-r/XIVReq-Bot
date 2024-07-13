@@ -12,9 +12,9 @@ if (cluster.isMaster) {
    });
 }
 else{
-    const {MessageContent, Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder,StringSelectMenuBuilder,ModalBuilder, TextInputBuilder} = require('discord.js')
+    const {Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder,StringSelectMenuBuilder,ModalBuilder, TextInputBuilder} = require('discord.js')
     // const bot  = new Client({intents:["GUILD_EMOJIS_AND_STICKERS","GUILD_PRESENCES","GUILD_MESSAGES","GUILDS","GUILD_MESSAGE_REACTIONS","GUILD_WEBHOOKS","GUILD_VOICE_STATES"]});
-    const bot  = new Client({intents:[GatewayIntentBits.GuildEmojisAndStickers,GatewayIntentBits.GuildPresences,GatewayIntentBits.GuildMessages,GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessageReactions,GatewayIntentBits.GuildWebhooks,GatewayIntentBits.GuildVoiceStates]});
+    const bot  = new Client({intents:[GatewayIntentBits.MessageContent,GatewayIntentBits.GuildEmojisAndStickers,GatewayIntentBits.GuildPresences,GatewayIntentBits.GuildMessages,GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessageReactions,GatewayIntentBits.GuildWebhooks,GatewayIntentBits.GuildVoiceStates]});
     const { CronJob } = require('cron');
     const {requestAndFormat} = require('./utils')
     const axios= require('axios');
