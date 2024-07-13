@@ -270,13 +270,16 @@ else{
                 interaction.deferUpdate()
                 const options = await requestAndFormat(interaction.values[0],interaction.customId.match(/^[^_]+(?=_)/g)[0])
                 console.log(options)
+                console.log(options.length, "option length")
+                const maxVal = options.length === 12 ? 12 : 11
+                console.log(maxVal)
                 const jobRow = new ActionRowBuilder()
                     .addComponents(
                         new StringSelectMenuBuilder()
                             .setCustomId('select_')
                             .setPlaceholder('')
                             .setMinValues(1)
-                            .setMaxValues(12)
+                            .setMaxValues(maxVal)
                             .addOptions(options)
                     );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
