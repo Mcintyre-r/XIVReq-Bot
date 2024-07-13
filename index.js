@@ -387,7 +387,7 @@ else{
                 break;
             }         
             case 'potSubmit': {
-                const pots = await axios.get(`https://xivapi.com/search?string=Grade 7 Tincture of ${interaction.customId.match(/[^_]+$/g)[0]}&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5`)
+                const pots = await axios.get(`https://xivapi.com/search?string=Grade 1 Gemdraught of ${interaction.customId.match(/[^_]+$/g)[0]}&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5`)
                 const request = {}
                 const user = { 
                     uuid: interaction.user.id,
