@@ -27,7 +27,7 @@ else{
         console.log('Req-Bot Online')
     })
 
-    const interactionSweeper = new CronJob(
+/*    const interactionSweeper = new CronJob(
         '* * * * *',
         async function() {
             const channel = await bot.channels.fetch(`${process.env.BOT_CHANNEL}`);
@@ -67,7 +67,8 @@ else{
         null,
         true,
         'America/Los_Angeles'
-    )
+    ) 
+    */
 
     // /[^_]+$/g after underscore
     // /^[^_]+(?=_)/g before underscore
