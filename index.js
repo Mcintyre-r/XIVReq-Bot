@@ -276,7 +276,7 @@ else{
                             .setCustomId('select_')
                             .setPlaceholder('')
                             .setMinValues(1)
-                            .setMaxValues(11)
+                            .setMaxValues(12)
                             .addOptions(options)
                     );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
