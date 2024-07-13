@@ -459,6 +459,9 @@ else{
             case 'status' :
                 mes.channel.send('There are Currently **0** unclaimed requests.')
             break;
+            case 'weeklyreset':
+              axios.delete(`${prcoess.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
+            break;
             case 'setmessage':
                 const rowOne = new ActionRowBuilder()
                 .addComponents(
