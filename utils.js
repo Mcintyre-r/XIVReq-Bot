@@ -31,7 +31,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
         }
     }
     const jobGear = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${ilvl}%20%2BClassJobCategory.${job}=true%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=11`)
-    const jobResults = jobGear.data.Results
+    const jobResults = jobGear.data.results
     console.log("results", jobResults)
     if(dohl) {
         jobAcc = await axios.get(`https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem,EquipSlotCategory&indexes=Item&filters=LevelItem=${process.env.dohlacc},ClassJobCategory.${job}=1,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=11`)
