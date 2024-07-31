@@ -55,6 +55,10 @@
         {
             "label":"Reaper",
             "value": "RPR"
+        },
+        {
+            "label":"Viper",
+            "value": "VPR"
         }
     ],
     "ranged": [
