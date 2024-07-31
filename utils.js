@@ -80,7 +80,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
                 let icon = gearSet[gear]["Icon"]["path"].split("/")
                 let iconHD = gearSet[gear]["Icon"]["path_hr1"].split("/")
                 order[gear+"ID"] = gearSet[gear]["ID"]
-                order[gear+"Icon"] = `i/${icon[2]}/${icon[3].slice(0,-4)}.png`
+                order[gear+"Icon"] = `/i/${iconHD[2]}/${iconHD[3].slice(0,-4)}.png`
                 order[gear+"Name"] = gearSet[gear]["Name"]
             }
             return order
