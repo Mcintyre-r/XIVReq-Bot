@@ -44,6 +44,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
     }
     for(const itemPiece of jobResults){
         let piece = itemPiece.fields
+        piece.ID = itemPiece.row_id
         console.log("piece sanity",piece)
         if(piece.EquipSlotCategory){
             delete piece.EquipSlotCategory.ID
@@ -78,8 +79,8 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             for(const gear of Object.keys(gearSet)){
                 let icon = gearSet[gear]["Icon"]["path"].split("/")
                 let iconHD = gearSet[gear]["Icon"]["path_hr1"].split("/")
-                order[gear+"ID"] = `i/${icon[2]}/${icon[3].slice(0,-4)}.png`
-                order[gear+"Icon"] = `i/${iconHD[2]}/${iconHD[3].slice(0,-4)}.png`
+                order[gear+"ID"] = gearSet[gear]["ID"]
+                order[gear+"Icon"] = `i/${icon[2]}/${icon[3].slice(0,-4)}.png`
                 order[gear+"Name"] = gearSet[gear]["Name"]
             }
             return order
