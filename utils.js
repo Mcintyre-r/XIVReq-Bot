@@ -31,7 +31,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
         }
     }
     const jobGear = await axios.get(`https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem,EquipSlotCategory&indexes=Item&filters=LevelItem=${ilvl},ClassJobCategory.${job}=1,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=11`)
-    const jobResults = jobGear.data.Results.fields
+    const jobResults = jobGear.data.Results
     if(dohl) {
         jobAcc = await axios.get(`https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem,EquipSlotCategory&indexes=Item&filters=LevelItem=${process.env.dohlacc},ClassJobCategory.${job}=1,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=11`)
         for(const piece of jobAcc.data.Results){
@@ -41,7 +41,8 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             }
         }
     }
-    for(const piece of jobResults){
+    for(const itemPiece of jobResults){
+        let piece = itemPiece.fields
         if(piece.EquipSlotCategory){
             delete piece.EquipSlotCategory.ID
             delete piece.EquipSlotCategory.fields.SoulCrystal
