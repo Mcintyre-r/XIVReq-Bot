@@ -43,6 +43,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
     }
     for(const itemPiece of jobResults){
         let piece = itemPiece.fields
+        console.log("piece sanity",piece)
         if(piece.EquipSlotCategory){
             delete piece.EquipSlotCategory.ID
             delete piece.EquipSlotCategory.fields.SoulCrystal
