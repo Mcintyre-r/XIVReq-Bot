@@ -87,6 +87,10 @@
         {
             "label": "Red Mage",
             "value": "RDM"
+        },
+        {
+            "label": "Pictomancer",
+            "value": "PCT"
         }
     ],
     "crafter": [
