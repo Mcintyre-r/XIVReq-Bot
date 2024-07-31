@@ -31,12 +31,12 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
         }
     }
     const jobGear = await axios.get(`https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem,EquipSlotCategory&indexes=Item&filters=LevelItem=${ilvl},ClassJobCategory.${job}=1,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=11`)
-    const jobResults = jobGear.data.Results
+    const jobResults = jobGear.data.Results.fields
     if(dohl) {
         jobAcc = await axios.get(`https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem,EquipSlotCategory&indexes=Item&filters=LevelItem=${process.env.dohlacc},ClassJobCategory.${job}=1,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=11`)
         for(const piece of jobAcc.data.Results){
             if(piece.EquipSlotCategory){
-                slot = Object.keys(piece.EquipSlotCategory).find(key => piece.EquipSlotCategory[key] === 1)
+                slot = Object.keys(piece.EquipSlotCategory.fields).find(key => piece.EquipSlotCategory.fields[key] === 1)
                 if(accSlots.includes(slot)) jobResults.push(piece)
             }
         }
@@ -44,8 +44,8 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
     for(const piece of jobResults){
         if(piece.EquipSlotCategory){
             delete piece.EquipSlotCategory.ID
-            delete piece.EquipSlotCategory.SoulCrystal
-            slot = Object.keys(piece.EquipSlotCategory).find(key => piece.EquipSlotCategory[key] === 1)
+            delete piece.EquipSlotCategory.fields.SoulCrystal
+            slot = Object.keys(piece.EquipSlotCategory.fields).find(key => piece.EquipSlotCategory.fields[key] === 1)
             delete piece.EquipSlotCategory
             piece.slot = slot
             if(slot && !piece.Name.includes('Ornate') && gearSet[slot]) gearSet[slot] = piece
@@ -73,8 +73,10 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
         case "select" :{
             const order =  {}
             for(const gear of Object.keys(gearSet)){
-                order[gear+"ID"] = gearSet[gear]["ID"]
-                order[gear+"Icon"] = gearSet[gear]["IconHD"]
+                let icon = gearSet[gear]["Icon"]["path"].split("/")
+                let iconHD = gearSet[gear]["Icon"]["path_hr1"].split("/")
+                order[gear+"ID"] = `i/${icon[2]}/${icon[3].slice(0,-4)}.png`
+                order[gear+"Icon"] = `i/${iconHD[2]}/${iconHD[3].slice(0,-4)}.png`
                 order[gear+"Name"] = gearSet[gear]["Name"]
             }
             return order
