@@ -30,7 +30,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
             gearSet[choice] = {}
         }
     }
-    const jobGear = await axios.get(`https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem,EquipSlotCategory&indexes=Item&filters=LevelItem=${ilvl},ClassJobCategory.${job}=1,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=11`)
+    const jobGear = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${ilvl}%20%2BClassJobCategory.${job}%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=11`)
     const jobResults = jobGear.data.Results
     console.log("results", jobResults)
     if(dohl) {
