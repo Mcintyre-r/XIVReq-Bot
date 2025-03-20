@@ -34,7 +34,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
     const jobResults = jobGear.data.results
     console.log("results", jobResults)
     if(dohl) {
-        jobAcc = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${process.env.dohlacc},ClassJobCategory.${job}=true%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=11`)
+        jobAcc = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${process.env.dohlacc}%20%2BClassJobCategory.${job}=true%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=11`)
         for(const piece of jobAcc.data.Results){
             if(piece.EquipSlotCategory){
                 slot = Object.keys(piece.EquipSlotCategory.fields).find(key => piece.EquipSlotCategory.fields[key] === 1)
