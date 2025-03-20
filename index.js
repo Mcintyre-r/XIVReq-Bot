@@ -175,14 +175,14 @@ else{
                                 .addOptions(potOpt),
                         );
                         let alreadyOrdered = false
-                        console.log(alreadyOrdered)
+                        // console.log(alreadyOrdered)
                         if(resetUsers.data){
                             for(const resetUser of resetUsers.data){
                                 console.log(resetUser.uuid, '=',interaction.user.id)
                                 if(resetUser.uuid === interaction.user.id) alreadyOrdered = true
                             }
                         }
-                        console.log(alreadyOrdered)
+                        // console.log(alreadyOrdered)
                         if(alreadyOrdered){
                             interaction.reply({content:`<@${interaction.user.id}> you have already submitted an order for food, please wait until after weekly reset to submit another. `,ephemeral:true}).catch(err => console.log(err))
                         } else {
@@ -270,10 +270,10 @@ else{
             case 'tertiary': {
                 interaction.deferUpdate()
                 const options = await requestAndFormat(interaction.values[0],interaction.customId.match(/^[^_]+(?=_)/g)[0])
-                console.log(options)
-                console.log(options.length, "option length")
+                // console.log(options)
+                // console.log(options.length, "option length")
                 const maxVal = options.length === 12 ? 12 : 11
-                console.log(maxVal)
+                // console.log(maxVal)
                 const jobRow = new ActionRowBuilder()
                     .addComponents(
                         new StringSelectMenuBuilder()

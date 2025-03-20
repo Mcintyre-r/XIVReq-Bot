@@ -39,7 +39,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
         for(const piece of jobAcc.data.results){
             if(piece.EquipSlotCategory){
                 slot = Object.keys(piece.EquipSlotCategory.fields).find(key => piece.EquipSlotCategory.fields[key] === 1)
-                console.log(slot)
+                console.log("slot: ",slot)
                 if(accSlots.includes(slot)) jobResults.push(piece)
             }
         }
