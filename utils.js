@@ -32,13 +32,14 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
     }
     const jobGear = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${ilvl}%20%2BClassJobCategory.${job}=true%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=11`)
     const jobResults = jobGear.data.results
-    console.log("results", jobResults.data)
+    // console.log("results", jobResults.data)
     if(dohl) {
-        jobAcc = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${process.env.dohlacc}%20%2BClassJobCategory.${job}=true%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=11`)
+        jobAcc = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${process.env.dohlacc}%20%2BClassJobCategory.${job}=true%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=20`)
         console.log("JobAcc call: ",jobAcc.data.results)
         for(const piece of jobAcc.data.results){
             if(piece.EquipSlotCategory){
                 slot = Object.keys(piece.EquipSlotCategory.fields).find(key => piece.EquipSlotCategory.fields[key] === 1)
+                console.log(slot)
                 if(accSlots.includes(slot)) jobResults.push(piece)
             }
         }
@@ -46,7 +47,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
     for(const itemPiece of jobResults){
         let piece = itemPiece.fields
         piece.ID = itemPiece.row_id
-        console.log("piece sanity",piece)
+        // console.log("piece sanity",piece)
         if(piece.EquipSlotCategory){
             delete piece.EquipSlotCategory.ID
             delete piece.EquipSlotCategory.fields.SoulCrystal
