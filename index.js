@@ -469,27 +469,28 @@ else{
                         .setCustomId(`primary_battle`)
                         .setLabel('Battle Set')
                         .setStyle('Secondary'),
+                        new ButtonBuilder()
+                        .setCustomId(`primary_crafter`)
+                        .setLabel('Crafter Set')
+                        .setStyle('Secondary'),
+                        new ButtonBuilder()
+                        .setCustomId(`primary_gatherer`)
+                        .setLabel('Gathering Set')
+                        .setStyle('Secondary'),
 
                 );
-                // new ButtonBuilder()
-                // .setCustomId(`primary_crafter`)
-                // .setLabel('Crafter Set')
-                // .setStyle('Secondary'),
-                // new ButtonBuilder()
-                // .setCustomId(`primary_gatherer`)
-                // .setLabel('Gathering Set')
-                // .setStyle('Secondary'),
-                // const rowTwo = new ActionRowBuilder()
-                // .addComponents(
-                    // new ButtonBuilder()
-                    // .setCustomId(`primary_pot`)
-                    // .setLabel('Request Pots')
-                    // .setStyle('Secondary'),
-                    // new ButtonBuilder()
-                    // .setCustomId(`primary_food`)
-                    // .setLabel('Request Food')
-                    // .setStyle('Secondary'),
-                // )
+
+                const rowTwo = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                    .setCustomId(`primary_pot`)
+                    .setLabel('Request Pots')
+                    .setStyle('Secondary'),
+                    new ButtonBuilder()
+                    .setCustomId(`primary_food`)
+                    .setLabel('Request Food')
+                    .setStyle('Secondary'),
+                )
                 const rowThree = new ActionRowBuilder()
                 .addComponents(
                         new ButtonBuilder()
@@ -506,7 +507,7 @@ else{
                         .setStyle('Link')
                 );
                 mes.channel.send({files: ["./assets/req.png"]}).then(e=>{
-                    mes.channel.send({content:'Welcome to XIV Req! Choose an option to begin:',components:[rowOne/*,rowTwo*/,rowThree]})
+                    mes.channel.send({content:'Welcome to XIV Req! Choose an option to begin:',components:[rowOne,rowTwo,rowThree]})
                 }).catch(err=> console.log(err))
                 
             break; 
