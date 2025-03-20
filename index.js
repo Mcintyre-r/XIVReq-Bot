@@ -158,7 +158,7 @@ else{
                     }
                     case 'food':{
 
-                        const pots = await axios.get(`https://xivapi.com/search?string=&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=LevelItem=${process.env.foodilvl},ItemSortCategory.ID=7,IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300`)
+                        const pots = await axios.get(`https://https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,URL,Name&query=%2BLevelItem=${process.env.foodilvl}%20%2BItemSortCategory=7%20%2BIsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300`)
                         const resetUsers = await axios.get(`${process.env.API_URL}/api/reset/`)
                         let potOpt = []
                         for(const pot of pots.data.Results){
