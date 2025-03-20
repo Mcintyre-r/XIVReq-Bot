@@ -138,7 +138,7 @@ else{
                     }
                     case 'pot':{
                         interaction.deferUpdate()
-                        const pots = await axios.get(`https://v2.xivapi.com/api/1/search?sheets=Item&columns=ID,Icon,IconHD,Url,Name,LevelItem&query=%2BName~"Grade%202%20Gemdraught%20of"%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
+                        const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&columns=ID,Icon,IconHD,Url,Name,LevelItem&query=%2BName~"Grade%202%20Gemdraught%20of"%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
                         let potOpt = []
                         for(const pot of pots.data.Results){
                             potOpt.push({
@@ -158,7 +158,7 @@ else{
                     }
                     case 'food':{
 
-                        const pots = await axios.get(`https://v2.xivapi.com/api/1/search?sheets=Item&fields=Icon,URL,Name&query=%2BLevelItem=${process.env.foodilvl}%20%2BItemSortCategory=7%20%2BIsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300`)
+                        const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,URL,Name&query=%2BLevelItem=${process.env.foodilvl}%20%2BItemSortCategory=7%20%2BIsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300`)
                         const resetUsers = await axios.get(`${process.env.API_URL}/api/reset/`)
                         let potOpt = []
                         for(const pot of pots.data.results){
@@ -388,7 +388,7 @@ else{
                 break;
             }         
             case 'potSubmit': {
-                const pots = await axios.get(`https://v2.xivapi.com/api/1/search?sheets=Item&columns=ID,Icon,IconHD,Url,Name,LevelItem&query=%2BName="Grade 2 Gemdraught of ${interaction.customId.match(/[^_]+$/g)[0]}"%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
+                const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&columns=ID,Icon,IconHD,Url,Name,LevelItem&query=%2BName="Grade 2 Gemdraught of ${interaction.customId.match(/[^_]+$/g)[0]}"%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
                 const request = {}
                 const user = { 
                     uuid: interaction.user.id,
@@ -411,7 +411,7 @@ else{
                 break;
             }
             case 'foodSubmit': {
-                const pots = await axios.get(`https://v2.xivapi.com/api/1/search?sheets=Item&columns=Icon,Url,Name,LevelItem&query=%2BName="${interaction.values[0]}"%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
+                const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&columns=Icon,Url,Name,LevelItem&query=%2BName="${interaction.values[0]}"%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
                 const request = {}
                 const user = { 
                     uuid: interaction.user.id,
