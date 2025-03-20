@@ -421,7 +421,7 @@ else{
                 }
                 request["potID"] = pots.data.results[0].fields.Icon.id
                 request["potIcon"] = pots.data.results[0].fields.Icon.path_hr1
-                request["potName"] = pots.data.results[0].Name
+                request["potName"] = pots.data.results[0].fields.Name
                 request["quantity"] = 30
                 request["requesterId"] = interaction.user.id
                 request["requestedBy"] = interaction.user.username
