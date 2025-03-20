@@ -37,7 +37,7 @@ exports.requestAndFormat = async (job,step,choices = ["all"]) => {
         jobAcc = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,Url,Name,EquipSlotCategory&query=%2BLevelItem=${process.env.dohlacc}%20%2BClassJobCategory.${job}=true%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=20`)
         console.log("JobAcc call: ",jobAcc.data.results)
         for(const piece of jobAcc.data.results){
-            console.log(piece)
+            console.log("fields: ",piece.fields)
             if(piece.fields.EquipSlotCategory){
                 slot = Object.keys(piece.EquipSlotCategory.fields).find(key => piece.EquipSlotCategory.fields[key] === 1)
                 console.log("slot: ",slot)
