@@ -14,7 +14,7 @@ if (cluster.isMaster) {
 else{
     const {Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder,StringSelectMenuBuilder,ModalBuilder, TextInputBuilder} = require('discord.js')
     // const bot  = new Client({intents:["GUILD_EMOJIS_AND_STICKERS","GUILD_PRESENCES","GUILD_MESSAGES","GUILDS","GUILD_MESSAGE_REACTIONS","GUILD_WEBHOOKS","GUILD_VOICE_STATES"]});
-    const bot  = new Client({intents:[GatewayIntentBits.GuildEmojisAndStickers,GatewayIntentBits.GuildPresences,GatewayIntentBits.GuildMessages,GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessageReactions,GatewayIntentBits.GuildWebhooks,GatewayIntentBits.GuildVoiceStates]});
+    const bot  = new Client({intents:[GatewayIntentBits.MessageContent,GatewayIntentBits.GuildEmojisAndStickers,GatewayIntentBits.GuildPresences,GatewayIntentBits.GuildMessages,GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessageReactions,GatewayIntentBits.GuildWebhooks,GatewayIntentBits.GuildVoiceStates]});
     const { CronJob } = require('cron');
     const {requestAndFormat} = require('./utils')
     const axios= require('axios');
@@ -27,7 +27,7 @@ else{
         console.log('Req-Bot Online')
     })
 
-    const interactionSweeper = new CronJob(
+   const interactionSweeper = new CronJob(
         '* * * * *',
         async function() {
             const channel = await bot.channels.fetch(`${process.env.BOT_CHANNEL}`);
@@ -62,12 +62,13 @@ else{
     const weeklyReset = new CronJob(
         '0 0 * * 4',
         async function() {
-            axios.delete(`${prcoess.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
+            axios.delete(`${process.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
         },
         null,
         true,
         'America/Los_Angeles'
     )
+    
 
     // /[^_]+$/g after underscore
     // /^[^_]+(?=_)/g before underscore
@@ -137,7 +138,7 @@ else{
                     }
                     case 'pot':{
                         interaction.deferUpdate()
-                        const pots = await axios.get('https://xivapi.com/search?string=gemdraught&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5')
+                        const pots = await axios.get(`https://xivapi.com/search?string=${process.env.pot}&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5`)
                         let potOpt = []
                         for(const pot of pots.data.Results){
                             potOpt.push({
@@ -270,13 +271,16 @@ else{
                 interaction.deferUpdate()
                 const options = await requestAndFormat(interaction.values[0],interaction.customId.match(/^[^_]+(?=_)/g)[0])
                 console.log(options)
+                console.log(options.length, "option length")
+                const maxVal = options.length === 12 ? 12 : 11
+                console.log(maxVal)
                 const jobRow = new ActionRowBuilder()
                     .addComponents(
                         new StringSelectMenuBuilder()
                             .setCustomId('select_')
                             .setPlaceholder('')
                             .setMinValues(1)
-                            .setMaxValues(11)
+                            .setMaxValues(maxVal)
                             .addOptions(options)
                     );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
@@ -379,12 +383,12 @@ else{
                 );
                 if(interaction.message.content.replace(/[^0-9]/g,"") === interaction.user.id){
                     interaction.message.delete()
-                    interaction.channel.send({content:`<@${interaction.user.id}> please select how many Alche-mist you will be offering:`,components: [quantityRow,cancelRow]})
+                    interaction.channel.send({content:`<@${interaction.user.id}> please select how many tome mats you will be offering:`,components: [quantityRow,cancelRow]})
                 }
                 break;
             }         
             case 'potSubmit': {
-                const pots = await axios.get(`https://xivapi.com/search?string=Grade 7 Tincture of ${interaction.customId.match(/[^_]+$/g)[0]}&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5`)
+                const pots = await axios.get(`https://xivapi.com/search?string=Grade 1 Gemdraught of ${interaction.customId.match(/[^_]+$/g)[0]}&columns=ID,Icon,IconHD,Url,Name,LevelItem&indexes=Item&filters=IsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=5`)
                 const request = {}
                 const user = { 
                     uuid: interaction.user.id,
@@ -455,6 +459,9 @@ else{
             case 'status' :
                 mes.channel.send('There are Currently **0** unclaimed requests.')
             break;
+            case 'weeklyreset':
+                 await axios.delete(`${process.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
+            break;
             case 'setmessage':
                 const rowOne = new ActionRowBuilder()
                 .addComponents(
@@ -462,26 +469,27 @@ else{
                         .setCustomId(`primary_battle`)
                         .setLabel('Battle Set')
                         .setStyle('Secondary'),
-                        new ButtonBuilder()
-                        .setCustomId(`primary_crafter`)
-                        .setLabel('Crafter Set')
-                        .setStyle('Secondary'),
-                        new ButtonBuilder()
-                        .setCustomId(`primary_gatherer`)
-                        .setLabel('Gathering Set')
-                        .setStyle('Secondary'),
+
                 );
-                const rowTwo = new ActionRowBuilder()
-                .addComponents(
-                        new ButtonBuilder()
-                        .setCustomId(`primary_pot`)
-                        .setLabel('Request Pots')
-                        .setStyle('Secondary'),
-                        new ButtonBuilder()
-                        .setCustomId(`primary_food`)
-                        .setLabel('Request Food')
-                        .setStyle('Secondary')
-                )
+                // new ButtonBuilder()
+                // .setCustomId(`primary_crafter`)
+                // .setLabel('Crafter Set')
+                // .setStyle('Secondary'),
+                // new ButtonBuilder()
+                // .setCustomId(`primary_gatherer`)
+                // .setLabel('Gathering Set')
+                // .setStyle('Secondary'),
+                // const rowTwo = new ActionRowBuilder()
+                // .addComponents(
+                    // new ButtonBuilder()
+                    // .setCustomId(`primary_pot`)
+                    // .setLabel('Request Pots')
+                    // .setStyle('Secondary'),
+                    // new ButtonBuilder()
+                    // .setCustomId(`primary_food`)
+                    // .setLabel('Request Food')
+                    // .setStyle('Secondary'),
+                // )
                 const rowThree = new ActionRowBuilder()
                 .addComponents(
                         new ButtonBuilder()
@@ -498,7 +506,7 @@ else{
                         .setStyle('Link')
                 );
                 mes.channel.send({files: ["./assets/req.png"]}).then(e=>{
-                    mes.channel.send({content:'Welcome to XIV Req! Choose an option to begin:',components:[rowOne,rowTwo,rowThree]})
+                    mes.channel.send({content:'Welcome to XIV Req! Choose an option to begin:',components:[rowOne/*,rowTwo*/,rowThree]})
                 }).catch(err=> console.log(err))
                 
             break; 
