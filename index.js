@@ -411,7 +411,7 @@ else{
                 break;
             }
             case 'foodSubmit': {
-                const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&columns=Icon,Url,Name,LevelItem&query=%2BName=${interaction.values[0]}%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
+                const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&columns=Icon,Url,Name,LevelItem&query=%2BName="${interaction.values[0]}"%20%2bIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
                 const request = {}
                 const user = { 
                     uuid: interaction.user.id,
