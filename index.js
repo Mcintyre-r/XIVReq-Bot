@@ -140,10 +140,10 @@ else{
                         interaction.deferUpdate()
                         const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&columns=ID,Icon,IconHD,Url,Name,LevelItem&query=%2BName~"Grade%202%20Gemdraught%20of"%20%2BIsUntradable=false&sort_field=LevelItem&sort_order=desc&limit=5`)
                         let potOpt = []
-                        for(const pot of pots.data.Results){
+                        for(const pot of pots.data.results){
                             potOpt.push({
-                                label: pot.Name,
-                                value : `${pot.Name.split(" ").pop()}`
+                                label: pot.fields.Name,
+                                value : `${pot.fields.Name.split(" ").pop()}`
                             })
                         }
                         const potRow = new ActionRowBuilder()
