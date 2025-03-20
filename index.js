@@ -419,7 +419,7 @@ else{
                     avatar: interaction.user.avatar,
                     discriminator: interaction.user.discriminator
                 }
-                request["potID"] = pots.data.results[0].ID
+                request["potID"] = pots.data.results[0].fields.Icon.id
                 request["potIcon"] = pots.data.results[0].fields.Icon.path_hr1
                 request["potName"] = pots.data.results[0].Name
                 request["quantity"] = 30
