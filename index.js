@@ -419,9 +419,9 @@ else{
                     avatar: interaction.user.avatar,
                     discriminator: interaction.user.discriminator
                 }
-                request["potID"] = pots.data.Results[0].ID
-                request["potIcon"] = pots.data.Results[0].fields.Icon.path_hr1
-                request["potName"] = pots.data.Results[0].Name
+                request["potID"] = pots.data.results[0].ID
+                request["potIcon"] = pots.data.results[0].fields.Icon.path_hr1
+                request["potName"] = pots.data.results[0].Name
                 request["quantity"] = 30
                 request["requesterId"] = interaction.user.id
                 request["requestedBy"] = interaction.user.username
