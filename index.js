@@ -459,6 +459,9 @@ else{
             case 'status' :
                 mes.channel.send('There are Currently **0** unclaimed requests.')
             break;
+            case 'rule' :
+                mes.channel.send('- Tomestone materials required for all battle gear and pots \n- All Materials required for crafter and gatherer gear. \n- Food is free in quanities of 30 once per week.')
+            break;
             case 'weeklyreset':
                  await axios.delete(`${process.env.API_URL}/api/reset/wipe`).then(res => console.log(res)).catch(err => console.log(err))
             break;
