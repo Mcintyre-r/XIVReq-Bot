@@ -158,13 +158,13 @@ else{
                     }
                     case 'food':{
 
-                        const pots = await axios.get(`https://https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,URL,Name&query=%2BLevelItem=${process.env.foodilvl}%20%2BItemSortCategory=7%20%2BIsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300`)
+                        const pots = await axios.get(`https://beta.xivapi.com/api/1/search?sheets=Item&fields=Icon,URL,Name&query=%2BLevelItem=${process.env.foodilvl}%20%2BItemSortCategory=7%20%2BIsUntradable=0&sort_field=LevelItem&sort_order=desc&limit=300`)
                         const resetUsers = await axios.get(`${process.env.API_URL}/api/reset/`)
                         let potOpt = []
                         for(const pot of pots.data.Results){
                             potOpt.push({
-                                label: pot.Name,
-                                value : pot.Name
+                                label: pot.fields.Name,
+                                value : pot.fields.Name
                             })
                         }
                         const potRow = new ActionRowBuilder()
